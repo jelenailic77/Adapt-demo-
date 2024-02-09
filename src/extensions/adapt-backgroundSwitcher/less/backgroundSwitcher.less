@@ -1,0 +1,103 @@
+.backgroundswitcher-active {
+  .backgroundswitcher {
+    &__container {
+      position: relative;
+      z-index: -1;
+    }
+
+    &__item {
+      position: fixed;
+      top: @navigation-height;
+      left: 50%;
+      right: 0;
+      margin: auto;
+      height: 100%;
+      width: 100%;
+      /*max-width: @max-width;*/
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      z-index: -1;
+      opacity: 0;
+      .transition(opacity .5s ease-in);
+      transform: translate(-50%, 0);
+      // transform: translate3d(0, 0, 1px);
+      
+      .dir-rtl& {
+        left: 0;
+        right: 50%;
+        transform: translate(50%, 0);
+
+        // flip to clear content (for consistency with components displaying in reverse order for rtl languages)
+/*         img, video {
+          transform: rotateY(180deg);
+        } */
+      }
+    }
+
+    &__item.is-deactive {
+      transition: none;
+      opacity: 1;
+      z-index: 0;
+    }
+
+    /* Make sure IE11 ignores opacity animation */
+    &__item.is-deactive-force {
+      transition: none;
+      opacity: 0;
+      z-index: 0;
+    }
+
+    &__item.is-active {
+      .transition(opacity .5s ease-in);
+      opacity: 1;
+      z-index: 1;
+    }
+
+    &__item video,
+    &__item .poster {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+
+    &__item .poster {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      transition: opacity 0.5s;
+      opacity: 1;
+    }
+
+    &-hide-poster {
+      .poster {
+        opacity: 0;
+      }
+    }
+
+    &-lowbandwidth {
+      video {
+        display: none;
+      }
+      .poster {
+        opacity: 1;
+      }
+    }
+
+    &-image-preload {
+      position: fixed;
+      bottom: 200%;
+    }
+
+  }
+
+  &.a11y-no-background-images .backgroundswitcher__container {
+    display: none;
+  }
+}
+
+.to-white {
+  background-color: @white;
+}

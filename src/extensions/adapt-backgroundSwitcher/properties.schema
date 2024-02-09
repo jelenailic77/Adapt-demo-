@@ -1,0 +1,120 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "required": false,
+  "properties": {
+    "pluginLocations": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "config": {
+          "type": "object"
+        },
+        "course": {
+          "type": "object",
+           "properties": {
+            "_backgroundSwitcher": {
+              "type": "object",
+              "required": false,
+              "legend": "Background Switcher",
+              "properties": {
+                "_preload": {
+                  "type": "string",
+                  "required": false,
+                  "default": "none",
+                  "title": "Video preload setting",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "How the background video tags should preload, either metadata or none, default is none"
+                },
+                "_inviewThreshold": {
+                  "type": "number",
+                  "required": false,
+                  "default": 80,
+                  "title": "Inview threshold",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "The percentage amount required onscreen before playing."
+                }
+              }
+            }
+          }
+        },
+        "contentobject": {
+          "type": "object",
+          "properties": {
+            "_backgroundSwitcher": {
+              "type": "object",
+              "required": false,
+              "legend": "Background Switcher",
+              "properties": {
+                "_isEnabled": {
+                  "type": "boolean",
+                  "required": false,
+                  "default": false,
+                  "title": "Enable Background Switcher",
+                  "inputType": "Checkbox",
+                  "validators": []
+                }
+              }
+            }
+          }
+        },
+        "article": {
+          "type": "object"
+        },
+        "block": {
+          "type": "object",
+          "properties": {
+            "_backgroundSwitcher": {
+              "type": "object",
+              "required": false,
+              "legend": "Background Switcher",
+              "properties": {
+                "_isEnabled": {
+                  "type": "boolean",
+                  "required": false,
+                  "default": false,
+                  "title": "Enable Background Switcher",
+                  "inputType": "Checkbox",
+                  "validators": []
+                },                
+                "_src": {
+                  "type": "string",
+                  "required": false,
+                  "title": "Image",
+                  "default": "",
+                  "inputType": "Asset",
+                  "validators": [],
+                  "help": "The background image or video you want shown for this block"
+                },
+                "_poster": {
+                  "type": "string",
+                  "required": false,
+                  "title": "Poster image",
+                  "default": "",
+                  "inputType": "Asset:image",
+                  "validators": [],
+                  "help": "If the background is a video, this is its fallback/poster image"
+                },
+                "_classes": {
+                  "type": "string",
+                  "required": false,
+                  "title": "Classes",
+                  "default": "",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "The classes you want to apply to the background for this block"
+                }
+              }
+            }
+          }
+        },
+        "component": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

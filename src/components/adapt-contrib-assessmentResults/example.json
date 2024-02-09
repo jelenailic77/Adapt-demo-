@@ -1,0 +1,59 @@
+    // components.json
+    {
+        "_id": "c-05",
+        "_parentId": "b-05",
+        "_type": "component",
+        "_component": "assessmentResults",
+        "_classes": "",
+        "_layout": "full",
+        "title": "Results",
+        "displayTitle": "Results",
+        "body": "This component you're reading is a results component.",
+        "instruction": "",
+        "_assessmentId": "Assessment 1",
+        "_isVisibleBeforeCompletion": true,
+        "_setCompletionOn": "inview",
+        "_resetType": "inherit",
+        "_retry": {
+            "button": "Retry Assessment",
+            "feedback": "Why not have another try? You have used {{attemptsSpent}} of {{attempts}} attempt(s), which means you have {{attemptsLeft}} attempt(s) remaining.",
+            "_routeToAssessment": true
+        },
+        "_completionBody" : "{{{feedback}}}",
+        "multipleFeedback":
+        {
+            "1": "In your first try you scored <strong>{{scoreAsPercent}}%</strong>",
+            "2": "Sorry, you have not achieved the passing score of 80% or more in any of your attempts.<br><br><p>Review your answers by selecting the <strong>Review Assessment</strong> button. Pay attention to the areas where you did not answer correctly</p><br><button class='btn-text review-answer'>Review Assessment</button>"
+        },
+        "_bands": [
+            {
+                "_score": 0,
+                "feedback": "Your score was below 25%.",
+                "_allowRetry": true
+            },
+            {
+                "_score": 25,
+                "feedback": "Your score was below 50%.",
+                "_allowRetry": true
+            },
+            {
+                "_score": 50,
+                "feedback": "Good effort, but your score was under 75%.",
+                "_allowRetry": true
+            },
+            {
+                "_score": 75,
+                "feedback": "Great work. You passed your assessment with {{{scoreAsPercent}}}%.",
+                "_allowRetry": false,
+                "_classes": "high-score"
+            }
+        ],
+        "_pageLevelProgress": {
+            "_isEnabled": true
+        }
+    }
+
+/*
+ * {{{feedback}}} is the only attribute specifically available through this component.
+ * Please see https://github.com/adaptlearning/adapt-contrib-assessment for other available assessment attributes "{{{attributes}}}"
+ */

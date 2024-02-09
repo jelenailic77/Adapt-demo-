@@ -1,0 +1,16 @@
+{
+  "name": "adapt-splashScreen",
+  "version": "2.1.0",
+  "framework": ">=5",
+  "extension": "splashScreen",
+  "displayName": "splashScreen",
+  "description": "An extension to add popup on when menu page is rendering",
+  "main": "/js/adapt-splashScreen.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-extension"
+  ],
+  "license": "",
+  "homepage": "",
+  "targetAttribute": "_splashScreen"
+}

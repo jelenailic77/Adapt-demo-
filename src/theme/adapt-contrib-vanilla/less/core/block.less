@@ -1,0 +1,39 @@
+.block {
+  position: relative;
+
+  &.has-bg-image > .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+  }
+
+  &__inner {
+    position: relative;
+    .l-container-padding(@block-padding-ver, @block-padding-hoz);
+  }
+
+  &__title {
+    margin-bottom: @block-title-margin;
+    .block-title;
+    color: @heading-color;
+  }
+
+  &__body {
+    margin-bottom: @block-body-margin;
+  }
+
+  &__instruction {
+    margin-bottom: @block-instruction-margin;
+    .instruction-text;
+  }
+
+  &__body a,
+  &__instruction a {
+    .link-text;
+  }
+}

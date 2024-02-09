@@ -1,0 +1,11 @@
+.splashScreen {
+  top: 4rem;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  position: fixed;
+}
+.splashScreen .splashScreen-start {
+  padding: 1rem 4rem;
+  margin-top: 2rem;
+}

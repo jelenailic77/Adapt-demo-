@@ -1,0 +1,14 @@
+{
+  "name": "adapt-scrollTop",
+  "version": "2.0.0",
+  "framework": ">=5.19.1",
+  "homepage": "https://github.com/nachocinalli/adapt-scrollTop",
+  "bugs": "https://github.com/nachocinalli/adapt-scrollTop/issues",
+  "extension": "scrollTop",
+  "displayName": "ScrollTop",
+  "description": "An extension which provides basic scrollTop function",
+  "main": "/js/adapt-scrollTop.js",
+  "keywords": ["adapt-plugin", "adapt-extension"],
+  "license": "GPL-3.0",
+  "targetAttribute": "_scrollTop"
+}

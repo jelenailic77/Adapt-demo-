@@ -1,0 +1,27 @@
+// course.json
+"_splashScreen": {
+    "_isEnabled": true,
+    "_title": "<img src='course/en/images/syneos-health-logo-header.svg' style='min-width:200px; width:200px; margin: auto;'>",
+    "_body": "<p style='margin-bottom:0px;'>Welcome to the </p> <h2 style='margin-top:0px;'>Syneos Health Compliance & Ethics Training E-Module.</h2><p>Syneos Health expects its employees, officers, and directors, as well as consultants, vendors, and others who act on its behalf, to conduct business in compliance with applicable laws and regulations and with the highest ethical standards. In this E-module, you will learn about Compliance & Ethics issues that may arise when conducting company business and how to respond.</p><p>Compliance is acting in accordance with laws, regulations and rules that govern the conduct of clinical research trials or the promotion and sales of pharmaceuticals or medical devices. Ethics is a shared set of principles of conduct. While something may be legally allowed, ethics requires us to ask “Is it the right thing to do from an ethical perspective?” You must act with both of these principles in mind.</p><div style='max-width:50rem; margin:auto;'><p><strong>Learning objectives</strong></p><p>After completing this module, you will be able to:</p><ul style='text-align:left;'><li>Make the right decisions in different situations with confidence</li><li>Know how to identify and report Compliance & Ethics issues and concerns</li><li>Feel comfortable seeking guidance regarding any Compliance & Ethics issue or concern</li></ul></div><p><em>Select <b>Launch</b> to begin.</em></p>",
+    "_button": "Launch",
+    "_images": [
+        {
+            "_src": "course/en/images/c-70-1.svg"
+        },
+        {
+            "_src": "course/en/images/c-70-2.svg"
+        },
+        {
+            "_src": "course/en/images/c-70-3.svg"
+        },
+        {
+            "_src": "course/en/images/c-70-4.svg"
+        },
+        {
+            "_src": "course/en/images/c-70-5.svg"
+        },
+        {
+            "_src": "course/en/images/c-70-6.svg"
+        }
+    ]
+}

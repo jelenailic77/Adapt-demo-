@@ -1,0 +1,106 @@
+{
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "$ref": "http://localhost/plugins/content/component/model.schema",
+  "globals": {
+    "ariaRegion": {
+      "type": "string",
+      "required": true,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
+    "ariaLabel": {
+      "type": "string",
+      "required": true,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    }
+  },
+  "properties": {
+    "_supportedLayout": {
+      "type": "string",
+      "required": true,
+      "enum": ["full-width", "half-width", "both"],
+      "default": "both",
+      "editorOnly": true
+    },
+    "instruction": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the instruction text",
+      "translatable": true
+    },
+    "_initialValue": {
+      "type": "string",
+      "required": true,
+      "enum": ["left", "right", "none"],
+      "default": "none",
+      "title": "Initial Value",
+      "inputType": {
+        "type": "Select",
+        "options": ["left", "right", "none"]
+      },
+      "validators": ["required"],
+      "help": "This is the initial value of the component. If set to 'none' the slider will be in the middle position."
+
+    },
+   "_graphic1": {
+      "type": "object",
+      "required": true,
+      "title": "Graphic 1",
+      "properties": {
+        "alt": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Alternative Text",
+          "inputType": "Text",
+          "validators": [],
+          "help": "A description of the image",
+          "translatable": true
+        },
+        "src": {
+          "type": "string",
+          "required": true,
+          "default": "",
+          "inputType": "Asset:image",
+          "validators": ["required"],
+          "help": "The source of the image"
+        }
+      }
+    },
+    "_graphic2": {
+      "type": "object",
+      "required": true,
+      "title": "Graphic 2",
+      "properties": {
+        "alt": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Alternative Text",
+          "inputType": "Text",
+          "validators": [],
+          "help": "A description of the image",
+          "translatable": true
+        },
+        "src": {
+          "type": "string",
+          "required": true,
+          "default": "",
+          "inputType": "Asset:image",
+          "validators": ["required"],
+          "help": "The source of the image"
+        }
+      }
+    }
+  }
+}

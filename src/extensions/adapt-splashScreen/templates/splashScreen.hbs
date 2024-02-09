@@ -1,0 +1,48 @@
+<div class="splashScreen  {{#if _classes}}{{_classes}}{{/if}}">
+    <div class="splashScreen-wrapper">
+        <ul class="splashScreen-slideshow">
+            {{#each _images}}
+                <li><img src="{{this._src}}"></li>
+            {{/each}}
+        </ul>
+        <div class="splashScreen-container">
+            <div class="splashScreen-inner">
+                <div class="splashScreen_body-container">
+                    {{#if _title}}
+                    <div class="splashScreen_title">
+                        <div class="splashScreen_title-inner">
+                            {{{_title}}}
+                        </div>
+                    </div>
+                    {{/if}}
+
+                  <div class="container-splashScreen">
+                    {{#if _body}}
+                    
+                    <div class="splashScreen_body">
+                        <div class="splashScreen-inner_body">
+                            {{{_body}}}
+                        </div>
+                         <button class="splashScreen-start">{{{_button}}}</button>
+                    </div>
+                    {{/if}}
+
+                     {{#if _graphic}}
+                    <div class="splashScreen_body_graphic">
+                        <div class="splashScreen-inner_body_graphic">
+                            
+                                 <img src="{{_graphic.src}}"/>
+                           
+                        </div>
+                    </div>
+                      {{/if}}
+                  </div>  
+                    
+                    
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
