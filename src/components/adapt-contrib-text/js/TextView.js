@@ -1,6 +1,6 @@
 import ComponentView from 'core/js/views/componentView';
-import gsap from 'libraries/gsap.min';
-import ScrollTrigger from 'libraries/ScrollTrigger.min';
+import gsap from '.../libraries/gsap.min';
+import ScrollTrigger from '.../libraries/ScrollTrigger.min';
 
 
 class TextView extends ComponentView {
