@@ -147,21 +147,21 @@
         "_effect": "",
         "_delay": 0,
         "_items": [
-            {
-              "_element": "",
-              "_effect": "",
-              "_delay": 0
-            },
-            {
-              "_element": "",
-              "_effect": "",
-              "_delay": 0
-            },
-            {
-              "_element": "",
-              "_effect": "",
-              "_delay": 0
-            }
+          {
+            "_element": "",
+            "_effect": "",
+            "_delay": 0
+          },
+          {
+            "_element": "",
+            "_effect": "",
+            "_delay": 0
+          },
+          {
+            "_element": "",
+            "_effect": "",
+            "_delay": 0
+          }
         ]
       }
     }
@@ -282,7 +282,6 @@
     },
     "_trackingId": 11
   },
-
   {
     "_id": "b-65",
     "_parentId": "a-15",
