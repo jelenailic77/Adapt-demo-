@@ -38,8 +38,15 @@ class TextView extends ComponentView {
     var e = top.window || window
     e.close()
   }
- gsapTest(){
+
+ 
+  gsapTest(){
    gsap.registerPlugin(ScrollTrigger);
+   console.log(ScrollTrigger.version)
+ 
+   ScrollTrigger.matchMedia({	
+    // desktop
+    "(min-width: 800px)": function() {
 
     gsap.to('.bg-section',{
 
@@ -164,9 +171,8 @@ class TextView extends ComponentView {
                         })
                       });
         
-
   }
-
+  })};
 
 
 }
