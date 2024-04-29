@@ -1,4 +1,5 @@
-[    {
+[
+  {
     "_id": "co-05",
     "_parentId": "course",
     "_type": "page",
@@ -10,43 +11,43 @@
     "pageBody": "",
     "instruction": "Scroll down to see what presentation components are available as part of the v5 core bundle.",
     "_graphic": {
-        "src": "course/en/images/co_1.jpg",
-        "alt": ""
+      "src": "course/en/images/co_1.jpg",
+      "alt": ""
     },
     "linkText": "View",
     "duration": "",
     "_pageLevelProgress": {
-        "_isEnabled": true,
-        "_showPageCompletion": false,
-        "_excludeAssessments": false,
-        "_isCompletionIndicatorEnabled": false
+      "_isEnabled": true,
+      "_showPageCompletion": false,
+      "_excludeAssessments": false,
+      "_isCompletionIndicatorEnabled": false
     },
     "_backgroundSwitcher": {
-        "_isEnabled": true
+      "_isEnabled": true
     }
-},
-    {
-        "_id": "co-15",
-        "_parentId": "course",
-        "_type": "page",
-        "_classes": "assessment",
-        "_htmlClasses": "",
-        "title": "Assessment Components",
-        "displayTitle": "02 > Assessment Components",
-        "body": "",
-        "pageBody": "",
-        "instruction": "",
-        "_graphic": {
-            "src": "course/en/images/co_2.jpg",
-            "alt": ""
-        },
-        "linkText": "View",
-        "duration": "",
-        "_pageLevelProgress": {
-            "_isEnabled": true,
-            "_showPageCompletion": false,
-            "_excludeAssessments": false,
-            "_isCompletionIndicatorEnabled": false
-        }
+  },
+  {
+    "_id": "co-15",
+    "_parentId": "course",
+    "_type": "page",
+    "_classes": "assessment",
+    "_htmlClasses": "",
+    "title": "Assessment Components",
+    "displayTitle": "02 > Assessment Components",
+    "body": "",
+    "pageBody": "",
+    "instruction": "",
+    "_graphic": {
+      "src": "course/en/images/co_2.jpg",
+      "alt": ""
+    },
+    "linkText": "View",
+    "duration": "",
+    "_pageLevelProgress": {
+      "_isEnabled": true,
+      "_showPageCompletion": false,
+      "_excludeAssessments": false,
+      "_isCompletionIndicatorEnabled": false
     }
+  }
 ]
