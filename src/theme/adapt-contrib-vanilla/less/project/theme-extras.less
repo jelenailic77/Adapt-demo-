@@ -453,10 +453,6 @@
   padding: 20px;
 }
 
-.a-10 .block__inner{
-  padding: 25rem 0;
-}
-
 .no-touch .mcq-item__label:not(.is-disabled):not(.is-selected):hover, 
 html:not(.a11y-disable-focusoutline) .mcq-item__input:focus + .mcq-item__label{
   background-color: @greyLight;
@@ -953,9 +949,15 @@ html:not(.a11y-disable-focusoutline) .mcq-item__input:focus + .mcq-item__label{
 }
 
 .white_bg a:hover{
-  color: @orange;
+  color: @orange !important;
 }
 
+.b-27 .component__title{
+  color: @blue;
+}
+.narrative:not(.items-are-full-width) .narrative__content{
+  margin-left: 145px;
+}
 
 @media (max-width: 1200px){
   .narrative:not(.items-are-full-width) .narrative__content{
@@ -1307,4 +1309,11 @@ padding: 0
 .b-110 .block__inner {
   padding: 4rem 0.5rem;
 }
+a:hover{
+  color: #ff6600;
+}
 
+.lottie-grid{
+  display: grid;
+  align-items: center;
+}

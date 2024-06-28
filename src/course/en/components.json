@@ -564,7 +564,7 @@
     "_parentId": "b-55",
     "_type": "component",
     "_component": "text",
-    "_classes": "align_center",
+    "_classes": "",
     "_layout": "left",
     "title": "Adapt Assessment",
     "displayTitle": "Welcome to Adapt Assessment",
@@ -620,57 +620,13 @@
       }
     }
   },
-  {
-    "_id": "c-81",
-    "_parentId": "b-55",
-    "_type": "component",
-    "_component": "lottieInteractivity",
-    "_classes": "big_lottie",
-    "_layout": "right",
-    "title": "",
-    "displayTitle": "",
-    "body": "",
-    "instruction": "",
-    "_setCompletionOn": "inview",
-    "_lottie": {
-      "src": "course/en/assets/dots.json",
-      "controls": false,
-      "loop": -1,
-      "autoplay": false,
-      "speed": 1,
-      "style": "",
-      "renderer": "svg",
-      "preserveAspectRatio": "xMidYMid meet",
-      "background": "",
-      "failed": "Error loading animation",
-      "interactivity": {
-        "mode": "scroll",
-        "actions": [
-          {
-            "visibility": [
-              0.1,
-              0.9
-            ],
-            "type": "seek",
-            "frames": [
-              1,
-              105
-            ]
-          }
-        ]
-      },
-      "description": "",
-      "_pageLevelProgress": {
-        "_isEnabled": true
-      }
-    }
-  },
+ 
   {
     "_id": "c-85",
-    "_parentId": "b-55",
+    "_parentId": "b-56",
     "_type": "component",
     "_component": "text",
-    "_classes": "align_center",
+    "_classes": "",
     "_layout": "left",
     "title": "Assessment instructions",
     "displayTitle": "Assessment instructions",

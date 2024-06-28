@@ -118,7 +118,7 @@
     "_id": "b-27",
     "_parentId": "a-07",
     "_type": "block",
-    "_classes": "full-color-bg white-bg",
+    "_classes": "full-color-bg",
     "title": "b-15",
     "displayTitle": "",
     "body": "",
@@ -242,7 +242,7 @@
     "_id": "b-55",
     "_parentId": "a-10",
     "_type": "block",
-    "_classes": "",
+    "_classes": "lottie-grid",
     "title": "b-55",
     "displayTitle": "",
     "body": "",
@@ -280,7 +280,89 @@
         "_isLockedOnRevisit": false
       }
     },
+    "_lottie_block": {
+      "_isEnabled": true,
+      "src": "course/en/assets/dots.json",
+      "controls": false,
+      "loop": 100,
+      "autoplay": true,
+      "speed": 1,
+      "style": "",
+      "renderer": "svg",
+      "preserveAspectRatio": "xMidYMid meet",
+      "background": "",
+      "failed": "Error loading animation",
+      "interactivity": {
+        "mode": "cursor",
+        "actions": {
+          "type": "hover"
+        }
+      }
+    },
     "_trackingId": 11
+  },
+  {
+    "_id": "b-56",
+    "_parentId": "a-10",
+    "_type": "block",
+    "_classes": "lottie-grid",
+    "title": "b-55",
+    "displayTitle": "",
+    "body": "",
+    "_assessment": {
+      "_quizBankID": 1
+    },
+    "_trickle": {
+      "_isEnabled": true,
+      "_isInherited": false,
+      "_autoScroll": true,
+      "_scrollDuration": 500,
+      "_onChildren": true,
+      "_scrollTo": "@block +1",
+      "_completionAttribute": "_isComplete",
+      "_button": {
+        "_isEnabled": true,
+        "_styleBeforeCompletion": "hidden",
+        "_styleAfterClick": "hidden",
+        "_isFullWidth": false,
+        "_autoHide": false,
+        "_className": "",
+        "_hasIcon": true,
+        "text": "",
+        "ariaLabel": "",
+        "startText": "",
+        "startAriaLabel": "",
+        "finalText": "",
+        "finalAriaLabel": "",
+        "_component": "trickle-button",
+        "_showEndOfPage": true
+      },
+      "_stepLocking": {
+        "_isEnabled": true,
+        "_isCompletionRequired": true,
+        "_isLockedOnRevisit": false
+      }
+    },
+    "_lottie_block": {
+      "_isEnabled": true,
+      "src": "course/en/assets/dots.json",
+      "controls": false,
+      "loop": 100,
+      "autoplay": true,
+      "speed": 1,
+      "style": "",
+      "renderer": "svg",
+      "preserveAspectRatio": "xMidYMid meet",
+      "background": "",
+      "failed": "Error loading animation",
+      "interactivity": {
+        "mode": "cursor",
+        "actions": {
+          "type": "hover"
+        }
+      }
+    },
+    "_trackingId": 19
   },
   {
     "_id": "b-65",

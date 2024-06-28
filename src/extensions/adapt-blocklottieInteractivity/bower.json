@@ -1,0 +1,15 @@
+{
+  "name": "adapt-blocklottieInteractivity",
+  "version": "1.0.0",
+  "framework": ">=5.14.0",
+  "description": "",
+  "main": "/js/adapt-blocklottieInteractivity.js",
+  "displayName": "LottieInteractivity",
+  "extension": "LottieInteractivity",
+  "keywords": ["adapt-plugin", "adapt-extension"],
+  "authors": "",
+  "license": "GPL-3.0",
+  "homepage": "",
+  "issues": "",
+  "targetAttribute": "_lottie"
+}
