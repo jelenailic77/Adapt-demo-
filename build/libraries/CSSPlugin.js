@@ -1,1 +1,1413 @@
-import{gsap as gsap,_getProperty as _getProperty,_numExp as _numExp,_numWithUnitExp as _numWithUnitExp,getUnit as getUnit,_isString as _isString,_isUndefined as _isUndefined,_renderComplexString as _renderComplexString,_relExp as _relExp,_forEachName as _forEachName,_sortPropTweensByPriority as _sortPropTweensByPriority,_colorStringFilter as _colorStringFilter,_checkPlugin as _checkPlugin,_replaceRandom as _replaceRandom,_plugins as _plugins,GSCache as GSCache,PropTween as PropTween,_config as _config,_ticker as _ticker,_round as _round,_missingPlugin as _missingPlugin,_getSetter as _getSetter,_getCache as _getCache,_colorExp as _colorExp,_parseRelative as _parseRelative,_setDefaults as _setDefaults,_removeLinkedListItem as _removeLinkedListItem}from"./gsap-core.js";var _win,_doc,_docElement,_pluginInitted,_tempDiv,_tempDivStyler,_recentSetterPlugin,_supports3D,_windowExists=function(){return"undefined"!=typeof window},_transformProps={},_RAD2DEG=180/Math.PI,_DEG2RAD=Math.PI/180,_atan2=Math.atan2,_bigNum=1e8,_capsExp=/([A-Z])/g,_horizontalExp=/(left|right|width|margin|padding|x)/i,_complexExp=/[\s,\(]\S/,_propertyAliases={autoAlpha:"opacity,visibility",scale:"scaleX,scaleY",alpha:"opacity"},_renderCSSProp=function(e,t){return t.set(t.t,t.p,Math.round(1e4*(t.s+t.c*e))/1e4+t.u,t)},_renderPropWithEnd=function(e,t){return t.set(t.t,t.p,1===e?t.e:Math.round(1e4*(t.s+t.c*e))/1e4+t.u,t)},_renderCSSPropWithBeginning=function(e,t){return t.set(t.t,t.p,e?Math.round(1e4*(t.s+t.c*e))/1e4+t.u:t.b,t)},_renderRoundedCSSProp=function(e,t){e=t.s+t.c*e;t.set(t.t,t.p,~~(e+(e<0?-.5:.5))+t.u,t)},_renderNonTweeningValue=function(e,t){return t.set(t.t,t.p,e?t.e:t.b,t)},_renderNonTweeningValueOnlyAtEnd=function(e,t){return t.set(t.t,t.p,1!==e?t.b:t.e,t)},_setterCSSStyle=function(e,t,r){return e.style[t]=r},_setterCSSProp=function(e,t,r){return e.style.setProperty(t,r)},_setterTransform=function(e,t,r){return e._gsap[t]=r},_setterScale=function(e,t,r){return e._gsap.scaleX=e._gsap.scaleY=r},_setterScaleWithRender=function(e,t,r,n,o){e=e._gsap;e.scaleX=e.scaleY=r,e.renderTransform(o,e)},_setterTransformWithRender=function(e,t,r,n,o){e=e._gsap;e[t]=r,e.renderTransform(o,e)},_transformProp="transform",_transformOriginProp=_transformProp+"Origin",_createElement=function(e,t){t=_doc.createElementNS?_doc.createElementNS((t||"http://www.w3.org/1999/xhtml").replace(/^https/,"http"),e):_doc.createElement(e);return t.style?t:_doc.createElement(e)},_getComputedProperty=function e(t,r,n){var o=getComputedStyle(t);return o[r]||o.getPropertyValue(r.replace(_capsExp,"-$1").toLowerCase())||o.getPropertyValue(r)||!n&&e(t,_checkPropPrefix(r)||r,1)||""},_prefixes="O,Moz,ms,Ms,Webkit".split(","),_checkPropPrefix=function(e,t,r){var n=(t||_tempDiv).style,o=5;if(e in n&&!r)return e;for(e=e.charAt(0).toUpperCase()+e.substr(1);o--&&!(_prefixes[o]+e in n););return o<0?null:(3===o?"ms":0<=o?_prefixes[o]:"")+e},_initCore=function(){_windowExists()&&window.document&&(_win=window,_doc=_win.document,_docElement=_doc.documentElement,_tempDiv=_createElement("div")||{style:{}},_tempDivStyler=_createElement("div"),_transformProp=_checkPropPrefix(_transformProp),_transformOriginProp=_transformProp+"Origin",_tempDiv.style.cssText="border-width:0;line-height:0;position:absolute;padding:0",_supports3D=!!_checkPropPrefix("perspective"),_pluginInitted=1)},_getBBoxHack=function e(t){var r,n=_createElement("svg",this.ownerSVGElement&&this.ownerSVGElement.getAttribute("xmlns")||"http://www.w3.org/2000/svg"),o=this.parentNode,i=this.nextSibling,s=this.style.cssText;if(_docElement.appendChild(n),n.appendChild(this),this.style.display="block",t)try{r=this.getBBox(),this._gsapBBox=this.getBBox,this.getBBox=e}catch(e){}else this._gsapBBox&&(r=this._gsapBBox());return o&&(i?o.insertBefore(this,i):o.appendChild(this)),_docElement.removeChild(n),this.style.cssText=s,r},_getAttributeFallbacks=function(e,t){for(var r=t.length;r--;)if(e.hasAttribute(t[r]))return e.getAttribute(t[r])},_getBBox=function(t){var r;try{r=t.getBBox()}catch(e){r=_getBBoxHack.call(t,!0)}return!(r=!(r&&(r.width||r.height)||t.getBBox===_getBBoxHack)?_getBBoxHack.call(t,!0):r)||r.width||r.x||r.y?r:{x:+_getAttributeFallbacks(t,["x","cx","x1"])||0,y:+_getAttributeFallbacks(t,["y","cy","y1"])||0,width:0,height:0}},_isSVG=function(e){return!(!e.getCTM||e.parentNode&&!e.ownerSVGElement||!_getBBox(e))},_removeProperty=function(e,t){t&&(e=e.style,t in _transformProps&&t!==_transformOriginProp&&(t=_transformProp),e.removeProperty?("ms"!==t.substr(0,2)&&"webkit"!==t.substr(0,6)||(t="-"+t),e.removeProperty(t.replace(_capsExp,"-$1").toLowerCase())):e.removeAttribute(t))},_addNonTweeningPT=function(e,t,r,n,o,i){i=new PropTween(e._pt,t,r,0,1,i?_renderNonTweeningValueOnlyAtEnd:_renderNonTweeningValue);return(e._pt=i).b=n,i.e=o,e._props.push(r),i},_nonConvertibleUnits={deg:1,rad:1,turn:1},_convertToUnit=function e(t,r,n,o){var i,s=parseFloat(n)||0,a=(n+"").trim().substr((s+"").length)||"px",_=_tempDiv.style,p=_horizontalExp.test(r),l="svg"===t.tagName.toLowerCase(),c=(l?"client":"offset")+(p?"Width":"Height"),g="px"===o,d="%"===o;return o===a||!s||_nonConvertibleUnits[o]||_nonConvertibleUnits[a]?s:("px"===a||g||(s=e(t,r,n,"px")),n=t.getCTM&&_isSVG(t),!d&&"%"!==a||!_transformProps[r]&&!~r.indexOf("adius")?(_[p?"width":"height"]=100+(g?a:o),o=~r.indexOf("adius")||"em"===o&&t.appendChild&&!l?t:t.parentNode,(l=(o=!(o=n?(t.ownerSVGElement||{}).parentNode:o)||o===_doc||!o.appendChild?_doc.body:o)._gsap)&&d&&l.width&&p&&l.time===_ticker.time?_round(s/l.width*100):(!d&&"%"!==a||(_.position=_getComputedProperty(t,"position")),o===t&&(_.position="static"),o.appendChild(_tempDiv),i=_tempDiv[c],o.removeChild(_tempDiv),_.position="absolute",p&&d&&((l=_getCache(o)).time=_ticker.time,l.width=o[c]),_round(g?i*s/100:i&&s?100/i*s:0))):(i=n?t.getBBox()[p?"width":"height"]:t[c],_round(d?s/i*100:s/100*i)))},_get=function(e,t,r,n){var o;return _pluginInitted||_initCore(),t in _propertyAliases&&"transform"!==t&&~(t=_propertyAliases[t]).indexOf(",")&&(t=t.split(",")[0]),_transformProps[t]&&"transform"!==t?(o=_parseTransform(e,n),o="transformOrigin"!==t?o[t]:o.svg?o.origin:_firstTwoOnly(_getComputedProperty(e,_transformOriginProp))+" "+o.zOrigin+"px"):(o=e.style[t])&&"auto"!==o&&!n&&!~(o+"").indexOf("calc(")||(o=_specialProps[t]&&_specialProps[t](e,t,r)||_getComputedProperty(e,t)||_getProperty(e,t)||("opacity"===t?1:0)),r&&!~(o+"").trim().indexOf(" ")?_convertToUnit(e,t,o,r)+r:o},_tweenComplexCSSString=function(e,t,r,n){var o;r&&"none"!==r||((i=(o=_checkPropPrefix(t,e,1))&&_getComputedProperty(e,o,1))&&i!==r?(t=o,r=i):"borderColor"===t&&(r=_getComputedProperty(e,"borderTopColor")));var i,s,a,_,p,l,c,g,d,f=new PropTween(this._pt,e.style,t,0,1,_renderComplexString),u=0,h=0;if(f.b=r,f.e=n,r+="","auto"===(n+="")&&(e.style[t]=n,n=_getComputedProperty(e,t)||n,e.style[t]=r),i=[r,n],_colorStringFilter(i),n=i[1],s=(r=i[0]).match(_numWithUnitExp)||[],(n.match(_numWithUnitExp)||[]).length){for(;l=_numWithUnitExp.exec(n);)g=l[0],c=n.substring(u,l.index),_?_=(_+1)%5:"rgba("!==c.substr(-5)&&"hsla("!==c.substr(-5)||(_=1),g!==(p=s[h++]||"")&&(a=parseFloat(p)||0,d=p.substr((a+"").length),"="===g.charAt(1)&&(g=_parseRelative(a,g)+d),l=parseFloat(g),g=g.substr((l+"").length),u=_numWithUnitExp.lastIndex-g.length,g||(g=g||_config.units[t]||d,u===n.length&&(n+=g,f.e+=g)),d!==g&&(a=_convertToUnit(e,t,p,g)||0),f._pt={_next:f._pt,p:c||1===h?c:",",s:a,c:l-a,m:_&&_<4||"zIndex"===t?Math.round:0});f.c=u<n.length?n.substring(u,n.length):""}else f.r="display"===t&&"none"===n?_renderNonTweeningValueOnlyAtEnd:_renderNonTweeningValue;return _relExp.test(n)&&(f.e=0),this._pt=f},_keywordToPercent={top:"0%",bottom:"100%",left:"0%",right:"100%",center:"50%"},_convertKeywordsToPercentages=function(e){var t=e.split(" "),r=t[0],n=t[1]||"50%";return"top"!==r&&"bottom"!==r&&"left"!==n&&"right"!==n||(e=r,r=n,n=e),t[0]=_keywordToPercent[r]||r,t[1]=_keywordToPercent[n]||n,t.join(" ")},_renderClearProps=function(e,t){if(t.tween&&t.tween._time===t.tween._dur){var r,n,o,i=t.t,s=i.style,a=t.u,t=i._gsap;if("all"===a||!0===a)s.cssText="",n=1;else for(o=(a=a.split(",")).length;-1<--o;)r=a[o],_transformProps[r]&&(n=1,r="transformOrigin"===r?_transformOriginProp:_transformProp),_removeProperty(i,r);n&&(_removeProperty(i,_transformProp),t&&(t.svg&&i.removeAttribute("transform"),_parseTransform(i,1),t.uncache=1))}},_specialProps={clearProps:function(e,t,r,n,o){if("isFromStart"!==o.data){t=e._pt=new PropTween(e._pt,t,r,0,0,_renderClearProps);return t.u=n,t.pr=-10,t.tween=o,e._props.push(r),1}}},_identity2DMatrix=[1,0,0,1,0,0],_rotationalProperties={},_isNullTransform=function(e){return"matrix(1, 0, 0, 1, 0, 0)"===e||"none"===e||!e},_getComputedTransformMatrixAsArray=function(e){e=_getComputedProperty(e,_transformProp);return _isNullTransform(e)?_identity2DMatrix:e.substr(7).match(_numExp).map(_round)},_getMatrix=function(e,t){var r,n,o,i=e._gsap||_getCache(e),s=e.style,a=_getComputedTransformMatrixAsArray(e);return i.svg&&e.getAttribute("transform")?"1,0,0,1,0,0"===(a=[(n=e.transform.baseVal.consolidate().matrix).a,n.b,n.c,n.d,n.e,n.f]).join(",")?_identity2DMatrix:a:(a!==_identity2DMatrix||e.offsetParent||e===_docElement||i.svg||(n=s.display,s.display="block",(i=e.parentNode)&&e.offsetParent||(o=1,r=e.nextSibling,_docElement.appendChild(e)),a=_getComputedTransformMatrixAsArray(e),n?s.display=n:_removeProperty(e,"display"),o&&(r?i.insertBefore(e,r):i?i.appendChild(e):_docElement.removeChild(e))),t&&6<a.length?[a[0],a[1],a[4],a[5],a[12],a[13]]:a)},_applySVGOrigin=function(e,t,r,n,o,i){var s,a,_=e._gsap,p=o||_getMatrix(e,!0),l=_.xOrigin||0,c=_.yOrigin||0,g=_.xOffset||0,d=_.yOffset||0,f=p[0],u=p[1],h=p[2],m=p[3],P=p[4],x=p[5],y=t.split(" "),w=parseFloat(y[0])||0,o=parseFloat(y[1])||0;r?p!==_identity2DMatrix&&(s=f*m-u*h)&&(a=w*(-u/s)+o*(f/s)-(f*x-u*P)/s,w=w*(m/s)+o*(-h/s)+(h*x-m*P)/s,o=a):(w=(a=_getBBox(e)).x+(~y[0].indexOf("%")?w/100*a.width:w),o=a.y+(~(y[1]||y[0]).indexOf("%")?o/100*a.height:o)),n||!1!==n&&_.smooth?(_.xOffset=g+((P=w-l)*f+(x=o-c)*h)-P,_.yOffset=d+(P*u+x*m)-x):_.xOffset=_.yOffset=0,_.xOrigin=w,_.yOrigin=o,_.smooth=!!n,_.origin=t,_.originIsAbsolute=!!r,e.style[_transformOriginProp]="0px 0px",i&&(_addNonTweeningPT(i,_,"xOrigin",l,w),_addNonTweeningPT(i,_,"yOrigin",c,o),_addNonTweeningPT(i,_,"xOffset",g,_.xOffset),_addNonTweeningPT(i,_,"yOffset",d,_.yOffset)),e.setAttribute("data-svg-origin",w+" "+o)},_parseTransform=function(e,t){var r=e._gsap||new GSCache(e);if("x"in r&&!t&&!r.uncache)return r;var n,o,i,s,a,_,p,l,c,g,d,f,u,h,m,P,x,y,w,v,T,S,O,C,b,E,D=e.style,A=r.scaleX<0,M="deg",B=_getComputedProperty(e,_transformOriginProp)||"0",k=n=o=s=a=_=p=l=0,R=i=1;return r.svg=!(!e.getCTM||!_isSVG(e)),c=_getMatrix(e,r.svg),r.svg&&(y=(!r.uncache||"0px 0px"===B)&&!t&&e.getAttribute("data-svg-origin"),_applySVGOrigin(e,y||B,!!y||r.originIsAbsolute,!1!==r.smooth,c)),O=r.xOrigin||0,b=r.yOrigin||0,c!==_identity2DMatrix&&(f=c[0],u=c[1],h=c[2],m=c[3],k=P=c[4],n=x=c[5],6===c.length?(R=Math.sqrt(f*f+u*u),i=Math.sqrt(m*m+h*h),s=f||u?_atan2(u,f)*_RAD2DEG:0,(p=h||m?_atan2(h,m)*_RAD2DEG+s:0)&&(i*=Math.abs(Math.cos(p*_DEG2RAD))),r.svg&&(k-=O-(O*f+b*h),n-=b-(O*u+b*m))):(E=c[6],C=c[7],T=c[8],S=c[9],O=c[10],b=c[11],k=c[12],n=c[13],o=c[14],a=(c=_atan2(E,O))*_RAD2DEG,c&&(y=P*(g=Math.cos(-c))+T*(d=Math.sin(-c)),w=x*g+S*d,v=E*g+O*d,T=P*-d+T*g,S=x*-d+S*g,O=E*-d+O*g,b=C*-d+b*g,P=y,x=w,E=v),_=(c=_atan2(-h,O))*_RAD2DEG,c&&(g=Math.cos(-c),b=m*(d=Math.sin(-c))+b*g,f=y=f*g-T*d,u=w=u*g-S*d,h=v=h*g-O*d),s=(c=_atan2(u,f))*_RAD2DEG,c&&(y=f*(g=Math.cos(c))+u*(d=Math.sin(c)),w=P*g+x*d,u=u*g-f*d,x=x*g-P*d,f=y,P=w),a&&359.9<Math.abs(a)+Math.abs(s)&&(a=s=0,_=180-_),R=_round(Math.sqrt(f*f+u*u+h*h)),i=_round(Math.sqrt(x*x+E*E)),c=_atan2(P,x),p=2e-4<Math.abs(c)?c*_RAD2DEG:0,l=b?1/(b<0?-b:b):0),r.svg&&(y=e.getAttribute("transform"),r.forceCSS=e.setAttribute("transform","")||!_isNullTransform(_getComputedProperty(e,_transformProp)),y&&e.setAttribute("transform",y))),90<Math.abs(p)&&Math.abs(p)<270&&(A?(R*=-1,p+=s<=0?180:-180,s+=s<=0?180:-180):(i*=-1,p+=p<=0?180:-180)),t=t||r.uncache,r.x=k-((r.xPercent=k&&(!t&&r.xPercent||(Math.round(e.offsetWidth/2)===Math.round(-k)?-50:0)))?e.offsetWidth*r.xPercent/100:0)+"px",r.y=n-((r.yPercent=n&&(!t&&r.yPercent||(Math.round(e.offsetHeight/2)===Math.round(-n)?-50:0)))?e.offsetHeight*r.yPercent/100:0)+"px",r.z=o+"px",r.scaleX=_round(R),r.scaleY=_round(i),r.rotation=_round(s)+M,r.rotationX=_round(a)+M,r.rotationY=_round(_)+M,r.skewX=p+M,r.skewY=0+M,r.transformPerspective=l+"px",(r.zOrigin=parseFloat(B.split(" ")[2])||0)&&(D[_transformOriginProp]=_firstTwoOnly(B)),r.xOffset=r.yOffset=0,r.force3D=_config.force3D,r.renderTransform=r.svg?_renderSVGTransforms:_supports3D?_renderCSSTransforms:_renderNon3DTransforms,r.uncache=0,r},_firstTwoOnly=function(e){return(e=e.split(" "))[0]+" "+e[1]},_addPxTranslate=function(e,t,r){var n=getUnit(t);return _round(parseFloat(t)+parseFloat(_convertToUnit(e,"x",r+"px",n)))+n},_renderNon3DTransforms=function(e,t){t.z="0px",t.rotationY=t.rotationX="0deg",t.force3D=0,_renderCSSTransforms(e,t)},_zeroDeg="0deg",_zeroPx="0px",_endParenthesis=") ",_renderCSSTransforms=function(e,t){var r=t||this,n=r.xPercent,o=r.yPercent,i=r.x,s=r.y,a=r.z,_=r.rotation,p=r.rotationY,l=r.rotationX,c=r.skewX,g=r.skewY,d=r.scaleX,f=r.scaleY,u=r.transformPerspective,h=r.force3D,m=r.target,P=r.zOrigin,x="",y="auto"===h&&e&&1!==e||!0===h;!P||l===_zeroDeg&&p===_zeroDeg||(t=parseFloat(p)*_DEG2RAD,r=Math.sin(t),e=Math.cos(t),t=parseFloat(l)*_DEG2RAD,h=Math.cos(t),i=_addPxTranslate(m,i,r*h*-P),s=_addPxTranslate(m,s,-Math.sin(t)*-P),a=_addPxTranslate(m,a,e*h*-P+P)),u!==_zeroPx&&(x+="perspective("+u+_endParenthesis),(n||o)&&(x+="translate("+n+"%, "+o+"%) "),!y&&i===_zeroPx&&s===_zeroPx&&a===_zeroPx||(x+=a!==_zeroPx||y?"translate3d("+i+", "+s+", "+a+") ":"translate("+i+", "+s+_endParenthesis),_!==_zeroDeg&&(x+="rotate("+_+_endParenthesis),p!==_zeroDeg&&(x+="rotateY("+p+_endParenthesis),l!==_zeroDeg&&(x+="rotateX("+l+_endParenthesis),c===_zeroDeg&&g===_zeroDeg||(x+="skew("+c+", "+g+_endParenthesis),1===d&&1===f||(x+="scale("+d+", "+f+_endParenthesis),m.style[_transformProp]=x||"translate(0, 0)"},_renderSVGTransforms=function(e,t){var r,n,o,i,s,a=t||this,_=a.xPercent,p=a.yPercent,l=a.x,c=a.y,g=a.rotation,d=a.skewX,f=a.skewY,u=a.scaleX,h=a.scaleY,m=a.target,P=a.xOrigin,x=a.yOrigin,y=a.xOffset,w=a.yOffset,v=a.forceCSS,t=parseFloat(l),a=parseFloat(c),g=parseFloat(g),d=parseFloat(d);(f=parseFloat(f))&&(d+=f=parseFloat(f),g+=f),g||d?(g*=_DEG2RAD,d*=_DEG2RAD,r=Math.cos(g)*u,n=Math.sin(g)*u,o=Math.sin(g-d)*-h,i=Math.cos(g-d)*h,d&&(f*=_DEG2RAD,s=Math.tan(d-f),o*=s=Math.sqrt(1+s*s),i*=s,f&&(s=Math.tan(f),r*=s=Math.sqrt(1+s*s),n*=s)),r=_round(r),n=_round(n),o=_round(o),i=_round(i)):(r=u,i=h,n=o=0),(t&&!~(l+"").indexOf("px")||a&&!~(c+"").indexOf("px"))&&(t=_convertToUnit(m,"x",l,"px"),a=_convertToUnit(m,"y",c,"px")),(P||x||y||w)&&(t=_round(t+P-(P*r+x*o)+y),a=_round(a+x-(P*n+x*i)+w)),(_||p)&&(s=m.getBBox(),t=_round(t+_/100*s.width),a=_round(a+p/100*s.height)),m.setAttribute("transform",s="matrix("+r+","+n+","+o+","+i+","+t+","+a+")"),v&&(m.style[_transformProp]=s)},_addRotationalPropTween=function(e,t,r,n,o){var i=360,s=_isString(o),a=parseFloat(o)*(s&&~o.indexOf("rad")?_RAD2DEG:1)-n,_=n+a+"deg";return s&&("short"===(o=o.split("_")[1])&&(a%=i)!==a%180&&(a+=a<0?i:-i),"cw"===o&&a<0?a=(a+i*_bigNum)%i-~~(a/i)*i:"ccw"===o&&0<a&&(a=(a-i*_bigNum)%i-~~(a/i)*i)),e._pt=a=new PropTween(e._pt,t,r,n,a,_renderPropWithEnd),a.e=_,a.u="deg",e._props.push(r),a},_assign=function(e,t){for(var r in t)e[r]=t[r];return e},_addRawTransformPTs=function(e,t,r){var n,o,i,s,a,_,p=_assign({},r._gsap),l=r.style;for(o in p.svg?(i=r.getAttribute("transform"),r.setAttribute("transform",""),l[_transformProp]=t,n=_parseTransform(r,1),_removeProperty(r,_transformProp),r.setAttribute("transform",i)):(i=getComputedStyle(r)[_transformProp],l[_transformProp]=t,n=_parseTransform(r,1),l[_transformProp]=i),_transformProps)(i=p[o])!==(a=n[o])&&"perspective,force3D,transformOrigin,svgOrigin".indexOf(o)<0&&(s=getUnit(i)!==(_=getUnit(a))?_convertToUnit(r,o,i,_):parseFloat(i),a=parseFloat(a),e._pt=new PropTween(e._pt,n,o,s,a-s,_renderCSSProp),e._pt.u=_||0,e._props.push(o));_assign(n,p)};_forEachName("padding,margin,Width,Radius",function(t,r){var e="Top",n="Right",o="Bottom",i="Left",a=(r<3?[e,n,o,i]:[e+i,e+n,o+n,o+i]).map(function(e){return r<2?t+e:"border"+e+t});_specialProps[1<r?"border"+t:t]=function(t,e,r,n,o){var i,s;if(arguments.length<4)return i=a.map(function(e){return _get(t,e,r)}),5===(s=i.join(" ")).split(i[0]).length?i[0]:s;i=(n+"").split(" "),s={},a.forEach(function(e,t){return s[e]=i[t]=i[t]||i[(t-1)/2|0]}),t.init(e,s,o)}});var CSSPlugin={name:"css",register:_initCore,targetTest:function(e){return e.style&&e.nodeType},init:function(e,t,r,n,o){var i,s,a,_,p,l,c,g,d,f,u,h,m,P=this._props,x=e.style,y=r.vars.startAt;for(p in _pluginInitted||_initCore(),t)if("autoRound"!==p&&(s=t[p],!_plugins[p]||!_checkPlugin(p,t,r,n,e,o)))if(_=_specialProps[p],"string"===(d="function"===(d=typeof s)?typeof(s=s.call(r,n,e,o)):d)&&~s.indexOf("random(")&&(s=_replaceRandom(s)),_)_(this,e,p,s,r)&&(m=1);else if("--"===p.substr(0,2))i=(getComputedStyle(e).getPropertyValue(p)+"").trim(),s+="",_colorExp.lastIndex=0,_colorExp.test(i)||(l=getUnit(i),c=getUnit(s)),c?l!==c&&(i=_convertToUnit(e,p,i,c)+c):l&&(s+=l),this.add(x,"setProperty",i,s,n,o,0,0,p),P.push(p);else if("undefined"!==d){if(y&&p in y?(i="function"==typeof y[p]?y[p].call(r,n,e,o):y[p],_isString(i)&&~i.indexOf("random(")&&(i=_replaceRandom(i)),getUnit(i+"")||(i+=_config.units[p]||getUnit(_get(e,p))||""),"="===(i+"").charAt(1)&&(i=_get(e,p))):i=_get(e,p),a=parseFloat(i),(g="string"===d&&"="===s.charAt(1)&&s.substr(0,2))&&(s=s.substr(2)),_=parseFloat(s),p in _propertyAliases&&("autoAlpha"===p&&(1===a&&"hidden"===_get(e,"visibility")&&_&&(a=0),_addNonTweeningPT(this,x,"visibility",a?"inherit":"hidden",_?"inherit":"hidden",!_)),"scale"!==p&&"transform"!==p&&~(p=_propertyAliases[p]).indexOf(",")&&(p=p.split(",")[0])),d=p in _transformProps)if(f||((u=e._gsap).renderTransform&&!t.parseTransform||_parseTransform(e,t.parseTransform),h=!1!==t.smoothOrigin&&u.smooth,(f=this._pt=new PropTween(this._pt,x,_transformProp,0,1,u.renderTransform,u,0,-1)).dep=1),"scale"===p)this._pt=new PropTween(this._pt,u,"scaleY",u.scaleY,(g?_parseRelative(u.scaleY,g+_):_)-u.scaleY||0),P.push("scaleY",p),p+="X";else{if("transformOrigin"===p){s=_convertKeywordsToPercentages(s),u.svg?_applySVGOrigin(e,s,0,h,0,this):((c=parseFloat(s.split(" ")[2])||0)!==u.zOrigin&&_addNonTweeningPT(this,u,"zOrigin",u.zOrigin,c),_addNonTweeningPT(this,x,p,_firstTwoOnly(i),_firstTwoOnly(s)));continue}if("svgOrigin"===p){_applySVGOrigin(e,s,1,h,0,this);continue}if(p in _rotationalProperties){_addRotationalPropTween(this,u,p,a,g?_parseRelative(a,g+s):s);continue}if("smoothOrigin"===p){_addNonTweeningPT(this,u,"smooth",u.smooth,s);continue}if("force3D"===p){u[p]=s;continue}if("transform"===p){_addRawTransformPTs(this,s,e);continue}}else p in x||(p=_checkPropPrefix(p)||p);if(d||(_||0===_)&&(a||0===a)&&!_complexExp.test(s)&&p in x)_=_||0,(l=(i+"").substr((a+"").length))!==(c=getUnit(s)||(p in _config.units?_config.units[p]:l))&&(a=_convertToUnit(e,p,i,c)),this._pt=new PropTween(this._pt,d?u:x,p,a,(g?_parseRelative(a,g+_):_)-a,d||"px"!==c&&"zIndex"!==p||!1===t.autoRound?_renderCSSProp:_renderRoundedCSSProp),this._pt.u=c||0,l!==c&&"%"!==c&&(this._pt.b=i,this._pt.r=_renderCSSPropWithBeginning);else if(p in x)_tweenComplexCSSString.call(this,e,p,i,g?g+s:s);else{if(!(p in e)){_missingPlugin(p,s);continue}this.add(e,p,i||e[p],g?g+s:s,n,o)}P.push(p)}m&&_sortPropTweensByPriority(this)},get:_get,aliases:_propertyAliases,getSetter:function(e,t,r){var n=_propertyAliases[t];return(t=n&&n.indexOf(",")<0?n:t)in _transformProps&&t!==_transformOriginProp&&(e._gsap.x||_get(e,"x"))?r&&_recentSetterPlugin===r?"scale"===t?_setterScale:_setterTransform:(_recentSetterPlugin=r||{})&&("scale"===t?_setterScaleWithRender:_setterTransformWithRender):e.style&&!_isUndefined(e.style[t])?_setterCSSStyle:~t.indexOf("-")?_setterCSSProp:_getSetter(e,t)},core:{_removeProperty:_removeProperty,_getMatrix:_getMatrix}};gsap.utils.checkPrefix=_checkPropPrefix,function(e,t){var r=_forEachName(e+","+t+",transform,transformOrigin,svgOrigin,force3D,smoothOrigin,transformPerspective",function(e){_transformProps[e]=1});_forEachName(t,function(e){_config.units[e]="deg",_rotationalProperties[e]=1}),_propertyAliases[r[13]]=e+","+t,_forEachName("0:translateX,1:translateY,2:translateZ,8:rotate,8:rotationZ,8:rotateZ,9:rotateX,10:rotateY",function(e){e=e.split(":");_propertyAliases[e[1]]=r[e[0]]})}("x,y,z,scale,scaleX,scaleY,xPercent,yPercent","rotation,rotationX,rotationY,skewX,skewY"),_forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,perspective",function(e){_config.units[e]="px"}),gsap.registerPlugin(CSSPlugin);export{CSSPlugin as CSSPlugin,CSSPlugin as default,_getBBox as _getBBox,_createElement as _createElement,_checkPropPrefix as checkPrefix};
+/*!
+ * CSSPlugin 3.10.3
+ * https://greensock.com
+ *
+ * Copyright 2008-2022, GreenSock. All rights reserved.
+ * Subject to the terms at https://greensock.com/standard-license or for
+ * Club GreenSock members, the agreement issued with that membership.
+ * @author: Jack Doyle, jack@greensock.com
+*/
+
+/* eslint-disable */
+import { gsap, _getProperty, _numExp, _numWithUnitExp, getUnit, _isString, _isUndefined, _renderComplexString, _relExp, _forEachName, _sortPropTweensByPriority, _colorStringFilter, _checkPlugin, _replaceRandom, _plugins, GSCache, PropTween, _config, _ticker, _round, _missingPlugin, _getSetter, _getCache, _colorExp, _parseRelative, _setDefaults, _removeLinkedListItem //for the commented-out className feature.
+} from "./gsap-core.js";
+
+var _win,
+    _doc,
+    _docElement,
+    _pluginInitted,
+    _tempDiv,
+    _tempDivStyler,
+    _recentSetterPlugin,
+    _windowExists = function _windowExists() {
+  return typeof window !== "undefined";
+},
+    _transformProps = {},
+    _RAD2DEG = 180 / Math.PI,
+    _DEG2RAD = Math.PI / 180,
+    _atan2 = Math.atan2,
+    _bigNum = 1e8,
+    _capsExp = /([A-Z])/g,
+    _horizontalExp = /(left|right|width|margin|padding|x)/i,
+    _complexExp = /[\s,\(]\S/,
+    _propertyAliases = {
+  autoAlpha: "opacity,visibility",
+  scale: "scaleX,scaleY",
+  alpha: "opacity"
+},
+    _renderCSSProp = function _renderCSSProp(ratio, data) {
+  return data.set(data.t, data.p, Math.round((data.s + data.c * ratio) * 10000) / 10000 + data.u, data);
+},
+    _renderPropWithEnd = function _renderPropWithEnd(ratio, data) {
+  return data.set(data.t, data.p, ratio === 1 ? data.e : Math.round((data.s + data.c * ratio) * 10000) / 10000 + data.u, data);
+},
+    _renderCSSPropWithBeginning = function _renderCSSPropWithBeginning(ratio, data) {
+  return data.set(data.t, data.p, ratio ? Math.round((data.s + data.c * ratio) * 10000) / 10000 + data.u : data.b, data);
+},
+    //if units change, we need a way to render the original unit/value when the tween goes all the way back to the beginning (ratio:0)
+_renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
+  var value = data.s + data.c * ratio;
+  data.set(data.t, data.p, ~~(value + (value < 0 ? -.5 : .5)) + data.u, data);
+},
+    _renderNonTweeningValue = function _renderNonTweeningValue(ratio, data) {
+  return data.set(data.t, data.p, ratio ? data.e : data.b, data);
+},
+    _renderNonTweeningValueOnlyAtEnd = function _renderNonTweeningValueOnlyAtEnd(ratio, data) {
+  return data.set(data.t, data.p, ratio !== 1 ? data.b : data.e, data);
+},
+    _setterCSSStyle = function _setterCSSStyle(target, property, value) {
+  return target.style[property] = value;
+},
+    _setterCSSProp = function _setterCSSProp(target, property, value) {
+  return target.style.setProperty(property, value);
+},
+    _setterTransform = function _setterTransform(target, property, value) {
+  return target._gsap[property] = value;
+},
+    _setterScale = function _setterScale(target, property, value) {
+  return target._gsap.scaleX = target._gsap.scaleY = value;
+},
+    _setterScaleWithRender = function _setterScaleWithRender(target, property, value, data, ratio) {
+  var cache = target._gsap;
+  cache.scaleX = cache.scaleY = value;
+  cache.renderTransform(ratio, cache);
+},
+    _setterTransformWithRender = function _setterTransformWithRender(target, property, value, data, ratio) {
+  var cache = target._gsap;
+  cache[property] = value;
+  cache.renderTransform(ratio, cache);
+},
+    _transformProp = "transform",
+    _transformOriginProp = _transformProp + "Origin",
+    _supports3D,
+    _createElement = function _createElement(type, ns) {
+  var e = _doc.createElementNS ? _doc.createElementNS((ns || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"), type) : _doc.createElement(type); //some servers swap in https for http in the namespace which can break things, making "style" inaccessible.
+
+  return e.style ? e : _doc.createElement(type); //some environments won't allow access to the element's style when created with a namespace in which case we default to the standard createElement() to work around the issue. Also note that when GSAP is embedded directly inside an SVG file, createElement() won't allow access to the style object in Firefox (see https://greensock.com/forums/topic/20215-problem-using-tweenmax-in-standalone-self-containing-svg-file-err-cannot-set-property-csstext-of-undefined/).
+},
+    _getComputedProperty = function _getComputedProperty(target, property, skipPrefixFallback) {
+  var cs = getComputedStyle(target);
+  return cs[property] || cs.getPropertyValue(property.replace(_capsExp, "-$1").toLowerCase()) || cs.getPropertyValue(property) || !skipPrefixFallback && _getComputedProperty(target, _checkPropPrefix(property) || property, 1) || ""; //css variables may not need caps swapped out for dashes and lowercase.
+},
+    _prefixes = "O,Moz,ms,Ms,Webkit".split(","),
+    _checkPropPrefix = function _checkPropPrefix(property, element, preferPrefix) {
+  var e = element || _tempDiv,
+      s = e.style,
+      i = 5;
+
+  if (property in s && !preferPrefix) {
+    return property;
+  }
+
+  property = property.charAt(0).toUpperCase() + property.substr(1);
+
+  while (i-- && !(_prefixes[i] + property in s)) {}
+
+  return i < 0 ? null : (i === 3 ? "ms" : i >= 0 ? _prefixes[i] : "") + property;
+},
+    _initCore = function _initCore() {
+  if (_windowExists() && window.document) {
+    _win = window;
+    _doc = _win.document;
+    _docElement = _doc.documentElement;
+    _tempDiv = _createElement("div") || {
+      style: {}
+    };
+    _tempDivStyler = _createElement("div");
+    _transformProp = _checkPropPrefix(_transformProp);
+    _transformOriginProp = _transformProp + "Origin";
+    _tempDiv.style.cssText = "border-width:0;line-height:0;position:absolute;padding:0"; //make sure to override certain properties that may contaminate measurements, in case the user has overreaching style sheets.
+
+    _supports3D = !!_checkPropPrefix("perspective");
+    _pluginInitted = 1;
+  }
+},
+    _getBBoxHack = function _getBBoxHack(swapIfPossible) {
+  //works around issues in some browsers (like Firefox) that don't correctly report getBBox() on SVG elements inside a <defs> element and/or <mask>. We try creating an SVG, adding it to the documentElement and toss the element in there so that it's definitely part of the rendering tree, then grab the bbox and if it works, we actually swap out the original getBBox() method for our own that does these extra steps whenever getBBox is needed. This helps ensure that performance is optimal (only do all these extra steps when absolutely necessary...most elements don't need it).
+  var svg = _createElement("svg", this.ownerSVGElement && this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),
+      oldParent = this.parentNode,
+      oldSibling = this.nextSibling,
+      oldCSS = this.style.cssText,
+      bbox;
+
+  _docElement.appendChild(svg);
+
+  svg.appendChild(this);
+  this.style.display = "block";
+
+  if (swapIfPossible) {
+    try {
+      bbox = this.getBBox();
+      this._gsapBBox = this.getBBox; //store the original
+
+      this.getBBox = _getBBoxHack;
+    } catch (e) {}
+  } else if (this._gsapBBox) {
+    bbox = this._gsapBBox();
+  }
+
+  if (oldParent) {
+    if (oldSibling) {
+      oldParent.insertBefore(this, oldSibling);
+    } else {
+      oldParent.appendChild(this);
+    }
+  }
+
+  _docElement.removeChild(svg);
+
+  this.style.cssText = oldCSS;
+  return bbox;
+},
+    _getAttributeFallbacks = function _getAttributeFallbacks(target, attributesArray) {
+  var i = attributesArray.length;
+
+  while (i--) {
+    if (target.hasAttribute(attributesArray[i])) {
+      return target.getAttribute(attributesArray[i]);
+    }
+  }
+},
+    _getBBox = function _getBBox(target) {
+  var bounds;
+
+  try {
+    bounds = target.getBBox(); //Firefox throws errors if you try calling getBBox() on an SVG element that's not rendered (like in a <symbol> or <defs>). https://bugzilla.mozilla.org/show_bug.cgi?id=612118
+  } catch (error) {
+    bounds = _getBBoxHack.call(target, true);
+  }
+
+  bounds && (bounds.width || bounds.height) || target.getBBox === _getBBoxHack || (bounds = _getBBoxHack.call(target, true)); //some browsers (like Firefox) misreport the bounds if the element has zero width and height (it just assumes it's at x:0, y:0), thus we need to manually grab the position in that case.
+
+  return bounds && !bounds.width && !bounds.x && !bounds.y ? {
+    x: +_getAttributeFallbacks(target, ["x", "cx", "x1"]) || 0,
+    y: +_getAttributeFallbacks(target, ["y", "cy", "y1"]) || 0,
+    width: 0,
+    height: 0
+  } : bounds;
+},
+    _isSVG = function _isSVG(e) {
+  return !!(e.getCTM && (!e.parentNode || e.ownerSVGElement) && _getBBox(e));
+},
+    //reports if the element is an SVG on which getBBox() actually works
+_removeProperty = function _removeProperty(target, property) {
+  if (property) {
+    var style = target.style;
+
+    if (property in _transformProps && property !== _transformOriginProp) {
+      property = _transformProp;
+    }
+
+    if (style.removeProperty) {
+      if (property.substr(0, 2) === "ms" || property.substr(0, 6) === "webkit") {
+        //Microsoft and some Webkit browsers don't conform to the standard of capitalizing the first prefix character, so we adjust so that when we prefix the caps with a dash, it's correct (otherwise it'd be "ms-transform" instead of "-ms-transform" for IE9, for example)
+        property = "-" + property;
+      }
+
+      style.removeProperty(property.replace(_capsExp, "-$1").toLowerCase());
+    } else {
+      //note: old versions of IE use "removeAttribute()" instead of "removeProperty()"
+      style.removeAttribute(property);
+    }
+  }
+},
+    _addNonTweeningPT = function _addNonTweeningPT(plugin, target, property, beginning, end, onlySetAtEnd) {
+  var pt = new PropTween(plugin._pt, target, property, 0, 1, onlySetAtEnd ? _renderNonTweeningValueOnlyAtEnd : _renderNonTweeningValue);
+  plugin._pt = pt;
+  pt.b = beginning;
+  pt.e = end;
+
+  plugin._props.push(property);
+
+  return pt;
+},
+    _nonConvertibleUnits = {
+  deg: 1,
+  rad: 1,
+  turn: 1
+},
+    //takes a single value like 20px and converts it to the unit specified, like "%", returning only the numeric amount.
+_convertToUnit = function _convertToUnit(target, property, value, unit) {
+  var curValue = parseFloat(value) || 0,
+      curUnit = (value + "").trim().substr((curValue + "").length) || "px",
+      // some browsers leave extra whitespace at the beginning of CSS variables, hence the need to trim()
+  style = _tempDiv.style,
+      horizontal = _horizontalExp.test(property),
+      isRootSVG = target.tagName.toLowerCase() === "svg",
+      measureProperty = (isRootSVG ? "client" : "offset") + (horizontal ? "Width" : "Height"),
+      amount = 100,
+      toPixels = unit === "px",
+      toPercent = unit === "%",
+      px,
+      parent,
+      cache,
+      isSVG;
+
+  if (unit === curUnit || !curValue || _nonConvertibleUnits[unit] || _nonConvertibleUnits[curUnit]) {
+    return curValue;
+  }
+
+  curUnit !== "px" && !toPixels && (curValue = _convertToUnit(target, property, value, "px"));
+  isSVG = target.getCTM && _isSVG(target);
+
+  if ((toPercent || curUnit === "%") && (_transformProps[property] || ~property.indexOf("adius"))) {
+    px = isSVG ? target.getBBox()[horizontal ? "width" : "height"] : target[measureProperty];
+    return _round(toPercent ? curValue / px * amount : curValue / 100 * px);
+  }
+
+  style[horizontal ? "width" : "height"] = amount + (toPixels ? curUnit : unit);
+  parent = ~property.indexOf("adius") || unit === "em" && target.appendChild && !isRootSVG ? target : target.parentNode;
+
+  if (isSVG) {
+    parent = (target.ownerSVGElement || {}).parentNode;
+  }
+
+  if (!parent || parent === _doc || !parent.appendChild) {
+    parent = _doc.body;
+  }
+
+  cache = parent._gsap;
+
+  if (cache && toPercent && cache.width && horizontal && cache.time === _ticker.time) {
+    return _round(curValue / cache.width * amount);
+  } else {
+    (toPercent || curUnit === "%") && (style.position = _getComputedProperty(target, "position"));
+    parent === target && (style.position = "static"); // like for borderRadius, if it's a % we must have it relative to the target itself but that may not have position: relative or position: absolute in which case it'd go up the chain until it finds its offsetParent (bad). position: static protects against that.
+
+    parent.appendChild(_tempDiv);
+    px = _tempDiv[measureProperty];
+    parent.removeChild(_tempDiv);
+    style.position = "absolute";
+
+    if (horizontal && toPercent) {
+      cache = _getCache(parent);
+      cache.time = _ticker.time;
+      cache.width = parent[measureProperty];
+    }
+  }
+
+  return _round(toPixels ? px * curValue / amount : px && curValue ? amount / px * curValue : 0);
+},
+    _get = function _get(target, property, unit, uncache) {
+  var value;
+  _pluginInitted || _initCore();
+
+  if (property in _propertyAliases && property !== "transform") {
+    property = _propertyAliases[property];
+
+    if (~property.indexOf(",")) {
+      property = property.split(",")[0];
+    }
+  }
+
+  if (_transformProps[property] && property !== "transform") {
+    value = _parseTransform(target, uncache);
+    value = property !== "transformOrigin" ? value[property] : value.svg ? value.origin : _firstTwoOnly(_getComputedProperty(target, _transformOriginProp)) + " " + value.zOrigin + "px";
+  } else {
+    value = target.style[property];
+
+    if (!value || value === "auto" || uncache || ~(value + "").indexOf("calc(")) {
+      value = _specialProps[property] && _specialProps[property](target, property, unit) || _getComputedProperty(target, property) || _getProperty(target, property) || (property === "opacity" ? 1 : 0); // note: some browsers, like Firefox, don't report borderRadius correctly! Instead, it only reports every corner like  borderTopLeftRadius
+    }
+  }
+
+  return unit && !~(value + "").trim().indexOf(" ") ? _convertToUnit(target, property, value, unit) + unit : value;
+},
+    _tweenComplexCSSString = function _tweenComplexCSSString(target, prop, start, end) {
+  // note: we call _tweenComplexCSSString.call(pluginInstance...) to ensure that it's scoped properly. We may call it from within a plugin too, thus "this" would refer to the plugin.
+  if (!start || start === "none") {
+    // some browsers like Safari actually PREFER the prefixed property and mis-report the unprefixed value like clipPath (BUG). In other words, even though clipPath exists in the style ("clipPath" in target.style) and it's set in the CSS properly (along with -webkit-clip-path), Safari reports clipPath as "none" whereas WebkitClipPath reports accurately like "ellipse(100% 0% at 50% 0%)", so in this case we must SWITCH to using the prefixed property instead. See https://greensock.com/forums/topic/18310-clippath-doesnt-work-on-ios/
+    var p = _checkPropPrefix(prop, target, 1),
+        s = p && _getComputedProperty(target, p, 1);
+
+    if (s && s !== start) {
+      prop = p;
+      start = s;
+    } else if (prop === "borderColor") {
+      start = _getComputedProperty(target, "borderTopColor"); // Firefox bug: always reports "borderColor" as "", so we must fall back to borderTopColor. See https://greensock.com/forums/topic/24583-how-to-return-colors-that-i-had-after-reverse/
+    }
+  }
+
+  var pt = new PropTween(this._pt, target.style, prop, 0, 1, _renderComplexString),
+      index = 0,
+      matchIndex = 0,
+      a,
+      result,
+      startValues,
+      startNum,
+      color,
+      startValue,
+      endValue,
+      endNum,
+      chunk,
+      endUnit,
+      startUnit,
+      endValues;
+  pt.b = start;
+  pt.e = end;
+  start += ""; // ensure values are strings
+
+  end += "";
+
+  if (end === "auto") {
+    target.style[prop] = end;
+    end = _getComputedProperty(target, prop) || end;
+    target.style[prop] = start;
+  }
+
+  a = [start, end];
+
+  _colorStringFilter(a); // pass an array with the starting and ending values and let the filter do whatever it needs to the values. If colors are found, it returns true and then we must match where the color shows up order-wise because for things like boxShadow, sometimes the browser provides the computed values with the color FIRST, but the user provides it with the color LAST, so flip them if necessary. Same for drop-shadow().
+
+
+  start = a[0];
+  end = a[1];
+  startValues = start.match(_numWithUnitExp) || [];
+  endValues = end.match(_numWithUnitExp) || [];
+
+  if (endValues.length) {
+    while (result = _numWithUnitExp.exec(end)) {
+      endValue = result[0];
+      chunk = end.substring(index, result.index);
+
+      if (color) {
+        color = (color + 1) % 5;
+      } else if (chunk.substr(-5) === "rgba(" || chunk.substr(-5) === "hsla(") {
+        color = 1;
+      }
+
+      if (endValue !== (startValue = startValues[matchIndex++] || "")) {
+        startNum = parseFloat(startValue) || 0;
+        startUnit = startValue.substr((startNum + "").length);
+        endValue.charAt(1) === "=" && (endValue = _parseRelative(startNum, endValue) + startUnit);
+        endNum = parseFloat(endValue);
+        endUnit = endValue.substr((endNum + "").length);
+        index = _numWithUnitExp.lastIndex - endUnit.length;
+
+        if (!endUnit) {
+          //if something like "perspective:300" is passed in and we must add a unit to the end
+          endUnit = endUnit || _config.units[prop] || startUnit;
+
+          if (index === end.length) {
+            end += endUnit;
+            pt.e += endUnit;
+          }
+        }
+
+        if (startUnit !== endUnit) {
+          startNum = _convertToUnit(target, prop, startValue, endUnit) || 0;
+        } // these nested PropTweens are handled in a special way - we'll never actually call a render or setter method on them. We'll just loop through them in the parent complex string PropTween's render method.
+
+
+        pt._pt = {
+          _next: pt._pt,
+          p: chunk || matchIndex === 1 ? chunk : ",",
+          //note: SVG spec allows omission of comma/space when a negative sign is wedged between two numbers, like 2.5-5.3 instead of 2.5,-5.3 but when tweening, the negative value may switch to positive, so we insert the comma just in case.
+          s: startNum,
+          c: endNum - startNum,
+          m: color && color < 4 || prop === "zIndex" ? Math.round : 0
+        };
+      }
+    }
+
+    pt.c = index < end.length ? end.substring(index, end.length) : ""; //we use the "c" of the PropTween to store the final part of the string (after the last number)
+  } else {
+    pt.r = prop === "display" && end === "none" ? _renderNonTweeningValueOnlyAtEnd : _renderNonTweeningValue;
+  }
+
+  _relExp.test(end) && (pt.e = 0); //if the end string contains relative values or dynamic random(...) values, delete the end it so that on the final render we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
+
+  this._pt = pt; //start the linked list with this new PropTween. Remember, we call _tweenComplexCSSString.call(pluginInstance...) to ensure that it's scoped properly. We may call it from within another plugin too, thus "this" would refer to the plugin.
+
+  return pt;
+},
+    _keywordToPercent = {
+  top: "0%",
+  bottom: "100%",
+  left: "0%",
+  right: "100%",
+  center: "50%"
+},
+    _convertKeywordsToPercentages = function _convertKeywordsToPercentages(value) {
+  var split = value.split(" "),
+      x = split[0],
+      y = split[1] || "50%";
+
+  if (x === "top" || x === "bottom" || y === "left" || y === "right") {
+    //the user provided them in the wrong order, so flip them
+    value = x;
+    x = y;
+    y = value;
+  }
+
+  split[0] = _keywordToPercent[x] || x;
+  split[1] = _keywordToPercent[y] || y;
+  return split.join(" ");
+},
+    _renderClearProps = function _renderClearProps(ratio, data) {
+  if (data.tween && data.tween._time === data.tween._dur) {
+    var target = data.t,
+        style = target.style,
+        props = data.u,
+        cache = target._gsap,
+        prop,
+        clearTransforms,
+        i;
+
+    if (props === "all" || props === true) {
+      style.cssText = "";
+      clearTransforms = 1;
+    } else {
+      props = props.split(",");
+      i = props.length;
+
+      while (--i > -1) {
+        prop = props[i];
+
+        if (_transformProps[prop]) {
+          clearTransforms = 1;
+          prop = prop === "transformOrigin" ? _transformOriginProp : _transformProp;
+        }
+
+        _removeProperty(target, prop);
+      }
+    }
+
+    if (clearTransforms) {
+      _removeProperty(target, _transformProp);
+
+      if (cache) {
+        cache.svg && target.removeAttribute("transform");
+
+        _parseTransform(target, 1); // force all the cached values back to "normal"/identity, otherwise if there's another tween that's already set to render transforms on this element, it could display the wrong values.
+
+
+        cache.uncache = 1;
+      }
+    }
+  }
+},
+    // note: specialProps should return 1 if (and only if) they have a non-zero priority. It indicates we need to sort the linked list.
+_specialProps = {
+  clearProps: function clearProps(plugin, target, property, endValue, tween) {
+    if (tween.data !== "isFromStart") {
+      var pt = plugin._pt = new PropTween(plugin._pt, target, property, 0, 0, _renderClearProps);
+      pt.u = endValue;
+      pt.pr = -10;
+      pt.tween = tween;
+
+      plugin._props.push(property);
+
+      return 1;
+    }
+  }
+  /* className feature (about 0.4kb gzipped).
+  , className(plugin, target, property, endValue, tween) {
+  	let _renderClassName = (ratio, data) => {
+  			data.css.render(ratio, data.css);
+  			if (!ratio || ratio === 1) {
+  				let inline = data.rmv,
+  					target = data.t,
+  					p;
+  				target.setAttribute("class", ratio ? data.e : data.b);
+  				for (p in inline) {
+  					_removeProperty(target, p);
+  				}
+  			}
+  		},
+  		_getAllStyles = (target) => {
+  			let styles = {},
+  				computed = getComputedStyle(target),
+  				p;
+  			for (p in computed) {
+  				if (isNaN(p) && p !== "cssText" && p !== "length") {
+  					styles[p] = computed[p];
+  				}
+  			}
+  			_setDefaults(styles, _parseTransform(target, 1));
+  			return styles;
+  		},
+  		startClassList = target.getAttribute("class"),
+  		style = target.style,
+  		cssText = style.cssText,
+  		cache = target._gsap,
+  		classPT = cache.classPT,
+  		inlineToRemoveAtEnd = {},
+  		data = {t:target, plugin:plugin, rmv:inlineToRemoveAtEnd, b:startClassList, e:(endValue.charAt(1) !== "=") ? endValue : startClassList.replace(new RegExp("(?:\\s|^)" + endValue.substr(2) + "(?![\\w-])"), "") + ((endValue.charAt(0) === "+") ? " " + endValue.substr(2) : "")},
+  		changingVars = {},
+  		startVars = _getAllStyles(target),
+  		transformRelated = /(transform|perspective)/i,
+  		endVars, p;
+  	if (classPT) {
+  		classPT.r(1, classPT.d);
+  		_removeLinkedListItem(classPT.d.plugin, classPT, "_pt");
+  	}
+  	target.setAttribute("class", data.e);
+  	endVars = _getAllStyles(target, true);
+  	target.setAttribute("class", startClassList);
+  	for (p in endVars) {
+  		if (endVars[p] !== startVars[p] && !transformRelated.test(p)) {
+  			changingVars[p] = endVars[p];
+  			if (!style[p] && style[p] !== "0") {
+  				inlineToRemoveAtEnd[p] = 1;
+  			}
+  		}
+  	}
+  	cache.classPT = plugin._pt = new PropTween(plugin._pt, target, "className", 0, 0, _renderClassName, data, 0, -11);
+  	if (style.cssText !== cssText) { //only apply if things change. Otherwise, in cases like a background-image that's pulled dynamically, it could cause a refresh. See https://greensock.com/forums/topic/20368-possible-gsap-bug-switching-classnames-in-chrome/.
+  		style.cssText = cssText; //we recorded cssText before we swapped classes and ran _getAllStyles() because in cases when a className tween is overwritten, we remove all the related tweening properties from that class change (otherwise class-specific stuff can't override properties we've directly set on the target's style object due to specificity).
+  	}
+  	_parseTransform(target, true); //to clear the caching of transforms
+  	data.css = new gsap.plugins.css();
+  	data.css.init(target, changingVars, tween);
+  	plugin._props.push(...data.css._props);
+  	return 1;
+  }
+  */
+
+},
+
+/*
+ * --------------------------------------------------------------------------------------
+ * TRANSFORMS
+ * --------------------------------------------------------------------------------------
+ */
+_identity2DMatrix = [1, 0, 0, 1, 0, 0],
+    _rotationalProperties = {},
+    _isNullTransform = function _isNullTransform(value) {
+  return value === "matrix(1, 0, 0, 1, 0, 0)" || value === "none" || !value;
+},
+    _getComputedTransformMatrixAsArray = function _getComputedTransformMatrixAsArray(target) {
+  var matrixString = _getComputedProperty(target, _transformProp);
+
+  return _isNullTransform(matrixString) ? _identity2DMatrix : matrixString.substr(7).match(_numExp).map(_round);
+},
+    _getMatrix = function _getMatrix(target, force2D) {
+  var cache = target._gsap || _getCache(target),
+      style = target.style,
+      matrix = _getComputedTransformMatrixAsArray(target),
+      parent,
+      nextSibling,
+      temp,
+      addedToDOM;
+
+  if (cache.svg && target.getAttribute("transform")) {
+    temp = target.transform.baseVal.consolidate().matrix; //ensures that even complex values like "translate(50,60) rotate(135,0,0)" are parsed because it mashes it into a matrix.
+
+    matrix = [temp.a, temp.b, temp.c, temp.d, temp.e, temp.f];
+    return matrix.join(",") === "1,0,0,1,0,0" ? _identity2DMatrix : matrix;
+  } else if (matrix === _identity2DMatrix && !target.offsetParent && target !== _docElement && !cache.svg) {
+    //note: if offsetParent is null, that means the element isn't in the normal document flow, like if it has display:none or one of its ancestors has display:none). Firefox returns null for getComputedStyle() if the element is in an iframe that has display:none. https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+    //browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none". Firefox and Microsoft browsers have a partial bug where they'll report transforms even if display:none BUT not any percentage-based values like translate(-50%, 8px) will be reported as if it's translate(0, 8px).
+    temp = style.display;
+    style.display = "block";
+    parent = target.parentNode;
+
+    if (!parent || !target.offsetParent) {
+      // note: in 3.3.0 we switched target.offsetParent to _doc.body.contains(target) to avoid [sometimes unnecessary] MutationObserver calls but that wasn't adequate because there are edge cases where nested position: fixed elements need to get reparented to accurately sense transforms. See https://github.com/greensock/GSAP/issues/388 and https://github.com/greensock/GSAP/issues/375
+      addedToDOM = 1; //flag
+
+      nextSibling = target.nextSibling;
+
+      _docElement.appendChild(target); //we must add it to the DOM in order to get values properly
+
+    }
+
+    matrix = _getComputedTransformMatrixAsArray(target);
+    temp ? style.display = temp : _removeProperty(target, "display");
+
+    if (addedToDOM) {
+      nextSibling ? parent.insertBefore(target, nextSibling) : parent ? parent.appendChild(target) : _docElement.removeChild(target);
+    }
+  }
+
+  return force2D && matrix.length > 6 ? [matrix[0], matrix[1], matrix[4], matrix[5], matrix[12], matrix[13]] : matrix;
+},
+    _applySVGOrigin = function _applySVGOrigin(target, origin, originIsAbsolute, smooth, matrixArray, pluginToAddPropTweensTo) {
+  var cache = target._gsap,
+      matrix = matrixArray || _getMatrix(target, true),
+      xOriginOld = cache.xOrigin || 0,
+      yOriginOld = cache.yOrigin || 0,
+      xOffsetOld = cache.xOffset || 0,
+      yOffsetOld = cache.yOffset || 0,
+      a = matrix[0],
+      b = matrix[1],
+      c = matrix[2],
+      d = matrix[3],
+      tx = matrix[4],
+      ty = matrix[5],
+      originSplit = origin.split(" "),
+      xOrigin = parseFloat(originSplit[0]) || 0,
+      yOrigin = parseFloat(originSplit[1]) || 0,
+      bounds,
+      determinant,
+      x,
+      y;
+
+  if (!originIsAbsolute) {
+    bounds = _getBBox(target);
+    xOrigin = bounds.x + (~originSplit[0].indexOf("%") ? xOrigin / 100 * bounds.width : xOrigin);
+    yOrigin = bounds.y + (~(originSplit[1] || originSplit[0]).indexOf("%") ? yOrigin / 100 * bounds.height : yOrigin);
+  } else if (matrix !== _identity2DMatrix && (determinant = a * d - b * c)) {
+    //if it's zero (like if scaleX and scaleY are zero), skip it to avoid errors with dividing by zero.
+    x = xOrigin * (d / determinant) + yOrigin * (-c / determinant) + (c * ty - d * tx) / determinant;
+    y = xOrigin * (-b / determinant) + yOrigin * (a / determinant) - (a * ty - b * tx) / determinant;
+    xOrigin = x;
+    yOrigin = y;
+  }
+
+  if (smooth || smooth !== false && cache.smooth) {
+    tx = xOrigin - xOriginOld;
+    ty = yOrigin - yOriginOld;
+    cache.xOffset = xOffsetOld + (tx * a + ty * c) - tx;
+    cache.yOffset = yOffsetOld + (tx * b + ty * d) - ty;
+  } else {
+    cache.xOffset = cache.yOffset = 0;
+  }
+
+  cache.xOrigin = xOrigin;
+  cache.yOrigin = yOrigin;
+  cache.smooth = !!smooth;
+  cache.origin = origin;
+  cache.originIsAbsolute = !!originIsAbsolute;
+  target.style[_transformOriginProp] = "0px 0px"; //otherwise, if someone sets  an origin via CSS, it will likely interfere with the SVG transform attribute ones (because remember, we're baking the origin into the matrix() value).
+
+  if (pluginToAddPropTweensTo) {
+    _addNonTweeningPT(pluginToAddPropTweensTo, cache, "xOrigin", xOriginOld, xOrigin);
+
+    _addNonTweeningPT(pluginToAddPropTweensTo, cache, "yOrigin", yOriginOld, yOrigin);
+
+    _addNonTweeningPT(pluginToAddPropTweensTo, cache, "xOffset", xOffsetOld, cache.xOffset);
+
+    _addNonTweeningPT(pluginToAddPropTweensTo, cache, "yOffset", yOffsetOld, cache.yOffset);
+  }
+
+  target.setAttribute("data-svg-origin", xOrigin + " " + yOrigin);
+},
+    _parseTransform = function _parseTransform(target, uncache) {
+  var cache = target._gsap || new GSCache(target);
+
+  if ("x" in cache && !uncache && !cache.uncache) {
+    return cache;
+  }
+
+  var style = target.style,
+      invertedScaleX = cache.scaleX < 0,
+      px = "px",
+      deg = "deg",
+      origin = _getComputedProperty(target, _transformOriginProp) || "0",
+      x,
+      y,
+      z,
+      scaleX,
+      scaleY,
+      rotation,
+      rotationX,
+      rotationY,
+      skewX,
+      skewY,
+      perspective,
+      xOrigin,
+      yOrigin,
+      matrix,
+      angle,
+      cos,
+      sin,
+      a,
+      b,
+      c,
+      d,
+      a12,
+      a22,
+      t1,
+      t2,
+      t3,
+      a13,
+      a23,
+      a33,
+      a42,
+      a43,
+      a32;
+  x = y = z = rotation = rotationX = rotationY = skewX = skewY = perspective = 0;
+  scaleX = scaleY = 1;
+  cache.svg = !!(target.getCTM && _isSVG(target));
+  matrix = _getMatrix(target, cache.svg);
+
+  if (cache.svg) {
+    t1 = (!cache.uncache || origin === "0px 0px") && !uncache && target.getAttribute("data-svg-origin"); // if origin is 0,0 and cache.uncache is true, let the recorded data-svg-origin stay. Otherwise, whenever we set cache.uncache to true, we'd need to set element.style.transformOrigin = (cache.xOrigin - bbox.x) + "px " + (cache.yOrigin - bbox.y) + "px". Remember, to work around browser inconsistencies we always force SVG elements' transformOrigin to 0,0 and offset the translation accordingly.
+
+    _applySVGOrigin(target, t1 || origin, !!t1 || cache.originIsAbsolute, cache.smooth !== false, matrix);
+  }
+
+  xOrigin = cache.xOrigin || 0;
+  yOrigin = cache.yOrigin || 0;
+
+  if (matrix !== _identity2DMatrix) {
+    a = matrix[0]; //a11
+
+    b = matrix[1]; //a21
+
+    c = matrix[2]; //a31
+
+    d = matrix[3]; //a41
+
+    x = a12 = matrix[4];
+    y = a22 = matrix[5]; //2D matrix
+
+    if (matrix.length === 6) {
+      scaleX = Math.sqrt(a * a + b * b);
+      scaleY = Math.sqrt(d * d + c * c);
+      rotation = a || b ? _atan2(b, a) * _RAD2DEG : 0; //note: if scaleX is 0, we cannot accurately measure rotation. Same for skewX with a scaleY of 0. Therefore, we default to the previously recorded value (or zero if that doesn't exist).
+
+      skewX = c || d ? _atan2(c, d) * _RAD2DEG + rotation : 0;
+      skewX && (scaleY *= Math.abs(Math.cos(skewX * _DEG2RAD)));
+
+      if (cache.svg) {
+        x -= xOrigin - (xOrigin * a + yOrigin * c);
+        y -= yOrigin - (xOrigin * b + yOrigin * d);
+      } //3D matrix
+
+    } else {
+      a32 = matrix[6];
+      a42 = matrix[7];
+      a13 = matrix[8];
+      a23 = matrix[9];
+      a33 = matrix[10];
+      a43 = matrix[11];
+      x = matrix[12];
+      y = matrix[13];
+      z = matrix[14];
+      angle = _atan2(a32, a33);
+      rotationX = angle * _RAD2DEG; //rotationX
+
+      if (angle) {
+        cos = Math.cos(-angle);
+        sin = Math.sin(-angle);
+        t1 = a12 * cos + a13 * sin;
+        t2 = a22 * cos + a23 * sin;
+        t3 = a32 * cos + a33 * sin;
+        a13 = a12 * -sin + a13 * cos;
+        a23 = a22 * -sin + a23 * cos;
+        a33 = a32 * -sin + a33 * cos;
+        a43 = a42 * -sin + a43 * cos;
+        a12 = t1;
+        a22 = t2;
+        a32 = t3;
+      } //rotationY
+
+
+      angle = _atan2(-c, a33);
+      rotationY = angle * _RAD2DEG;
+
+      if (angle) {
+        cos = Math.cos(-angle);
+        sin = Math.sin(-angle);
+        t1 = a * cos - a13 * sin;
+        t2 = b * cos - a23 * sin;
+        t3 = c * cos - a33 * sin;
+        a43 = d * sin + a43 * cos;
+        a = t1;
+        b = t2;
+        c = t3;
+      } //rotationZ
+
+
+      angle = _atan2(b, a);
+      rotation = angle * _RAD2DEG;
+
+      if (angle) {
+        cos = Math.cos(angle);
+        sin = Math.sin(angle);
+        t1 = a * cos + b * sin;
+        t2 = a12 * cos + a22 * sin;
+        b = b * cos - a * sin;
+        a22 = a22 * cos - a12 * sin;
+        a = t1;
+        a12 = t2;
+      }
+
+      if (rotationX && Math.abs(rotationX) + Math.abs(rotation) > 359.9) {
+        //when rotationY is set, it will often be parsed as 180 degrees different than it should be, and rotationX and rotation both being 180 (it looks the same), so we adjust for that here.
+        rotationX = rotation = 0;
+        rotationY = 180 - rotationY;
+      }
+
+      scaleX = _round(Math.sqrt(a * a + b * b + c * c));
+      scaleY = _round(Math.sqrt(a22 * a22 + a32 * a32));
+      angle = _atan2(a12, a22);
+      skewX = Math.abs(angle) > 0.0002 ? angle * _RAD2DEG : 0;
+      perspective = a43 ? 1 / (a43 < 0 ? -a43 : a43) : 0;
+    }
+
+    if (cache.svg) {
+      //sense if there are CSS transforms applied on an SVG element in which case we must overwrite them when rendering. The transform attribute is more reliable cross-browser, but we can't just remove the CSS ones because they may be applied in a CSS rule somewhere (not just inline).
+      t1 = target.getAttribute("transform");
+      cache.forceCSS = target.setAttribute("transform", "") || !_isNullTransform(_getComputedProperty(target, _transformProp));
+      t1 && target.setAttribute("transform", t1);
+    }
+  }
+
+  if (Math.abs(skewX) > 90 && Math.abs(skewX) < 270) {
+    if (invertedScaleX) {
+      scaleX *= -1;
+      skewX += rotation <= 0 ? 180 : -180;
+      rotation += rotation <= 0 ? 180 : -180;
+    } else {
+      scaleY *= -1;
+      skewX += skewX <= 0 ? 180 : -180;
+    }
+  }
+
+  uncache = uncache || cache.uncache;
+  cache.x = x - ((cache.xPercent = x && (!uncache && cache.xPercent || (Math.round(target.offsetWidth / 2) === Math.round(-x) ? -50 : 0))) ? target.offsetWidth * cache.xPercent / 100 : 0) + px;
+  cache.y = y - ((cache.yPercent = y && (!uncache && cache.yPercent || (Math.round(target.offsetHeight / 2) === Math.round(-y) ? -50 : 0))) ? target.offsetHeight * cache.yPercent / 100 : 0) + px;
+  cache.z = z + px;
+  cache.scaleX = _round(scaleX);
+  cache.scaleY = _round(scaleY);
+  cache.rotation = _round(rotation) + deg;
+  cache.rotationX = _round(rotationX) + deg;
+  cache.rotationY = _round(rotationY) + deg;
+  cache.skewX = skewX + deg;
+  cache.skewY = skewY + deg;
+  cache.transformPerspective = perspective + px;
+
+  if (cache.zOrigin = parseFloat(origin.split(" ")[2]) || 0) {
+    style[_transformOriginProp] = _firstTwoOnly(origin);
+  }
+
+  cache.xOffset = cache.yOffset = 0;
+  cache.force3D = _config.force3D;
+  cache.renderTransform = cache.svg ? _renderSVGTransforms : _supports3D ? _renderCSSTransforms : _renderNon3DTransforms;
+  cache.uncache = 0;
+  return cache;
+},
+    _firstTwoOnly = function _firstTwoOnly(value) {
+  return (value = value.split(" "))[0] + " " + value[1];
+},
+    //for handling transformOrigin values, stripping out the 3rd dimension
+_addPxTranslate = function _addPxTranslate(target, start, value) {
+  var unit = getUnit(start);
+  return _round(parseFloat(start) + parseFloat(_convertToUnit(target, "x", value + "px", unit))) + unit;
+},
+    _renderNon3DTransforms = function _renderNon3DTransforms(ratio, cache) {
+  cache.z = "0px";
+  cache.rotationY = cache.rotationX = "0deg";
+  cache.force3D = 0;
+
+  _renderCSSTransforms(ratio, cache);
+},
+    _zeroDeg = "0deg",
+    _zeroPx = "0px",
+    _endParenthesis = ") ",
+    _renderCSSTransforms = function _renderCSSTransforms(ratio, cache) {
+  var _ref = cache || this,
+      xPercent = _ref.xPercent,
+      yPercent = _ref.yPercent,
+      x = _ref.x,
+      y = _ref.y,
+      z = _ref.z,
+      rotation = _ref.rotation,
+      rotationY = _ref.rotationY,
+      rotationX = _ref.rotationX,
+      skewX = _ref.skewX,
+      skewY = _ref.skewY,
+      scaleX = _ref.scaleX,
+      scaleY = _ref.scaleY,
+      transformPerspective = _ref.transformPerspective,
+      force3D = _ref.force3D,
+      target = _ref.target,
+      zOrigin = _ref.zOrigin,
+      transforms = "",
+      use3D = force3D === "auto" && ratio && ratio !== 1 || force3D === true; // Safari has a bug that causes it not to render 3D transform-origin values properly, so we force the z origin to 0, record it in the cache, and then do the math here to offset the translate values accordingly (basically do the 3D transform-origin part manually)
+
+
+  if (zOrigin && (rotationX !== _zeroDeg || rotationY !== _zeroDeg)) {
+    var angle = parseFloat(rotationY) * _DEG2RAD,
+        a13 = Math.sin(angle),
+        a33 = Math.cos(angle),
+        cos;
+
+    angle = parseFloat(rotationX) * _DEG2RAD;
+    cos = Math.cos(angle);
+    x = _addPxTranslate(target, x, a13 * cos * -zOrigin);
+    y = _addPxTranslate(target, y, -Math.sin(angle) * -zOrigin);
+    z = _addPxTranslate(target, z, a33 * cos * -zOrigin + zOrigin);
+  }
+
+  if (transformPerspective !== _zeroPx) {
+    transforms += "perspective(" + transformPerspective + _endParenthesis;
+  }
+
+  if (xPercent || yPercent) {
+    transforms += "translate(" + xPercent + "%, " + yPercent + "%) ";
+  }
+
+  if (use3D || x !== _zeroPx || y !== _zeroPx || z !== _zeroPx) {
+    transforms += z !== _zeroPx || use3D ? "translate3d(" + x + ", " + y + ", " + z + ") " : "translate(" + x + ", " + y + _endParenthesis;
+  }
+
+  if (rotation !== _zeroDeg) {
+    transforms += "rotate(" + rotation + _endParenthesis;
+  }
+
+  if (rotationY !== _zeroDeg) {
+    transforms += "rotateY(" + rotationY + _endParenthesis;
+  }
+
+  if (rotationX !== _zeroDeg) {
+    transforms += "rotateX(" + rotationX + _endParenthesis;
+  }
+
+  if (skewX !== _zeroDeg || skewY !== _zeroDeg) {
+    transforms += "skew(" + skewX + ", " + skewY + _endParenthesis;
+  }
+
+  if (scaleX !== 1 || scaleY !== 1) {
+    transforms += "scale(" + scaleX + ", " + scaleY + _endParenthesis;
+  }
+
+  target.style[_transformProp] = transforms || "translate(0, 0)";
+},
+    _renderSVGTransforms = function _renderSVGTransforms(ratio, cache) {
+  var _ref2 = cache || this,
+      xPercent = _ref2.xPercent,
+      yPercent = _ref2.yPercent,
+      x = _ref2.x,
+      y = _ref2.y,
+      rotation = _ref2.rotation,
+      skewX = _ref2.skewX,
+      skewY = _ref2.skewY,
+      scaleX = _ref2.scaleX,
+      scaleY = _ref2.scaleY,
+      target = _ref2.target,
+      xOrigin = _ref2.xOrigin,
+      yOrigin = _ref2.yOrigin,
+      xOffset = _ref2.xOffset,
+      yOffset = _ref2.yOffset,
+      forceCSS = _ref2.forceCSS,
+      tx = parseFloat(x),
+      ty = parseFloat(y),
+      a11,
+      a21,
+      a12,
+      a22,
+      temp;
+
+  rotation = parseFloat(rotation);
+  skewX = parseFloat(skewX);
+  skewY = parseFloat(skewY);
+
+  if (skewY) {
+    //for performance reasons, we combine all skewing into the skewX and rotation values. Remember, a skewY of 10 degrees looks the same as a rotation of 10 degrees plus a skewX of 10 degrees.
+    skewY = parseFloat(skewY);
+    skewX += skewY;
+    rotation += skewY;
+  }
+
+  if (rotation || skewX) {
+    rotation *= _DEG2RAD;
+    skewX *= _DEG2RAD;
+    a11 = Math.cos(rotation) * scaleX;
+    a21 = Math.sin(rotation) * scaleX;
+    a12 = Math.sin(rotation - skewX) * -scaleY;
+    a22 = Math.cos(rotation - skewX) * scaleY;
+
+    if (skewX) {
+      skewY *= _DEG2RAD;
+      temp = Math.tan(skewX - skewY);
+      temp = Math.sqrt(1 + temp * temp);
+      a12 *= temp;
+      a22 *= temp;
+
+      if (skewY) {
+        temp = Math.tan(skewY);
+        temp = Math.sqrt(1 + temp * temp);
+        a11 *= temp;
+        a21 *= temp;
+      }
+    }
+
+    a11 = _round(a11);
+    a21 = _round(a21);
+    a12 = _round(a12);
+    a22 = _round(a22);
+  } else {
+    a11 = scaleX;
+    a22 = scaleY;
+    a21 = a12 = 0;
+  }
+
+  if (tx && !~(x + "").indexOf("px") || ty && !~(y + "").indexOf("px")) {
+    tx = _convertToUnit(target, "x", x, "px");
+    ty = _convertToUnit(target, "y", y, "px");
+  }
+
+  if (xOrigin || yOrigin || xOffset || yOffset) {
+    tx = _round(tx + xOrigin - (xOrigin * a11 + yOrigin * a12) + xOffset);
+    ty = _round(ty + yOrigin - (xOrigin * a21 + yOrigin * a22) + yOffset);
+  }
+
+  if (xPercent || yPercent) {
+    //The SVG spec doesn't support percentage-based translation in the "transform" attribute, so we merge it into the translation to simulate it.
+    temp = target.getBBox();
+    tx = _round(tx + xPercent / 100 * temp.width);
+    ty = _round(ty + yPercent / 100 * temp.height);
+  }
+
+  temp = "matrix(" + a11 + "," + a21 + "," + a12 + "," + a22 + "," + tx + "," + ty + ")";
+  target.setAttribute("transform", temp);
+  forceCSS && (target.style[_transformProp] = temp); //some browsers prioritize CSS transforms over the transform attribute. When we sense that the user has CSS transforms applied, we must overwrite them this way (otherwise some browser simply won't render the  transform attribute changes!)
+},
+    _addRotationalPropTween = function _addRotationalPropTween(plugin, target, property, startNum, endValue) {
+  var cap = 360,
+      isString = _isString(endValue),
+      endNum = parseFloat(endValue) * (isString && ~endValue.indexOf("rad") ? _RAD2DEG : 1),
+      change = endNum - startNum,
+      finalValue = startNum + change + "deg",
+      direction,
+      pt;
+
+  if (isString) {
+    direction = endValue.split("_")[1];
+
+    if (direction === "short") {
+      change %= cap;
+
+      if (change !== change % (cap / 2)) {
+        change += change < 0 ? cap : -cap;
+      }
+    }
+
+    if (direction === "cw" && change < 0) {
+      change = (change + cap * _bigNum) % cap - ~~(change / cap) * cap;
+    } else if (direction === "ccw" && change > 0) {
+      change = (change - cap * _bigNum) % cap - ~~(change / cap) * cap;
+    }
+  }
+
+  plugin._pt = pt = new PropTween(plugin._pt, target, property, startNum, change, _renderPropWithEnd);
+  pt.e = finalValue;
+  pt.u = "deg";
+
+  plugin._props.push(property);
+
+  return pt;
+},
+    _assign = function _assign(target, source) {
+  // Internet Explorer doesn't have Object.assign(), so we recreate it here.
+  for (var p in source) {
+    target[p] = source[p];
+  }
+
+  return target;
+},
+    _addRawTransformPTs = function _addRawTransformPTs(plugin, transforms, target) {
+  //for handling cases where someone passes in a whole transform string, like transform: "scale(2, 3) rotate(20deg) translateY(30em)"
+  var startCache = _assign({}, target._gsap),
+      exclude = "perspective,force3D,transformOrigin,svgOrigin",
+      style = target.style,
+      endCache,
+      p,
+      startValue,
+      endValue,
+      startNum,
+      endNum,
+      startUnit,
+      endUnit;
+
+  if (startCache.svg) {
+    startValue = target.getAttribute("transform");
+    target.setAttribute("transform", "");
+    style[_transformProp] = transforms;
+    endCache = _parseTransform(target, 1);
+
+    _removeProperty(target, _transformProp);
+
+    target.setAttribute("transform", startValue);
+  } else {
+    startValue = getComputedStyle(target)[_transformProp];
+    style[_transformProp] = transforms;
+    endCache = _parseTransform(target, 1);
+    style[_transformProp] = startValue;
+  }
+
+  for (p in _transformProps) {
+    startValue = startCache[p];
+    endValue = endCache[p];
+
+    if (startValue !== endValue && exclude.indexOf(p) < 0) {
+      //tweening to no perspective gives very unintuitive results - just keep the same perspective in that case.
+      startUnit = getUnit(startValue);
+      endUnit = getUnit(endValue);
+      startNum = startUnit !== endUnit ? _convertToUnit(target, p, startValue, endUnit) : parseFloat(startValue);
+      endNum = parseFloat(endValue);
+      plugin._pt = new PropTween(plugin._pt, endCache, p, startNum, endNum - startNum, _renderCSSProp);
+      plugin._pt.u = endUnit || 0;
+
+      plugin._props.push(p);
+    }
+  }
+
+  _assign(endCache, startCache);
+}; // handle splitting apart padding, margin, borderWidth, and borderRadius into their 4 components. Firefox, for example, won't report borderRadius correctly - it will only do borderTopLeftRadius and the other corners. We also want to handle paddingTop, marginLeft, borderRightWidth, etc.
+
+
+_forEachName("padding,margin,Width,Radius", function (name, index) {
+  var t = "Top",
+      r = "Right",
+      b = "Bottom",
+      l = "Left",
+      props = (index < 3 ? [t, r, b, l] : [t + l, t + r, b + r, b + l]).map(function (side) {
+    return index < 2 ? name + side : "border" + side + name;
+  });
+
+  _specialProps[index > 1 ? "border" + name : name] = function (plugin, target, property, endValue, tween) {
+    var a, vars;
+
+    if (arguments.length < 4) {
+      // getter, passed target, property, and unit (from _get())
+      a = props.map(function (prop) {
+        return _get(plugin, prop, property);
+      });
+      vars = a.join(" ");
+      return vars.split(a[0]).length === 5 ? a[0] : vars;
+    }
+
+    a = (endValue + "").split(" ");
+    vars = {};
+    props.forEach(function (prop, i) {
+      return vars[prop] = a[i] = a[i] || a[(i - 1) / 2 | 0];
+    });
+    plugin.init(target, vars, tween);
+  };
+});
+
+export var CSSPlugin = {
+  name: "css",
+  register: _initCore,
+  targetTest: function targetTest(target) {
+    return target.style && target.nodeType;
+  },
+  init: function init(target, vars, tween, index, targets) {
+    var props = this._props,
+        style = target.style,
+        startAt = tween.vars.startAt,
+        startValue,
+        endValue,
+        endNum,
+        startNum,
+        type,
+        specialProp,
+        p,
+        startUnit,
+        endUnit,
+        relative,
+        isTransformRelated,
+        transformPropTween,
+        cache,
+        smooth,
+        hasPriority;
+    _pluginInitted || _initCore();
+
+    for (p in vars) {
+      if (p === "autoRound") {
+        continue;
+      }
+
+      endValue = vars[p];
+
+      if (_plugins[p] && _checkPlugin(p, vars, tween, index, target, targets)) {
+        // plugins
+        continue;
+      }
+
+      type = typeof endValue;
+      specialProp = _specialProps[p];
+
+      if (type === "function") {
+        endValue = endValue.call(tween, index, target, targets);
+        type = typeof endValue;
+      }
+
+      if (type === "string" && ~endValue.indexOf("random(")) {
+        endValue = _replaceRandom(endValue);
+      }
+
+      if (specialProp) {
+        specialProp(this, target, p, endValue, tween) && (hasPriority = 1);
+      } else if (p.substr(0, 2) === "--") {
+        //CSS variable
+        startValue = (getComputedStyle(target).getPropertyValue(p) + "").trim();
+        endValue += "";
+        _colorExp.lastIndex = 0;
+
+        if (!_colorExp.test(startValue)) {
+          // colors don't have units
+          startUnit = getUnit(startValue);
+          endUnit = getUnit(endValue);
+        }
+
+        endUnit ? startUnit !== endUnit && (startValue = _convertToUnit(target, p, startValue, endUnit) + endUnit) : startUnit && (endValue += startUnit);
+        this.add(style, "setProperty", startValue, endValue, index, targets, 0, 0, p);
+        props.push(p);
+      } else if (type !== "undefined") {
+        if (startAt && p in startAt) {
+          // in case someone hard-codes a complex value as the start, like top: "calc(2vh / 2)". Without this, it'd use the computed value (always in px)
+          startValue = typeof startAt[p] === "function" ? startAt[p].call(tween, index, target, targets) : startAt[p];
+          _isString(startValue) && ~startValue.indexOf("random(") && (startValue = _replaceRandom(startValue));
+          getUnit(startValue + "") || (startValue += _config.units[p] || getUnit(_get(target, p)) || ""); // for cases when someone passes in a unitless value like {x: 100}; if we try setting translate(100, 0px) it won't work.
+
+          (startValue + "").charAt(1) === "=" && (startValue = _get(target, p)); // can't work with relative values
+        } else {
+          startValue = _get(target, p);
+        }
+
+        startNum = parseFloat(startValue);
+        relative = type === "string" && endValue.charAt(1) === "=" && endValue.substr(0, 2);
+        relative && (endValue = endValue.substr(2));
+        endNum = parseFloat(endValue);
+
+        if (p in _propertyAliases) {
+          if (p === "autoAlpha") {
+            //special case where we control the visibility along with opacity. We still allow the opacity value to pass through and get tweened.
+            if (startNum === 1 && _get(target, "visibility") === "hidden" && endNum) {
+              //if visibility is initially set to "hidden", we should interpret that as intent to make opacity 0 (a convenience)
+              startNum = 0;
+            }
+
+            _addNonTweeningPT(this, style, "visibility", startNum ? "inherit" : "hidden", endNum ? "inherit" : "hidden", !endNum);
+          }
+
+          if (p !== "scale" && p !== "transform") {
+            p = _propertyAliases[p];
+            ~p.indexOf(",") && (p = p.split(",")[0]);
+          }
+        }
+
+        isTransformRelated = p in _transformProps; //--- TRANSFORM-RELATED ---
+
+        if (isTransformRelated) {
+          if (!transformPropTween) {
+            cache = target._gsap;
+            cache.renderTransform && !vars.parseTransform || _parseTransform(target, vars.parseTransform); // if, for example, gsap.set(... {transform:"translateX(50vw)"}), the _get() call doesn't parse the transform, thus cache.renderTransform won't be set yet so force the parsing of the transform here.
+
+            smooth = vars.smoothOrigin !== false && cache.smooth;
+            transformPropTween = this._pt = new PropTween(this._pt, style, _transformProp, 0, 1, cache.renderTransform, cache, 0, -1); //the first time through, create the rendering PropTween so that it runs LAST (in the linked list, we keep adding to the beginning)
+
+            transformPropTween.dep = 1; //flag it as dependent so that if things get killed/overwritten and this is the only PropTween left, we can safely kill the whole tween.
+          }
+
+          if (p === "scale") {
+            this._pt = new PropTween(this._pt, cache, "scaleY", cache.scaleY, (relative ? _parseRelative(cache.scaleY, relative + endNum) : endNum) - cache.scaleY || 0);
+            props.push("scaleY", p);
+            p += "X";
+          } else if (p === "transformOrigin") {
+            endValue = _convertKeywordsToPercentages(endValue); //in case something like "left top" or "bottom right" is passed in. Convert to percentages.
+
+            if (cache.svg) {
+              _applySVGOrigin(target, endValue, 0, smooth, 0, this);
+            } else {
+              endUnit = parseFloat(endValue.split(" ")[2]) || 0; //handle the zOrigin separately!
+
+              endUnit !== cache.zOrigin && _addNonTweeningPT(this, cache, "zOrigin", cache.zOrigin, endUnit);
+
+              _addNonTweeningPT(this, style, p, _firstTwoOnly(startValue), _firstTwoOnly(endValue));
+            }
+
+            continue;
+          } else if (p === "svgOrigin") {
+            _applySVGOrigin(target, endValue, 1, smooth, 0, this);
+
+            continue;
+          } else if (p in _rotationalProperties) {
+            _addRotationalPropTween(this, cache, p, startNum, relative ? _parseRelative(startNum, relative + endValue) : endValue);
+
+            continue;
+          } else if (p === "smoothOrigin") {
+            _addNonTweeningPT(this, cache, "smooth", cache.smooth, endValue);
+
+            continue;
+          } else if (p === "force3D") {
+            cache[p] = endValue;
+            continue;
+          } else if (p === "transform") {
+            _addRawTransformPTs(this, endValue, target);
+
+            continue;
+          }
+        } else if (!(p in style)) {
+          p = _checkPropPrefix(p) || p;
+        }
+
+        if (isTransformRelated || (endNum || endNum === 0) && (startNum || startNum === 0) && !_complexExp.test(endValue) && p in style) {
+          startUnit = (startValue + "").substr((startNum + "").length);
+          endNum || (endNum = 0); // protect against NaN
+
+          endUnit = getUnit(endValue) || (p in _config.units ? _config.units[p] : startUnit);
+          startUnit !== endUnit && (startNum = _convertToUnit(target, p, startValue, endUnit));
+          this._pt = new PropTween(this._pt, isTransformRelated ? cache : style, p, startNum, (relative ? _parseRelative(startNum, relative + endNum) : endNum) - startNum, !isTransformRelated && (endUnit === "px" || p === "zIndex") && vars.autoRound !== false ? _renderRoundedCSSProp : _renderCSSProp);
+          this._pt.u = endUnit || 0;
+
+          if (startUnit !== endUnit && endUnit !== "%") {
+            //when the tween goes all the way back to the beginning, we need to revert it to the OLD/ORIGINAL value (with those units). We record that as a "b" (beginning) property and point to a render method that handles that. (performance optimization)
+            this._pt.b = startValue;
+            this._pt.r = _renderCSSPropWithBeginning;
+          }
+        } else if (!(p in style)) {
+          if (p in target) {
+            //maybe it's not a style - it could be a property added directly to an element in which case we'll try to animate that.
+            this.add(target, p, startValue || target[p], relative ? relative + endValue : endValue, index, targets);
+          } else {
+            _missingPlugin(p, endValue);
+
+            continue;
+          }
+        } else {
+          _tweenComplexCSSString.call(this, target, p, startValue, relative ? relative + endValue : endValue);
+        }
+
+        props.push(p);
+      }
+    }
+
+    hasPriority && _sortPropTweensByPriority(this);
+  },
+  get: _get,
+  aliases: _propertyAliases,
+  getSetter: function getSetter(target, property, plugin) {
+    //returns a setter function that accepts target, property, value and applies it accordingly. Remember, properties like "x" aren't as simple as target.style.property = value because they've got to be applied to a proxy object and then merged into a transform string in a renderer.
+    var p = _propertyAliases[property];
+    p && p.indexOf(",") < 0 && (property = p);
+    return property in _transformProps && property !== _transformOriginProp && (target._gsap.x || _get(target, "x")) ? plugin && _recentSetterPlugin === plugin ? property === "scale" ? _setterScale : _setterTransform : (_recentSetterPlugin = plugin || {}) && (property === "scale" ? _setterScaleWithRender : _setterTransformWithRender) : target.style && !_isUndefined(target.style[property]) ? _setterCSSStyle : ~property.indexOf("-") ? _setterCSSProp : _getSetter(target, property);
+  },
+  core: {
+    _removeProperty: _removeProperty,
+    _getMatrix: _getMatrix
+  }
+};
+gsap.utils.checkPrefix = _checkPropPrefix;
+
+(function (positionAndScale, rotation, others, aliases) {
+  var all = _forEachName(positionAndScale + "," + rotation + "," + others, function (name) {
+    _transformProps[name] = 1;
+  });
+
+  _forEachName(rotation, function (name) {
+    _config.units[name] = "deg";
+    _rotationalProperties[name] = 1;
+  });
+
+  _propertyAliases[all[13]] = positionAndScale + "," + rotation;
+
+  _forEachName(aliases, function (name) {
+    var split = name.split(":");
+    _propertyAliases[split[1]] = all[split[0]];
+  });
+})("x,y,z,scale,scaleX,scaleY,xPercent,yPercent", "rotation,rotationX,rotationY,skewX,skewY", "transform,transformOrigin,svgOrigin,force3D,smoothOrigin,transformPerspective", "0:translateX,1:translateY,2:translateZ,8:rotate,8:rotationZ,8:rotateZ,9:rotateX,10:rotateY");
+
+_forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,perspective", function (name) {
+  _config.units[name] = "px";
+});
+
+gsap.registerPlugin(CSSPlugin);
+export { CSSPlugin as default, _getBBox, _createElement, _checkPropPrefix as checkPrefix };

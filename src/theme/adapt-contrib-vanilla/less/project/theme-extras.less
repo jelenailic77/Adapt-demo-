@@ -1253,8 +1253,18 @@ padding: 0
 
 @media (max-width: 1100px){
   .background{
-    background-color: #edf5fb;
-    background-image: none!important;
+    background-image: url(course/en/images/Asset4.png) !important;
+    background-size: cover !important;
+    background-position: left top !important;
+  }
+  .menu__title-inner,
+  .menu__body-inner{
+    color: white;
+  }
+
+  .tabs__nav{
+    position: relative;
+    top: 8em;
   }
   .tabs__content-item-inner{
     font-size: 0.55em;
@@ -1289,6 +1299,9 @@ padding: 0
 }
 
 @media (max-width: 600px){
+  .tabs__nav{
+    top: 0;
+  }
   .narrative__controls,
   .narrative__slider-image{
     display: none;

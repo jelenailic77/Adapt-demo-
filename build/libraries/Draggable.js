@@ -1,1 +1,2668 @@
-function _assertThisInitialized(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function _inheritsLoose(e,t){e.prototype=Object.create(t.prototype),(e.prototype.constructor=e).__proto__=t}import{getGlobalMatrix as getGlobalMatrix,Matrix2D as Matrix2D}from"./utils/matrix.js";var gsap,_win,_doc,_docElement,_body,_tempDiv,_placeholderDiv,_coreInitted,_checkPrefix,_toArray,_supportsPassive,_isTouchDevice,_touchEventLookup,_dragCount,_isMultiTouching,_isAndroid,InertiaPlugin,_defaultCursor,_supportsPointer,_supports3D,_addPaddingBR,_windowExists=function(){return"undefined"!=typeof window},_getGSAP=function(){return gsap||_windowExists()&&(gsap=window.gsap)&&gsap.registerPlugin&&gsap},_isFunction=function(e){return"function"==typeof e},_isObject=function(e){return"object"==typeof e},_isUndefined=function(e){return void 0===e},_emptyFunc=function(){return!1},_transformProp="transform",_transformOriginProp="transformOrigin",_round=function(e){return Math.round(1e4*e)/1e4},_isArray=Array.isArray,_createElement=function(e,t){t=_doc.createElementNS?_doc.createElementNS((t||"http://www.w3.org/1999/xhtml").replace(/^https/,"http"),e):_doc.createElement(e);return t.style?t:_doc.createElement(e)},_RAD2DEG=180/Math.PI,_bigNum=1e20,_identityMatrix=new Matrix2D,_getTime=Date.now||function(){return(new Date).getTime()},_renderQueue=[],_lookup={},_lookupCount=0,_clickableTagExp=/^(?:a|input|textarea|button|select)$/i,_lastDragTime=0,_temp1={},_windowProxy={},_copy=function(e,t){var n,o={};for(n in e)o[n]=t?e[n]*t:e[n];return o},_extend=function(e,t){for(var n in t)n in e||(e[n]=t[n]);return e},_setTouchActionForAllDescendants=function e(t,n){for(var o,r=t.length;r--;)n?t[r].style.touchAction=n:t[r].style.removeProperty("touch-action"),(o=t[r].children)&&o.length&&e(o,n)},_renderQueueTick=function(){return _renderQueue.forEach(function(e){return e()})},_addToRenderQueue=function(e){_renderQueue.push(e),1===_renderQueue.length&&gsap.ticker.add(_renderQueueTick)},_renderQueueTimeout=function(){return!_renderQueue.length&&gsap.ticker.remove(_renderQueueTick)},_removeFromRenderQueue=function(e){for(var t=_renderQueue.length;t--;)_renderQueue[t]===e&&_renderQueue.splice(t,1);gsap.to(_renderQueueTimeout,{overwrite:!0,delay:15,duration:0,onComplete:_renderQueueTimeout,data:"_draggable"})},_setDefaults=function(e,t){for(var n in t)n in e||(e[n]=t[n]);return e},_addListener=function(e,t,n,o){var r;e.addEventListener&&(r=_touchEventLookup[t],e.addEventListener(r||t,n,o=o||(_supportsPassive?{passive:!1}:null)),r&&t!==r&&e.addEventListener(t,n,o))},_removeListener=function(e,t,n){var o;e.removeEventListener&&(o=_touchEventLookup[t],e.removeEventListener(o||t,n),o&&t!==o&&e.removeEventListener(t,n))},_preventDefault=function(e){e.preventDefault&&e.preventDefault(),e.preventManipulation&&e.preventManipulation()},_hasTouchID=function(e,t){for(var n=e.length;n--;)if(e[n].identifier===t)return!0},_onMultiTouchDocumentEnd=function e(t){_isMultiTouching=t.touches&&_dragCount<t.touches.length,_removeListener(t.target,"touchend",e)},_onMultiTouchDocument=function(e){_isMultiTouching=e.touches&&_dragCount<e.touches.length,_addListener(e.target,"touchend",_onMultiTouchDocumentEnd)},_getDocScrollTop=function(e){return _win.pageYOffset||e.scrollTop||e.documentElement.scrollTop||e.body.scrollTop||0},_getDocScrollLeft=function(e){return _win.pageXOffset||e.scrollLeft||e.documentElement.scrollLeft||e.body.scrollLeft||0},_addScrollListener=function e(t,n){_addListener(t,"scroll",n),_isRoot(t.parentNode)||e(t.parentNode,n)},_removeScrollListener=function e(t,n){_removeListener(t,"scroll",n),_isRoot(t.parentNode)||e(t.parentNode,n)},_isRoot=function(e){return!(e&&e!==_docElement&&9!==e.nodeType&&e!==_doc.body&&e!==_win&&e.nodeType&&e.parentNode)},_getMaxScroll=function(e,t){var n="x"===t?"Width":"Height",o="scroll"+n,t="client"+n;return Math.max(0,_isRoot(e)?Math.max(_docElement[o],_body[o])-(_win["inner"+n]||_docElement[t]||_body[t]):e[o]-e[t])},_recordMaxScrolls=function e(t,n){var o=_getMaxScroll(t,"x"),r=_getMaxScroll(t,"y");_isRoot(t)?t=_windowProxy:e(t.parentNode,n),t._gsMaxScrollX=o,t._gsMaxScrollY=r,n||(t._gsScrollX=t.scrollLeft||0,t._gsScrollY=t.scrollTop||0)},_setStyle=function(e,t,n){var o=e.style;o&&(_isUndefined(o[t])&&(t=_checkPrefix(t,e)||t),null==n?o.removeProperty&&o.removeProperty(t.replace(/([A-Z])/g,"-$1").toLowerCase()):o[t]=n)},_getComputedStyle=function(e){return _win.getComputedStyle(!(e instanceof Element)&&(e.host||(e.parentNode||{}).host)||e)},_tempRect={},_parseRect=function(e){if(e===_win)return _tempRect.left=_tempRect.top=0,_tempRect.width=_tempRect.right=_docElement.clientWidth||e.innerWidth||_body.clientWidth||0,_tempRect.height=_tempRect.bottom=(e.innerHeight||0)-20<_docElement.clientHeight?_docElement.clientHeight:e.innerHeight||_body.clientHeight||0,_tempRect;var t=e.ownerDocument||_doc,t=_isUndefined(e.pageX)?e.nodeType||_isUndefined(e.left)||_isUndefined(e.top)?_toArray(e)[0].getBoundingClientRect():e:{left:e.pageX-_getDocScrollLeft(t),top:e.pageY-_getDocScrollTop(t),right:e.pageX-_getDocScrollLeft(t)+1,bottom:e.pageY-_getDocScrollTop(t)+1};return _isUndefined(t.right)&&!_isUndefined(t.width)?(t.right=t.left+t.width,t.bottom=t.top+t.height):_isUndefined(t.width)&&(t={width:t.right-t.left,height:t.bottom-t.top,right:t.right,left:t.left,bottom:t.bottom,top:t.top}),t},_dispatchEvent=function(e,t,n){var o,r=e.vars,i=r[n],a=e._listeners[t];return _isFunction(i)&&(o=i.apply(r.callbackScope||e,r[n+"Params"]||[e.pointerEvent])),o=a&&!1===e.dispatchEvent(t)?!1:o},_getBounds=function(e,t){var n,o=_toArray(e)[0];return o.nodeType||o===_win?_getElementBounds(o,t):_isUndefined(e.left)?{left:t=e.min||e.minX||e.minRotation||0,top:n=e.min||e.minY||0,width:(e.max||e.maxX||e.maxRotation||0)-t,height:(e.max||e.maxY||0)-n}:{left:e.left-(n={x:0,y:0}).x,top:e.top-n.y,width:e.width,height:e.height}},_point1={},_getElementBounds=function(e,t){t=_toArray(t)[0];var n,o,r,i,a,l,s,c=e.getBBox&&e.ownerSVGElement,d=e.ownerDocument||_doc;if(e===_win)o=_getDocScrollTop(d),r=(n=_getDocScrollLeft(d))+(d.documentElement.clientWidth||e.innerWidth||d.body.clientWidth||0),i=o+((e.innerHeight||0)-20<d.documentElement.clientHeight?d.documentElement.clientHeight:e.innerHeight||d.body.clientHeight||0);else{if(t===_win||_isUndefined(t))return e.getBoundingClientRect();n=o=0,c?(l=(a=e.getBBox()).width,s=a.height):(e.viewBox&&(a=e.viewBox.baseVal)&&(n=a.x||0,o=a.y||0,l=a.width,s=a.height),l||(a="border-box"===(c=_getComputedStyle(e)).boxSizing,l=(parseFloat(c.width)||e.clientWidth||0)+(a?0:parseFloat(c.borderLeftWidth)+parseFloat(c.borderRightWidth)),s=(parseFloat(c.height)||e.clientHeight||0)+(a?0:parseFloat(c.borderTopWidth)+parseFloat(c.borderBottomWidth)))),r=l,i=s}return e===t?{left:n,top:o,width:r-n,height:i-o}:(s=(l=getGlobalMatrix(t,!0).multiply(getGlobalMatrix(e))).apply({x:n,y:o}),e=l.apply({x:r,y:o}),r=l.apply({x:r,y:i}),i=l.apply({x:n,y:i}),n=Math.min(s.x,e.x,r.x,i.x),o=Math.min(s.y,e.y,r.y,i.y),{left:n+((t=t.parentNode||{}).scrollLeft||0),top:o+(t.scrollTop||0),width:Math.max(s.x,e.x,r.x,i.x)-n,height:Math.max(s.y,e.y,r.y,i.y)-o})},_parseInertia=function(r,i,e,t,a,n){var o,l,s,c={};if(i)if(1!==a&&i instanceof Array){if(c.end=o=[],s=i.length,_isObject(i[0]))for(l=0;l<s;l++)o[l]=_copy(i[l],a);else for(l=0;l<s;l++)o[l]=i[l]*a;e+=1.1,t-=1.1}else _isFunction(i)?c.end=function(e){var t,n,o=i.call(r,e);if(1!==a)if(_isObject(o)){for(n in t={},o)t[n]=o[n]*a;o=t}else o*=a;return o}:c.end=i;return!e&&0!==e||(c.max=e),!t&&0!==t||(c.min=t),n&&(c.velocity=0),c},_isClickable=function e(t){var n;return!(!t||!t.getAttribute||t===_body)&&(!("true"!==(n=t.getAttribute("data-clickable"))&&("false"===n||!t.onclick&&!_clickableTagExp.test(t.nodeName+"")&&"true"!==t.getAttribute("contentEditable")))||e(t.parentNode))},_setSelectable=function(e,t){for(var n,o=e.length;o--;)(n=e[o]).ondragstart=n.onselectstart=t?null:_emptyFunc,gsap.set(n,{lazy:!0,userSelect:t?"text":"none"})},_isFixed=function e(t){return"fixed"===_getComputedStyle(t).position||((t=t.parentNode)&&1===t.nodeType?e(t):void 0)},ScrollProxy=function(i,r){i=gsap.utils.toArray(i)[0],r=r||{};var a,l,s,e,c,d,u=document.createElement("div"),p=u.style,t=i.firstChild,_=0,g=0,h=i.scrollTop,f=i.scrollLeft,m=i.scrollWidth,x=i.scrollHeight,v=0,y=0,w=0;_supports3D&&!1!==r.force3D?(c="translate3d(",d="px,0px)"):_transformProp&&(c="translate(",d="px)"),this.scrollTop=function(e,t){if(!arguments.length)return-this.top();this.top(-e,t)},this.scrollLeft=function(e,t){if(!arguments.length)return-this.left();this.left(-e,t)},this.left=function(e,t){if(!arguments.length)return-(i.scrollLeft+g);var n=i.scrollLeft-f,o=g;if((2<n||n<-2)&&!t)return f=i.scrollLeft,gsap.killTweensOf(this,{left:1,scrollLeft:1}),this.left(-f),void(r.onKill&&r.onKill());(e=-e)<0?(g=e-.5|0,e=0):y<e?(g=e-y|0,e=y):g=0,(g||o)&&(this._skip||(p[_transformProp]=c+-g+"px,"+-_+d),0<=g+v&&(p.paddingRight=g+v+"px")),i.scrollLeft=0|e,f=i.scrollLeft},this.top=function(e,t){if(!arguments.length)return-(i.scrollTop+_);var n=i.scrollTop-h,o=_;if((2<n||n<-2)&&!t)return h=i.scrollTop,gsap.killTweensOf(this,{top:1,scrollTop:1}),this.top(-h),void(r.onKill&&r.onKill());(e=-e)<0?(_=e-.5|0,e=0):w<e?(_=e-w|0,e=w):_=0,(_||o)&&(this._skip||(p[_transformProp]=c+-g+"px,"+-_+d)),i.scrollTop=0|e,h=i.scrollTop},this.maxScrollTop=function(){return w},this.maxScrollLeft=function(){return y},this.disable=function(){for(t=u.firstChild;t;)e=t.nextSibling,i.appendChild(t),t=e;i===u.parentNode&&i.removeChild(u)},this.enable=function(){if((t=i.firstChild)!==u){for(;t;)e=t.nextSibling,u.appendChild(t),t=e;i.appendChild(u),this.calibrate()}},this.calibrate=function(e){var t,n,o,r=i.clientWidth===a;h=i.scrollTop,f=i.scrollLeft,r&&i.clientHeight===l&&u.offsetHeight===s&&m===i.scrollWidth&&x===i.scrollHeight&&!e||((_||g)&&(n=this.left(),o=this.top(),this.left(-i.scrollLeft),this.top(-i.scrollTop)),t=_getComputedStyle(i),r&&!e||(p.display="block",p.width="auto",p.paddingRight="0px",(v=Math.max(0,i.scrollWidth-i.clientWidth))&&(v+=parseFloat(t.paddingLeft)+(_addPaddingBR?parseFloat(t.paddingRight):0))),p.display="inline-block",p.position="relative",p.overflow="visible",p.verticalAlign="top",p.boxSizing="content-box",p.width="100%",p.paddingRight=v+"px",_addPaddingBR&&(p.paddingBottom=t.paddingBottom),a=i.clientWidth,l=i.clientHeight,m=i.scrollWidth,x=i.scrollHeight,y=i.scrollWidth-a,w=i.scrollHeight-l,s=u.offsetHeight,p.display="block",(n||o)&&(this.left(n),this.top(o)))},this.content=u,this.element=i,this._skip=!1,this.enable()},_initCore=function(e){var t,n,o,r;_windowExists()&&document.body&&(r=window&&window.navigator,_win=window,_doc=document,_docElement=_doc.documentElement,_body=_doc.body,_tempDiv=_createElement("div"),_supportsPointer=!!window.PointerEvent,(_placeholderDiv=_createElement("div")).style.cssText="visibility:hidden;height:1px;top:-1px;pointer-events:none;position:relative;clear:both;cursor:grab",_defaultCursor="grab"===_placeholderDiv.style.cursor?"grab":"move",_isAndroid=r&&-1!==r.userAgent.toLowerCase().indexOf("android"),_isTouchDevice="ontouchstart"in _docElement&&"orientation"in _win||r&&(0<r.MaxTouchPoints||0<r.msMaxTouchPoints),t=_createElement("div"),n=_createElement("div"),o=n.style,r=_body,o.display="inline-block",o.position="relative",t.style.cssText=n.innerHTML="width:90px;height:40px;padding:10px;overflow:auto;visibility:hidden",t.appendChild(n),r.appendChild(t),n=n.offsetHeight+18>t.scrollHeight,r.removeChild(t),_addPaddingBR=n,_touchEventLookup=function(e){for(var t=e.split(","),n=(("onpointerdown"in _tempDiv?"pointerdown,pointermove,pointerup,pointercancel":"onmspointerdown"in _tempDiv?"MSPointerDown,MSPointerMove,MSPointerUp,MSPointerCancel":e).split(",")),o={},r=4;-1<--r;)o[t[r]]=n[r],o[n[r]]=t[r];try{_docElement.addEventListener("test",null,Object.defineProperty({},"passive",{get:function(){_supportsPassive=1}}))}catch(e){}return o}("touchstart,touchmove,touchend,touchcancel"),_addListener(_doc,"touchcancel",_emptyFunc),_addListener(_win,"touchmove",_emptyFunc),_body&&_body.addEventListener("touchstart",_emptyFunc),_addListener(_doc,"contextmenu",function(){for(var e in _lookup)_lookup[e].isPressed&&_lookup[e].endDrag()}),gsap=_coreInitted=_getGSAP()),gsap?(InertiaPlugin=gsap.plugins.inertia,_checkPrefix=gsap.utils.checkPrefix,_transformProp=_checkPrefix(_transformProp),_transformOriginProp=_checkPrefix(_transformOriginProp),_toArray=gsap.utils.toArray,_supports3D=!!_checkPrefix("perspective")):e&&console.warn("Please gsap.registerPlugin(Draggable)")},EventDispatcher=function(){function e(e){this._listeners={},this.target=e||this}var t=e.prototype;return t.addEventListener=function(e,t){e=this._listeners[e]||(this._listeners[e]=[]);~e.indexOf(t)||e.push(t)},t.removeEventListener=function(e,t){e=this._listeners[e],t=e&&e.indexOf(t)||-1;-1<t&&e.splice(t,1)},t.dispatchEvent=function(t){var n,o=this;return(this._listeners[t]||[]).forEach(function(e){return!1===e.call(o,{type:t,target:o.target})&&(n=!1)}),n},e}(),Draggable=function(De){function Te(_,p){var e=De.call(this)||this;_coreInitted||_initCore(1),_=_toArray(_)[0],InertiaPlugin=InertiaPlugin||gsap.plugins.inertia,e.vars=p=_copy(p||{}),e.target=_,e.x=e.y=e.rotation=0,e.dragResistance=parseFloat(p.dragResistance)||0,e.edgeResistance=isNaN(p.edgeResistance)?1:parseFloat(p.edgeResistance)||0,e.lockAxis=p.lockAxis,e.autoScroll=p.autoScroll||0,e.lockedAxis=null,e.allowEventDefault=!!p.allowEventDefault,gsap.getProperty(_,"x");function r(e,t){return parseFloat(he.get(_,e,t))}function i(e){return _preventDefault(e),e.stopImmediatePropagation&&e.stopImmediatePropagation(),!1}function g(e){if(re.autoScroll&&re.isDragging&&(se||N)){var t,n,o,r,i,a,l,s,c=_,d=15*re.autoScroll;for(se=!1,_windowProxy.scrollTop=null!=_win.pageYOffset?_win.pageYOffset:(null!=me.documentElement.scrollTop?me.documentElement:me.body).scrollTop,_windowProxy.scrollLeft=null!=_win.pageXOffset?_win.pageXOffset:(null!=me.documentElement.scrollLeft?me.documentElement:me.body).scrollLeft,r=re.pointerX-_windowProxy.scrollLeft,i=re.pointerY-_windowProxy.scrollTop;c&&!n;)t=(n=_isRoot(c.parentNode))?_windowProxy:c.parentNode,o=n?{bottom:Math.max(_docElement.clientHeight,_win.innerHeight||0),right:Math.max(_docElement.clientWidth,_win.innerWidth||0),left:0,top:0}:t.getBoundingClientRect(),a=l=0,ne&&((s=t._gsMaxScrollY-t.scrollTop)<0?l=s:i>o.bottom-ue&&s?(se=!0,l=Math.min(s,d*(1-Math.max(0,o.bottom-i)/ue)|0)):i<o.top+ce&&t.scrollTop&&(se=!0,l=-Math.min(t.scrollTop,d*(1-Math.max(0,i-o.top)/ce)|0)),l&&(t.scrollTop+=l)),te&&((s=t._gsMaxScrollX-t.scrollLeft)<0?a=s:r>o.right-de&&s?(se=!0,a=Math.min(s,d*(1-Math.max(0,o.right-r)/de)|0)):r<o.left+pe&&t.scrollLeft&&(se=!0,a=-Math.min(t.scrollLeft,d*(1-Math.max(0,r-o.left)/pe)|0)),a&&(t.scrollLeft+=a)),n&&(a||l)&&(_win.scrollTo(t.scrollLeft,t.scrollTop),ye(re.pointerX+a,re.pointerY+l)),c=t}var u,p;N&&(u=re.x,p=re.y,Z?(re.deltaX=u-parseFloat(he.rotation),re.rotation=u,he.rotation=u+"deg",he.renderTransform(1,he)):w?(ne&&(re.deltaY=p-w.top(),w.top(p)),te&&(re.deltaX=u-w.left(),w.left(u))):$?(ne&&(re.deltaY=p-parseFloat(he.y),he.y=p+"px"),te&&(re.deltaX=u-parseFloat(he.x),he.x=u+"px"),he.renderTransform(1,he)):(ne&&(re.deltaY=p-parseFloat(_.style.top||0),_.style.top=p+"px"),te&&(re.deltaX=u-parseFloat(_.style.left||0),_.style.left=u+"px")),!P||e||z||(!(z=!0)===_dispatchEvent(re,"drag","onDrag")&&(te&&(re.x-=re.deltaX),ne&&(re.y-=re.deltaY),g(!0)),z=!1)),N=!1}function a(e,t){var n,o,r=re.x,i=re.y;(he=!_._gsap?gsap.core.getCache(_):he).uncache&&gsap.getProperty(_,"x"),$?(re.x=parseFloat(he.x),re.y=parseFloat(he.y)):Z?re.x=re.rotation=parseFloat(he.rotation):w?(re.y=w.top(),re.x=w.left()):(re.y=parseFloat(_.style.top||(o=_getComputedStyle(_))&&o.top)||0,re.x=parseFloat(_.style.left||(o||{}).left)||0),(I||F||O)&&!t&&(re.isDragging||re.isThrowing)&&(O&&(_temp1.x=re.x,_temp1.y=re.y,(n=O(_temp1)).x!==re.x&&(re.x=n.x,N=!0),n.y!==re.y&&(re.y=n.y,N=!0)),I&&(n=I(re.x))!==re.x&&(re.x=n,Z&&(re.rotation=n),N=!0),F&&((n=F(re.y))!==re.y&&(re.y=n),N=!0)),N&&g(!0),e||(re.deltaX=re.x-r,re.deltaY=re.y-i,_dispatchEvent(re,"throwupdate","onThrowUpdate"))}function n(a,l,s,n){return null==l&&(l=-_bigNum),null==s&&(s=_bigNum),_isFunction(a)?function(e){var t=re.isPressed?1-re.edgeResistance:1;return a.call(re,s<e?s+(e-s)*t:e<l?l+(e-l)*t:e)*n}:_isArray(a)?function(e){for(var t,n,o=a.length,r=0,i=_bigNum;-1<--o;)(n=(n=(t=a[o])-e)<0?-n:n)<i&&l<=t&&t<=s&&(r=o,i=n);return a[r]}:isNaN(a)?function(e){return e}:function(){return a*n}}function l(){var e,t,a,i,l,s,c,d,u;L=!1,w?(w.calibrate(),re.minX=k=-w.maxScrollLeft(),re.minY=X=-w.maxScrollTop(),re.maxX=M=re.maxY=R=0,L=!0):p.bounds&&(t=_getBounds(p.bounds,_.parentNode),Z?(re.minX=k=t.left,re.maxX=M=t.left+t.width,re.minY=X=re.maxY=R=0):_isUndefined(p.bounds.maxX)&&_isUndefined(p.bounds.maxY)?(e=_getBounds(_,_.parentNode),re.minX=k=Math.round(r(J,"px")+t.left-e.left),re.minY=X=Math.round(r(ee,"px")+t.top-e.top),re.maxX=M=Math.round(k+(t.width-e.width)),re.maxY=R=Math.round(X+(t.height-e.height))):(t=p.bounds,re.minX=k=t.minX,re.minY=X=t.minY,re.maxX=M=t.maxX,re.maxY=R=t.maxY),M<k&&(re.minX=M,re.maxX=M=k,k=re.minX),R<X&&(re.minY=R,re.maxY=R=X,X=re.minY),Z&&(re.minRotation=k,re.maxRotation=M),L=!0),p.liveSnap&&(e=!0===p.liveSnap?p.snap||{}:p.liveSnap,t=_isArray(e)||_isFunction(e),Z?(I=n(t?e:e.rotation,k,M,1),F=null):e.points?(a=t?e:e.points,i=k,l=M,s=X,c=R,d=e.radius,u=w?-1:1,d=d&&d<_bigNum?d*d:_bigNum,O=_isFunction(a)?function(e){var t,n=re.isPressed?1-re.edgeResistance:1,o=e.x,r=e.y;return e.x=o=l<o?l+(o-l)*n:o<i?i+(o-i)*n:o,e.y=r=c<r?c+(r-c)*n:r<s?s+(r-s)*n:r,(t=a.call(re,e))!==e&&(e.x=t.x,e.y=t.y),1!==u&&(e.x*=u,e.y*=u),d<_bigNum&&(n=e.x-o,t=e.y-r,d<n*n+t*t&&(e.x=o,e.y=r)),e}:_isArray(a)?function(e){for(var t,n,o=a.length,r=0,i=_bigNum;-1<--o;)(n=(t=(n=a[o]).x-e.x)*t+(n=n.y-e.y)*n)<i&&(r=o,i=n);return i<=d?a[r]:e}:function(e){return e}):(te&&(I=n(t?e:e.x||e.left||e.scrollLeft,k,M,w?-1:1)),ne&&(F=n(t?e:e.y||e.top||e.scrollTop,X,R,w?-1:1))))}function s(){re.isThrowing=!1,_dispatchEvent(re,"throwcomplete","onThrowComplete")}function c(){re.isThrowing=!1}function d(e,t){var n,o;e&&InertiaPlugin?(!0===e&&(o=p.snap||p.liveSnap||{},n=_isArray(o)||_isFunction(o),e={resistance:(p.throwResistance||p.resistance||1e3)/(Z?10:1)},Z?e.rotation=_parseInertia(re,n?o:o.rotation,M,k,1,t):(te&&(e[J]=_parseInertia(re,n?o:o.points||o.x||o.left,M,k,w?-1:1,t||"x"===re.lockedAxis)),ne&&(e[ee]=_parseInertia(re,n?o:o.points||o.y||o.top,R,X,w?-1:1,t||"y"===re.lockedAxis)),(o.points||_isArray(o)&&_isObject(o[0]))&&(e.linkedProps=J+","+ee,e.radius=o.radius))),re.isThrowing=!0,t=isNaN(p.overshootTolerance)?1===p.edgeResistance?0:1-re.edgeResistance+.2:p.overshootTolerance,e.duration||(e.duration={max:Math.max(p.minDuration||0,"maxDuration"in p?p.maxDuration:2),min:isNaN(p.minDuration)?0===t||_isObject(e)&&1e3<e.resistance?0:.5:p.minDuration,overshoot:t}),re.tween=o=gsap.to(w||_,{inertia:e,data:"_draggable",onComplete:s,onInterrupt:c,onUpdate:p.fastMode?_dispatchEvent:a,onUpdateParams:p.fastMode?[re,"onthrowupdate","onThrowUpdate"]:o&&o.radius?[!1,!0]:[]}),p.fastMode||(w&&(w._skip=!0),o.render(1e9,!0,!0),a(!0,!0),re.endX=re.x,re.endY=re.y,Z&&(re.endRotation=re.x),o.play(0),a(!0,!0),w&&(w._skip=!1))):L&&re.applyBounds()}function u(e){var t=W;W=getGlobalMatrix(_.parentNode,!0),e&&re.isPressed&&!W.equals(t||new Matrix2D)&&(t=t.inverse().apply({x:b,y:D}),W.apply(t,t),b=t.x,D=t.y),W.equals(_identityMatrix)&&(W=null)}function h(){var e,t=1-re.edgeResistance,n=fe?_getDocScrollLeft(me):0,o=fe?_getDocScrollTop(me):0;u(!1),_point1.x=re.pointerX-n,_point1.y=re.pointerY-o,W&&W.apply(_point1,_point1),b=_point1.x,D=_point1.y,N&&(ye(re.pointerX,re.pointerY),g(!0)),q=getGlobalMatrix(_),w?(l(),E=w.top(),T=w.left()):(xe()?(a(!0,!0),l()):re.applyBounds(),Z?(e=_.ownerSVGElement?[he.xOrigin-_.getBBox().x,he.yOrigin-_.getBBox().y]:(_getComputedStyle(_)[_transformOriginProp]||"0 0").split(" "),A=re.rotationOrigin=getGlobalMatrix(_).apply({x:parseFloat(e[0])||0,y:parseFloat(e[1])||0}),a(!0,!0),n=re.pointerX-A.x-n,o=A.y-re.pointerY+o,T=re.x,E=re.y=Math.atan2(o,n)*_RAD2DEG):(E=r(ee,"px"),T=r(J,"px"))),L&&t&&(M<T?T=M+(T-M)/t:T<k&&(T=k-(k-T)/t),Z||(R<E?E=R+(E-R)/t:E<X&&(E=X-(X-E)/t))),re.startX=T=_round(T),re.startY=E=_round(E)}function f(){!_placeholderDiv.parentNode||xe()||re.isDragging||_placeholderDiv.parentNode.removeChild(_placeholderDiv)}function m(e,t){var n;if(!y||re.isPressed||!e||!("mousedown"!==e.type&&"pointerdown"!==e.type||t)&&_getTime()-ge<30&&_touchEventLookup[re.pointerEvent.type])V&&e&&y&&_preventDefault(e);else{if(G=xe(),re.pointerEvent=e,_touchEventLookup[e.type]?(H=~e.type.indexOf("touch")?e.currentTarget||e.target:me,_addListener(H,"touchend",we),_addListener(H,"touchmove",ve),_addListener(H,"touchcancel",we),_addListener(me,"touchstart",_onMultiTouchDocument)):(H=null,_addListener(me,"mousemove",ve)),U=null,_supportsPointer&&H||(_addListener(me,"mouseup",we),e&&e.target&&_addListener(e.target,"mouseup",we)),B=_e.call(re,e.target)&&!1===p.dragClickables&&!t)return _addListener(e.target,"change",we),_dispatchEvent(re,"pressInit","onPressInit"),_dispatchEvent(re,"press","onPress"),_setSelectable(ie,!0),void(V=!1);if(Q=!(!H||te==ne||!1===re.vars.allowNativeTouchScrolling||re.vars.allowContextMenu&&e&&(e.ctrlKey||2<e.which))&&(te?"y":"x"),(V=!Q&&!re.allowEventDefault)&&(_preventDefault(e),_addListener(_win,"touchforcechange",_preventDefault)),e.changedTouches?(e=C=e.changedTouches[0],Y=e.identifier):e.pointerId?Y=e.pointerId:C=Y=null,_dragCount++,_addToRenderQueue(g),D=re.pointerY=e.pageY,b=re.pointerX=e.pageX,_dispatchEvent(re,"pressInit","onPressInit"),(Q||re.autoScroll)&&_recordMaxScrolls(_.parentNode),!_.parentNode||!re.autoScroll||w||Z||!_.parentNode._gsMaxScrollX||_placeholderDiv.parentNode||_.getBBox||(_placeholderDiv.style.width=_.parentNode.scrollWidth+"px",_.parentNode.appendChild(_placeholderDiv)),h(),re.tween&&re.tween.kill(),re.isThrowing=!1,gsap.killTweensOf(w||_,ae,!0),w&&gsap.killTweensOf(_,{scrollTo:1},!0),re.tween=re.lockedAxis=null,!p.zIndexBoost&&(Z||w||!1===p.zIndexBoost)||(_.style.zIndex=Te.zIndex++),re.isPressed=!0,P=!(!p.onDrag&&!re._listeners.drag),S=!(!p.onMove&&!re._listeners.move),!1!==p.cursor||p.activeCursor)for(n=ie.length;-1<--n;)gsap.set(ie[n],{cursor:p.activeCursor||p.cursor||("grab"===_defaultCursor?"grabbing":_defaultCursor)});_dispatchEvent(re,"press","onPress")}}function x(e){var t,n;e&&re.isDragging&&!w&&(n=(t=e.target||_.parentNode).scrollLeft-t._gsScrollX,e=t.scrollTop-t._gsScrollY,(n||e)&&(W?(b-=n*W.a+e*W.c,D-=e*W.d+n*W.b):(b-=n,D-=e),t._gsScrollX+=n,t._gsScrollY+=e,ye(re.pointerX,re.pointerY)))}function v(e){var t=(a=_getTime())-ge<100,n=a-le<50,o=t&&j===ge,r=re.pointerEvent&&re.pointerEvent.defaultPrevented,i=t&&K===ge,a=e.isTrusted||null==e.isTrusted&&t&&o;if((o||n&&!1!==re.vars.suppressClickOnDrag)&&e.stopImmediatePropagation&&e.stopImmediatePropagation(),t&&(!re.pointerEvent||!re.pointerEvent.defaultPrevented)&&(!o||a&&!i))return a&&o&&(K=ge),void(j=ge);(re.isPressed||n||t)&&(a&&e.detail&&t&&!r||_preventDefault(e)),t||n||(e&&e.target&&(re.pointerEvent=e),_dispatchEvent(re,"click","onClick"))}function o(e){return W?{x:e.x*W.a+e.y*W.c+W.e,y:e.x*W.b+e.y*W.d+W.f}:{x:e.x,y:e.y}}var y,w,b,D,T,E,L,P,S,M,k,R,X,C,Y,A,N,I,F,O,B,H,W,G,Q,U,z,j,K,V,q,t=(p.type||"x,y").toLowerCase(),$=~t.indexOf("x")||~t.indexOf("y"),Z=-1!==t.indexOf("rotation"),J=Z?"rotation":$?"x":"left",ee=$?"y":"top",te=!(!~t.indexOf("x")&&!~t.indexOf("left")&&"scroll"!==t),ne=!(!~t.indexOf("y")&&!~t.indexOf("top")&&"scroll"!==t),oe=p.minimumMovement||2,re=_assertThisInitialized(e),ie=_toArray(p.trigger||p.handle||_),ae={},le=0,se=!1,ce=p.autoScrollMarginTop||40,de=p.autoScrollMarginRight||40,ue=p.autoScrollMarginBottom||40,pe=p.autoScrollMarginLeft||40,_e=p.clickableTest||_isClickable,ge=0,he=_._gsap||gsap.core.getCache(_),fe=_isFixed(_),me=_.ownerDocument||_doc,xe=function(){return re.tween&&re.tween.isActive()},ve=function(e){var t,n,o,r,i=e;if(y&&!_isMultiTouching&&re.isPressed&&e){if(t=(re.pointerEvent=e).changedTouches){if((e=t[0])!==C&&e.identifier!==Y){for(n=t.length;-1<--n&&(e=t[n]).identifier!==Y&&e.target!==_;);if(n<0)return}}else if(e.pointerId&&Y&&e.pointerId!==Y)return;H&&Q&&!U&&(_point1.x=e.pageX-(fe?_getDocScrollLeft(me):0),_point1.y=e.pageY-(fe?_getDocScrollTop(me):0),W&&W.apply(_point1,_point1),o=_point1.x,r=_point1.y,((o=Math.abs(o-b))!==(r=Math.abs(r-D))&&(oe<o||oe<r)||_isAndroid&&Q===U)&&(U=r<o&&te?"x":"y",Q&&U!==Q&&_addListener(_win,"touchforcechange",_preventDefault),!1!==re.vars.lockAxisOnTouchScroll&&te&&ne&&(re.lockedAxis="x"===U?"y":"x",_isFunction(re.vars.onLockAxis)&&re.vars.onLockAxis.call(re,i)),_isAndroid&&Q===U))?we(i):(V=re.allowEventDefault||Q&&(!U||Q===U)||!1===i.cancelable?V&&!1:(_preventDefault(i),!0),re.autoScroll&&(se=!0),ye(e.pageX,e.pageY,S))}else V&&e&&y&&_preventDefault(e)},ye=function(e,t,n){var o,r,i,a=1-re.dragResistance,l=1-re.edgeResistance,s=re.pointerX,c=re.pointerY,d=E,u=re.x,p=re.y,_=re.endX,g=re.endY,h=re.endRotation,f=N;re.pointerX=e,re.pointerY=t,fe&&(e-=_getDocScrollLeft(me),t-=_getDocScrollTop(me)),Z?(o=Math.atan2(A.y-t,e-A.x)*_RAD2DEG,180<(r=re.y-o)?(E-=360,re.y=o):r<-180&&(E+=360,re.y=o),r=re.x!==T||Math.abs(E-o)>oe?(re.y=o,T+(E-o)*a):T):(W&&(i=e*W.a+t*W.c+W.e,t=e*W.b+t*W.d+W.f,e=i),(t=t-D)<oe&&-oe<t&&(t=0),(e=e-b)<oe&&-oe<e&&(e=0),(re.lockAxis||re.lockedAxis)&&(e||t)&&((i=re.lockedAxis)||(re.lockedAxis=i=te&&Math.abs(e)>Math.abs(t)?"y":ne?"x":null,i&&_isFunction(re.vars.onLockAxis)&&re.vars.onLockAxis.call(re,re.pointerEvent)),"y"===i?t=0:"x"===i&&(e=0)),r=_round(T+e*a),o=_round(E+t*a)),(I||F||O)&&(re.x!==r||re.y!==o&&!Z)&&(O&&(_temp1.x=r,_temp1.y=o,i=O(_temp1),r=_round(i.x),o=_round(i.y)),I&&(r=_round(I(r))),F&&(o=_round(F(o)))),L&&(M<r?r=M+Math.round((r-M)*l):r<k&&(r=k+Math.round((r-k)*l)),Z||(R<o?o=Math.round(R+(o-R)*l):o<X&&(o=Math.round(X+(o-X)*l)))),re.x===r&&(re.y===o||Z)||(Z?(re.endRotation=re.x=re.endX=r,N=!0):(ne&&(re.y=re.endY=o,N=!0),te&&(re.x=re.endX=r,N=!0)),n&&!1===_dispatchEvent(re,"move","onMove")?(re.pointerX=s,re.pointerY=c,E=d,re.x=u,re.y=p,re.endX=_,re.endY=g,re.endRotation=h,N=f):!re.isDragging&&re.isPressed&&(re.isDragging=!0,_dispatchEvent(re,"dragstart","onDragStart")))},we=function e(t,n){if(y&&re.isPressed&&(!t||null==Y||n||!(t.pointerId&&t.pointerId!==Y&&t.target!==_||t.changedTouches&&!_hasTouchID(t.changedTouches,Y)))){re.isPressed=!1;var o,r,i,a,l=t,s=re.isDragging,c=re.vars.allowContextMenu&&t&&(t.ctrlKey||2<t.which),n=gsap.delayedCall(.001,f);if(H?(_removeListener(H,"touchend",e),_removeListener(H,"touchmove",ve),_removeListener(H,"touchcancel",e),_removeListener(me,"touchstart",_onMultiTouchDocument)):_removeListener(me,"mousemove",ve),_removeListener(_win,"touchforcechange",_preventDefault),_supportsPointer&&H||(_removeListener(me,"mouseup",e),t&&t.target&&_removeListener(t.target,"mouseup",e)),N=!1,s&&(le=_lastDragTime=_getTime(),re.isDragging=!1),B&&!c)return t&&(_removeListener(t.target,"change",e),re.pointerEvent=l),_setSelectable(ie,!1),_dispatchEvent(re,"release","onRelease"),_dispatchEvent(re,"click","onClick"),void(B=!1);for(_removeFromRenderQueue(g),r=ie.length;-1<--r;)_setStyle(ie[r],"cursor",p.cursor||(!1!==p.cursor?_defaultCursor:null));if(_dragCount--,t){if(o=t.changedTouches,o&&(t=o[0])!==C&&t.identifier!==Y){for(r=o.length;-1<--r&&(t=o[r]).identifier!==Y&&t.target!==_;);if(r<0)return}re.pointerEvent=l,re.pointerX=t.pageX,re.pointerY=t.pageY}return c&&l?(_preventDefault(l),V=!0,_dispatchEvent(re,"release","onRelease")):l&&!s?(V=!1,G&&(p.snap||p.bounds)&&d(p.inertia||p.throwProps),_dispatchEvent(re,"release","onRelease"),_isAndroid&&"touchmove"===l.type||-1!==l.type.indexOf("cancel")||(_dispatchEvent(re,"click","onClick"),_getTime()-ge<300&&_dispatchEvent(re,"doubleclick","onDoubleClick"),a=l.target||_,ge=_getTime(),_isAndroid||l.defaultPrevented||gsap.delayedCall(.05,function(){ge===j||!re.enabled()||re.isPressed||l.defaultPrevented||(a.click?a.click():me.createEvent&&((i=me.createEvent("MouseEvents")).initMouseEvent("click",!0,!0,_win,1,re.pointerEvent.screenX,re.pointerEvent.screenY,re.pointerX,re.pointerY,!1,!1,!1,!1,0,null),a.dispatchEvent(i)))}))):(d(p.inertia||p.throwProps),re.allowEventDefault||!l||!1===p.dragClickables&&_e.call(re,l.target)||!s||Q&&(!U||Q!==U)||!1===l.cancelable?V=!1:(V=!0,_preventDefault(l)),_dispatchEvent(re,"release","onRelease")),xe()&&n.duration(re.tween.duration()),s&&_dispatchEvent(re,"dragend","onDragEnd"),!0}V&&t&&y&&_preventDefault(t)},be=Te.get(_);return be&&be.kill(),e.startDrag=function(e,t){m(e||re.pointerEvent,!0),t&&!re.hitTest(e||re.pointerEvent)&&(t=_parseRect(e||re.pointerEvent),e=_parseRect(_),t=o({x:t.left+t.width/2,y:t.top+t.height/2}),e=o({x:e.left+e.width/2,y:e.top+e.height/2}),b-=t.x-e.x,D-=t.y-e.y),re.isDragging||(re.isDragging=!0,_dispatchEvent(re,"dragstart","onDragStart"))},e.drag=ve,e.endDrag=function(e){return we(e||re.pointerEvent,!0)},e.timeSinceDrag=function(){return re.isDragging?0:(_getTime()-le)/1e3},e.timeSinceClick=function(){return(_getTime()-ge)/1e3},e.hitTest=function(e,t){return Te.hitTest(re.target,e,t)},e.getDirection=function(e,t){var n,o,r="velocity"===e&&InertiaPlugin?e:_isObject(e)&&!Z?"element":"start";return"element"===r&&(n=_parseRect(re.target),o=_parseRect(e)),e="start"===r?re.x-T:"velocity"===r?InertiaPlugin.getVelocity(_,J):n.left+n.width/2-(o.left+o.width/2),Z?e<0?"counter-clockwise":"clockwise":(t=t||2,n="start"===r?re.y-E:"velocity"===r?InertiaPlugin.getVelocity(_,ee):n.top+n.height/2-(o.top+o.height/2),e=(o=Math.abs(e/n))<1/t?"":e<0?"left":"right",o<t&&(""!==e&&(e+="-"),e+=n<0?"up":"down"),e)},e.applyBounds=function(e,t){var n,o,r,i;if(e&&p.bounds!==e)return p.bounds=e,re.update(!0,t);if(a(!0),l(),L&&!xe()){if(e=re.x,t=re.y,M<e?e=M:e<k&&(e=k),R<t?t=R:t<X&&(t=X),(re.x!==e||re.y!==t)&&(n=!0,re.x=re.endX=e,Z?re.endRotation=e:re.y=re.endY=t,g(N=!0),re.autoScroll&&!re.isDragging))for(_recordMaxScrolls(_.parentNode),o=_,_windowProxy.scrollTop=null!=_win.pageYOffset?_win.pageYOffset:(null!=me.documentElement.scrollTop?me.documentElement:me.body).scrollTop,_windowProxy.scrollLeft=null!=_win.pageXOffset?_win.pageXOffset:(null!=me.documentElement.scrollLeft?me.documentElement:me.body).scrollLeft;o&&!i;)r=(i=_isRoot(o.parentNode))?_windowProxy:o.parentNode,ne&&r.scrollTop>r._gsMaxScrollY&&(r.scrollTop=r._gsMaxScrollY),te&&r.scrollLeft>r._gsMaxScrollX&&(r.scrollLeft=r._gsMaxScrollX),o=r;re.isThrowing&&(n||re.endX>M||re.endX<k||re.endY>R||re.endY<X)&&d(p.inertia||p.throwProps,n)}return re},e.update=function(e,t,n){var o;t&&re.isPressed&&(o=getGlobalMatrix(_),r=q.apply({x:re.x-T,y:re.y-E}),(i=getGlobalMatrix(_.parentNode,!0)).apply({x:o.e-r.x,y:o.f-r.y},r),re.x-=r.x-i.e,re.y-=r.y-i.f,g(!0),h());var r=re.x,i=re.y;return u(!t),e?re.applyBounds():(N&&n&&g(!0),a(!0)),t&&(ye(re.pointerX,re.pointerY),N&&g(!0)),re.isPressed&&!t&&(te&&.01<Math.abs(r-re.x)||ne&&.01<Math.abs(i-re.y)&&!Z)&&h(),re.autoScroll&&(_recordMaxScrolls(_.parentNode,re.isDragging),se=re.isDragging,g(!0),_removeScrollListener(_,x),_addScrollListener(_,x)),re},e.enable=function(e){var t,n,o={lazy:!0};if(!1!==p.cursor&&(o.cursor=p.cursor||_defaultCursor),gsap.utils.checkPrefix("touchCallout")&&(o.touchCallout="none"),"soft"!==e){for(_setTouchActionForAllDescendants(ie,te==ne?"none":p.allowNativeTouchScrolling&&_.scrollHeight===_.clientHeight==(_.scrollWidth===_.clientHeight)||p.allowEventDefault?"manipulation":te?"pan-y":"pan-x"),t=ie.length;-1<--t;)n=ie[t],_supportsPointer||_addListener(n,"mousedown",m),_addListener(n,"touchstart",m),_addListener(n,"click",v,!0),gsap.set(n,o),n.getBBox&&n.ownerSVGElement&&gsap.set(n.ownerSVGElement,{touchAction:te==ne?"none":p.allowNativeTouchScrolling||p.allowEventDefault?"manipulation":te?"pan-y":"pan-x"}),p.allowContextMenu||_addListener(n,"contextmenu",i);_setSelectable(ie,!1)}return _addScrollListener(_,x),y=!0,InertiaPlugin&&"soft"!==e&&InertiaPlugin.track(w||_,$?"x,y":Z?"rotation":"top,left"),_._gsDragID=e="d"+_lookupCount++,_lookup[e]=re,w&&(w.enable(),w.element._gsDragID=e),(p.bounds||Z)&&h(),p.bounds&&re.applyBounds(),re},e.disable=function(e){for(var t,n=re.isDragging,o=ie.length;-1<--o;)_setStyle(ie[o],"cursor",null);if("soft"!==e){for(_setTouchActionForAllDescendants(ie,null),o=ie.length;-1<--o;)t=ie[o],_setStyle(t,"touchCallout",null),_removeListener(t,"mousedown",m),_removeListener(t,"touchstart",m),_removeListener(t,"click",v),_removeListener(t,"contextmenu",i);_setSelectable(ie,!0),H&&(_removeListener(H,"touchcancel",we),_removeListener(H,"touchend",we),_removeListener(H,"touchmove",ve)),_removeListener(me,"mouseup",we),_removeListener(me,"mousemove",ve)}return _removeScrollListener(_,x),y=!1,InertiaPlugin&&"soft"!==e&&InertiaPlugin.untrack(w||_,$?"x,y":Z?"rotation":"top,left"),w&&w.disable(),_removeFromRenderQueue(g),re.isDragging=re.isPressed=B=!1,n&&_dispatchEvent(re,"dragend","onDragEnd"),re},e.enabled=function(e,t){return arguments.length?e?re.enable(t):re.disable(t):y},e.kill=function(){return re.isThrowing=!1,re.tween&&re.tween.kill(),re.disable(),gsap.set(ie,{clearProps:"userSelect"}),delete _lookup[_._gsDragID],re},~t.indexOf("scroll")&&(w=e.scrollProxy=new ScrollProxy(_,_extend({onKill:function(){re.isPressed&&we(null)}},p)),_.style.overflowY=ne&&!_isTouchDevice?"auto":"hidden",_.style.overflowX=te&&!_isTouchDevice?"auto":"hidden",_=w.content),Z?ae.rotation=1:(te&&(ae[J]=1),ne&&(ae[ee]=1)),he.force3D=!("force3D"in p)||p.force3D,e.enable(),e}return _inheritsLoose(Te,De),Te.register=function(e){gsap=e,_initCore()},Te.create=function(e,t){return _coreInitted||_initCore(!0),_toArray(e).map(function(e){return new Te(e,t)})},Te.get=function(e){return _lookup[(_toArray(e)[0]||{})._gsDragID]},Te.timeSinceDrag=function(){return(_getTime()-_lastDragTime)/1e3},Te.hitTest=function(e,t,n){if(e===t)return!1;var o=_parseRect(e),r=_parseRect(t),i=o.top,a=o.left,l=o.right,s=o.bottom,e=o.width,t=o.height,o=r.left>l||r.right<a||r.top>s||r.bottom<i;return o||!n?!o:(o=-1!==(n+"").indexOf("%"),n=parseFloat(n)||0,(i={left:Math.max(a,r.left),top:Math.max(i,r.top)}).width=Math.min(l,r.right)-i.left,i.height=Math.min(s,r.bottom)-i.top,!(i.width<0||i.height<0)&&(o?e*t*(n*=.01)<=(t=i.width*i.height)||t>=r.width*r.height*n:i.width>n&&i.height>n))},Te}(EventDispatcher);_setDefaults(Draggable.prototype,{pointerX:0,pointerY:0,startX:0,startY:0,deltaX:0,deltaY:0,isDragging:!1,isPressed:!1}),Draggable.zIndex=1e3,Draggable.version="3.10.3",_getGSAP()&&gsap.registerPlugin(Draggable);export{Draggable as Draggable,Draggable as default};
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+/*!
+ * Draggable 3.10.3
+ * https://greensock.com
+ *
+ * @license Copyright 2008-2022, GreenSock. All rights reserved.
+ * Subject to the terms at https://greensock.com/standard-license or for
+ * Club GreenSock members, the agreement issued with that membership.
+ * @author: Jack Doyle, jack@greensock.com
+ */
+
+/* eslint-disable */
+import { getGlobalMatrix, Matrix2D } from "./utils/matrix.js";
+
+var gsap,
+    _win,
+    _doc,
+    _docElement,
+    _body,
+    _tempDiv,
+    _placeholderDiv,
+    _coreInitted,
+    _checkPrefix,
+    _toArray,
+    _supportsPassive,
+    _isTouchDevice,
+    _touchEventLookup,
+    _dragCount,
+    _isMultiTouching,
+    _isAndroid,
+    InertiaPlugin,
+    _defaultCursor,
+    _supportsPointer,
+    _windowExists = function _windowExists() {
+  return typeof window !== "undefined";
+},
+    _getGSAP = function _getGSAP() {
+  return gsap || _windowExists() && (gsap = window.gsap) && gsap.registerPlugin && gsap;
+},
+    _isFunction = function _isFunction(value) {
+  return typeof value === "function";
+},
+    _isObject = function _isObject(value) {
+  return typeof value === "object";
+},
+    _isUndefined = function _isUndefined(value) {
+  return typeof value === "undefined";
+},
+    _emptyFunc = function _emptyFunc() {
+  return false;
+},
+    _transformProp = "transform",
+    _transformOriginProp = "transformOrigin",
+    _round = function _round(value) {
+  return Math.round(value * 10000) / 10000;
+},
+    _isArray = Array.isArray,
+    _createElement = function _createElement(type, ns) {
+  var e = _doc.createElementNS ? _doc.createElementNS((ns || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"), type) : _doc.createElement(type); //some servers swap in https for http in the namespace which can break things, making "style" inaccessible.
+
+  return e.style ? e : _doc.createElement(type); //some environments won't allow access to the element's style when created with a namespace in which case we default to the standard createElement() to work around the issue. Also note that when GSAP is embedded directly inside an SVG file, createElement() won't allow access to the style object in Firefox (see https://greensock.com/forums/topic/20215-problem-using-tweenmax-in-standalone-self-containing-svg-file-err-cannot-set-property-csstext-of-undefined/).
+},
+    _RAD2DEG = 180 / Math.PI,
+    _bigNum = 1e20,
+    _identityMatrix = new Matrix2D(),
+    _getTime = Date.now || function () {
+  return new Date().getTime();
+},
+    _renderQueue = [],
+    _lookup = {},
+    //when a Draggable is created, the target gets a unique _gsDragID property that allows gets associated with the Draggable instance for quick lookups in Draggable.get(). This avoids circular references that could cause gc problems.
+_lookupCount = 0,
+    _clickableTagExp = /^(?:a|input|textarea|button|select)$/i,
+    _lastDragTime = 0,
+    _temp1 = {},
+    // a simple object we reuse and populate (usually x/y properties) to conserve memory and improve performance.
+_windowProxy = {},
+    //memory/performance optimization - we reuse this object during autoScroll to store window-related bounds/offsets.
+_copy = function _copy(obj, factor) {
+  var copy = {},
+      p;
+
+  for (p in obj) {
+    copy[p] = factor ? obj[p] * factor : obj[p];
+  }
+
+  return copy;
+},
+    _extend = function _extend(obj, defaults) {
+  for (var p in defaults) {
+    if (!(p in obj)) {
+      obj[p] = defaults[p];
+    }
+  }
+
+  return obj;
+},
+    _setTouchActionForAllDescendants = function _setTouchActionForAllDescendants(elements, value) {
+  var i = elements.length,
+      children;
+
+  while (i--) {
+    value ? elements[i].style.touchAction = value : elements[i].style.removeProperty("touch-action");
+    children = elements[i].children;
+    children && children.length && _setTouchActionForAllDescendants(children, value);
+  }
+},
+    _renderQueueTick = function _renderQueueTick() {
+  return _renderQueue.forEach(function (func) {
+    return func();
+  });
+},
+    _addToRenderQueue = function _addToRenderQueue(func) {
+  _renderQueue.push(func);
+
+  if (_renderQueue.length === 1) {
+    gsap.ticker.add(_renderQueueTick);
+  }
+},
+    _renderQueueTimeout = function _renderQueueTimeout() {
+  return !_renderQueue.length && gsap.ticker.remove(_renderQueueTick);
+},
+    _removeFromRenderQueue = function _removeFromRenderQueue(func) {
+  var i = _renderQueue.length;
+
+  while (i--) {
+    if (_renderQueue[i] === func) {
+      _renderQueue.splice(i, 1);
+    }
+  }
+
+  gsap.to(_renderQueueTimeout, {
+    overwrite: true,
+    delay: 15,
+    duration: 0,
+    onComplete: _renderQueueTimeout,
+    data: "_draggable"
+  }); //remove the "tick" listener only after the render queue is empty for 15 seconds (to improve performance). Adding/removing it constantly for every click/touch wouldn't deliver optimal speed, and we also don't want the ticker to keep calling the render method when things are idle for long periods of time (we want to improve battery life on mobile devices).
+},
+    _setDefaults = function _setDefaults(obj, defaults) {
+  for (var p in defaults) {
+    if (!(p in obj)) {
+      obj[p] = defaults[p];
+    }
+  }
+
+  return obj;
+},
+    _addListener = function _addListener(element, type, func, capture) {
+  if (element.addEventListener) {
+    var touchType = _touchEventLookup[type];
+    capture = capture || (_supportsPassive ? {
+      passive: false
+    } : null);
+    element.addEventListener(touchType || type, func, capture);
+    touchType && type !== touchType && element.addEventListener(type, func, capture); //some browsers actually support both, so must we. But pointer events cover all.
+  }
+},
+    _removeListener = function _removeListener(element, type, func) {
+  if (element.removeEventListener) {
+    var touchType = _touchEventLookup[type];
+    element.removeEventListener(touchType || type, func);
+    touchType && type !== touchType && element.removeEventListener(type, func);
+  }
+},
+    _preventDefault = function _preventDefault(event) {
+  event.preventDefault && event.preventDefault();
+  event.preventManipulation && event.preventManipulation(); //for some Microsoft browsers
+},
+    _hasTouchID = function _hasTouchID(list, ID) {
+  var i = list.length;
+
+  while (i--) {
+    if (list[i].identifier === ID) {
+      return true;
+    }
+  }
+},
+    _onMultiTouchDocumentEnd = function _onMultiTouchDocumentEnd(event) {
+  _isMultiTouching = event.touches && _dragCount < event.touches.length;
+
+  _removeListener(event.target, "touchend", _onMultiTouchDocumentEnd);
+},
+    _onMultiTouchDocument = function _onMultiTouchDocument(event) {
+  _isMultiTouching = event.touches && _dragCount < event.touches.length;
+
+  _addListener(event.target, "touchend", _onMultiTouchDocumentEnd);
+},
+    _getDocScrollTop = function _getDocScrollTop(doc) {
+  return _win.pageYOffset || doc.scrollTop || doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+},
+    _getDocScrollLeft = function _getDocScrollLeft(doc) {
+  return _win.pageXOffset || doc.scrollLeft || doc.documentElement.scrollLeft || doc.body.scrollLeft || 0;
+},
+    _addScrollListener = function _addScrollListener(e, callback) {
+  _addListener(e, "scroll", callback);
+
+  if (!_isRoot(e.parentNode)) {
+    _addScrollListener(e.parentNode, callback);
+  }
+},
+    _removeScrollListener = function _removeScrollListener(e, callback) {
+  _removeListener(e, "scroll", callback);
+
+  if (!_isRoot(e.parentNode)) {
+    _removeScrollListener(e.parentNode, callback);
+  }
+},
+    _isRoot = function _isRoot(e) {
+  return !!(!e || e === _docElement || e.nodeType === 9 || e === _doc.body || e === _win || !e.nodeType || !e.parentNode);
+},
+    _getMaxScroll = function _getMaxScroll(element, axis) {
+  var dim = axis === "x" ? "Width" : "Height",
+      scroll = "scroll" + dim,
+      client = "client" + dim;
+  return Math.max(0, _isRoot(element) ? Math.max(_docElement[scroll], _body[scroll]) - (_win["inner" + dim] || _docElement[client] || _body[client]) : element[scroll] - element[client]);
+},
+    _recordMaxScrolls = function _recordMaxScrolls(e, skipCurrent) {
+  //records _gsMaxScrollX and _gsMaxScrollY properties for the element and all ancestors up the chain so that we can cap it, otherwise dragging beyond the edges with autoScroll on can endlessly scroll.
+  var x = _getMaxScroll(e, "x"),
+      y = _getMaxScroll(e, "y");
+
+  if (_isRoot(e)) {
+    e = _windowProxy;
+  } else {
+    _recordMaxScrolls(e.parentNode, skipCurrent);
+  }
+
+  e._gsMaxScrollX = x;
+  e._gsMaxScrollY = y;
+
+  if (!skipCurrent) {
+    e._gsScrollX = e.scrollLeft || 0;
+    e._gsScrollY = e.scrollTop || 0;
+  }
+},
+    _setStyle = function _setStyle(element, property, value) {
+  var style = element.style;
+
+  if (!style) {
+    return;
+  }
+
+  if (_isUndefined(style[property])) {
+    property = _checkPrefix(property, element) || property;
+  }
+
+  if (value == null) {
+    style.removeProperty && style.removeProperty(property.replace(/([A-Z])/g, "-$1").toLowerCase());
+  } else {
+    style[property] = value;
+  }
+},
+    _getComputedStyle = function _getComputedStyle(element) {
+  return _win.getComputedStyle(element instanceof Element ? element : element.host || (element.parentNode || {}).host || element);
+},
+    //the "host" stuff helps to accommodate ShadowDom objects.
+_tempRect = {},
+    //reuse to reduce garbage collection tasks
+_parseRect = function _parseRect(e) {
+  //accepts a DOM element, a mouse event, or a rectangle object and returns the corresponding rectangle with left, right, width, height, top, and bottom properties
+  if (e === _win) {
+    _tempRect.left = _tempRect.top = 0;
+    _tempRect.width = _tempRect.right = _docElement.clientWidth || e.innerWidth || _body.clientWidth || 0;
+    _tempRect.height = _tempRect.bottom = (e.innerHeight || 0) - 20 < _docElement.clientHeight ? _docElement.clientHeight : e.innerHeight || _body.clientHeight || 0;
+    return _tempRect;
+  }
+
+  var doc = e.ownerDocument || _doc,
+      r = !_isUndefined(e.pageX) ? {
+    left: e.pageX - _getDocScrollLeft(doc),
+    top: e.pageY - _getDocScrollTop(doc),
+    right: e.pageX - _getDocScrollLeft(doc) + 1,
+    bottom: e.pageY - _getDocScrollTop(doc) + 1
+  } : !e.nodeType && !_isUndefined(e.left) && !_isUndefined(e.top) ? e : _toArray(e)[0].getBoundingClientRect();
+
+  if (_isUndefined(r.right) && !_isUndefined(r.width)) {
+    r.right = r.left + r.width;
+    r.bottom = r.top + r.height;
+  } else if (_isUndefined(r.width)) {
+    //some browsers don't include width and height properties. We can't just set them directly on r because some browsers throw errors, so create a new generic object.
+    r = {
+      width: r.right - r.left,
+      height: r.bottom - r.top,
+      right: r.right,
+      left: r.left,
+      bottom: r.bottom,
+      top: r.top
+    };
+  }
+
+  return r;
+},
+    _dispatchEvent = function _dispatchEvent(target, type, callbackName) {
+  var vars = target.vars,
+      callback = vars[callbackName],
+      listeners = target._listeners[type],
+      result;
+
+  if (_isFunction(callback)) {
+    result = callback.apply(vars.callbackScope || target, vars[callbackName + "Params"] || [target.pointerEvent]);
+  }
+
+  if (listeners && target.dispatchEvent(type) === false) {
+    result = false;
+  }
+
+  return result;
+},
+    _getBounds = function _getBounds(target, context) {
+  //accepts any of the following: a DOM element, jQuery object, selector text, or an object defining bounds as {top, left, width, height} or {minX, maxX, minY, maxY}. Returns an object with left, top, width, and height properties.
+  var e = _toArray(target)[0],
+      top,
+      left,
+      offset;
+
+  if (!e.nodeType && e !== _win) {
+    if (!_isUndefined(target.left)) {
+      offset = {
+        x: 0,
+        y: 0
+      }; //_getOffsetTransformOrigin(context); //the bounds should be relative to the origin
+
+      return {
+        left: target.left - offset.x,
+        top: target.top - offset.y,
+        width: target.width,
+        height: target.height
+      };
+    }
+
+    left = target.min || target.minX || target.minRotation || 0;
+    top = target.min || target.minY || 0;
+    return {
+      left: left,
+      top: top,
+      width: (target.max || target.maxX || target.maxRotation || 0) - left,
+      height: (target.max || target.maxY || 0) - top
+    };
+  }
+
+  return _getElementBounds(e, context);
+},
+    _point1 = {},
+    //we reuse to minimize garbage collection tasks.
+_getElementBounds = function _getElementBounds(element, context) {
+  context = _toArray(context)[0];
+  var isSVG = element.getBBox && element.ownerSVGElement,
+      doc = element.ownerDocument || _doc,
+      left,
+      right,
+      top,
+      bottom,
+      matrix,
+      p1,
+      p2,
+      p3,
+      p4,
+      bbox,
+      width,
+      height,
+      cs,
+      contextParent;
+
+  if (element === _win) {
+    top = _getDocScrollTop(doc);
+    left = _getDocScrollLeft(doc);
+    right = left + (doc.documentElement.clientWidth || element.innerWidth || doc.body.clientWidth || 0);
+    bottom = top + ((element.innerHeight || 0) - 20 < doc.documentElement.clientHeight ? doc.documentElement.clientHeight : element.innerHeight || doc.body.clientHeight || 0); //some browsers (like Firefox) ignore absolutely positioned elements, and collapse the height of the documentElement, so it could be 8px, for example, if you have just an absolutely positioned div. In that case, we use the innerHeight to resolve this.
+  } else if (context === _win || _isUndefined(context)) {
+    return element.getBoundingClientRect();
+  } else {
+    left = top = 0;
+
+    if (isSVG) {
+      bbox = element.getBBox();
+      width = bbox.width;
+      height = bbox.height;
+    } else {
+      if (element.viewBox && (bbox = element.viewBox.baseVal)) {
+        left = bbox.x || 0;
+        top = bbox.y || 0;
+        width = bbox.width;
+        height = bbox.height;
+      }
+
+      if (!width) {
+        cs = _getComputedStyle(element);
+        bbox = cs.boxSizing === "border-box";
+        width = (parseFloat(cs.width) || element.clientWidth || 0) + (bbox ? 0 : parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth));
+        height = (parseFloat(cs.height) || element.clientHeight || 0) + (bbox ? 0 : parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth));
+      }
+    }
+
+    right = width;
+    bottom = height;
+  }
+
+  if (element === context) {
+    return {
+      left: left,
+      top: top,
+      width: right - left,
+      height: bottom - top
+    };
+  }
+
+  matrix = getGlobalMatrix(context, true).multiply(getGlobalMatrix(element));
+  p1 = matrix.apply({
+    x: left,
+    y: top
+  });
+  p2 = matrix.apply({
+    x: right,
+    y: top
+  });
+  p3 = matrix.apply({
+    x: right,
+    y: bottom
+  });
+  p4 = matrix.apply({
+    x: left,
+    y: bottom
+  });
+  left = Math.min(p1.x, p2.x, p3.x, p4.x);
+  top = Math.min(p1.y, p2.y, p3.y, p4.y);
+  contextParent = context.parentNode || {};
+  return {
+    left: left + (contextParent.scrollLeft || 0),
+    top: top + (contextParent.scrollTop || 0),
+    width: Math.max(p1.x, p2.x, p3.x, p4.x) - left,
+    height: Math.max(p1.y, p2.y, p3.y, p4.y) - top
+  };
+},
+    _parseInertia = function _parseInertia(draggable, snap, max, min, factor, forceZeroVelocity) {
+  var vars = {},
+      a,
+      i,
+      l;
+
+  if (snap) {
+    if (factor !== 1 && snap instanceof Array) {
+      //some data must be altered to make sense, like if the user passes in an array of rotational values in degrees, we must convert it to radians. Or for scrollLeft and scrollTop, we invert the values.
+      vars.end = a = [];
+      l = snap.length;
+
+      if (_isObject(snap[0])) {
+        //if the array is populated with objects, like points ({x:100, y:200}), make copies before multiplying by the factor, otherwise we'll mess up the originals and the user may reuse it elsewhere.
+        for (i = 0; i < l; i++) {
+          a[i] = _copy(snap[i], factor);
+        }
+      } else {
+        for (i = 0; i < l; i++) {
+          a[i] = snap[i] * factor;
+        }
+      }
+
+      max += 1.1; //allow 1.1 pixels of wiggle room when snapping in order to work around some browser inconsistencies in the way bounds are reported which can make them roughly a pixel off. For example, if "snap:[-$('#menu').width(), 0]" was defined and #menu had a wrapper that was used as the bounds, some browsers would be one pixel off, making the minimum -752 for example when snap was [-753,0], thus instead of snapping to -753, it would snap to 0 since -753 was below the minimum.
+
+      min -= 1.1;
+    } else if (_isFunction(snap)) {
+      vars.end = function (value) {
+        var result = snap.call(draggable, value),
+            copy,
+            p;
+
+        if (factor !== 1) {
+          if (_isObject(result)) {
+            copy = {};
+
+            for (p in result) {
+              copy[p] = result[p] * factor;
+            }
+
+            result = copy;
+          } else {
+            result *= factor;
+          }
+        }
+
+        return result; //we need to ensure that we can scope the function call to the Draggable instance itself so that users can access important values like maxX, minX, maxY, minY, x, and y from within that function.
+      };
+    } else {
+      vars.end = snap;
+    }
+  }
+
+  if (max || max === 0) {
+    vars.max = max;
+  }
+
+  if (min || min === 0) {
+    vars.min = min;
+  }
+
+  if (forceZeroVelocity) {
+    vars.velocity = 0;
+  }
+
+  return vars;
+},
+    _isClickable = function _isClickable(element) {
+  //sometimes it's convenient to mark an element as clickable by adding a data-clickable="true" attribute (in which case we won't preventDefault() the mouse/touch event). This method checks if the element is an <a>, <input>, or <button> or has an onclick or has the data-clickable or contentEditable attribute set to true (or any of its parent elements).
+  var data;
+  return !element || !element.getAttribute || element === _body ? false : (data = element.getAttribute("data-clickable")) === "true" || data !== "false" && (element.onclick || _clickableTagExp.test(element.nodeName + "") || element.getAttribute("contentEditable") === "true") ? true : _isClickable(element.parentNode);
+},
+    _setSelectable = function _setSelectable(elements, selectable) {
+  var i = elements.length,
+      e;
+
+  while (i--) {
+    e = elements[i];
+    e.ondragstart = e.onselectstart = selectable ? null : _emptyFunc;
+    gsap.set(e, {
+      lazy: true,
+      userSelect: selectable ? "text" : "none"
+    });
+  }
+},
+    _isFixed = function _isFixed(element) {
+  if (_getComputedStyle(element).position === "fixed") {
+    return true;
+  }
+
+  element = element.parentNode;
+
+  if (element && element.nodeType === 1) {
+    // avoid document fragments which will throw an error.
+    return _isFixed(element);
+  }
+},
+    _supports3D,
+    _addPaddingBR,
+    //The ScrollProxy class wraps an element's contents into another div (we call it "content") that we either add padding when necessary or apply a translate3d() transform in order to overscroll (scroll past the boundaries). This allows us to simply set the scrollTop/scrollLeft (or top/left for easier reverse-axis orientation, which is what we do in Draggable) and it'll do all the work for us. For example, if we tried setting scrollTop to -100 on a normal DOM element, it wouldn't work - it'd look the same as setting it to 0, but if we set scrollTop of a ScrollProxy to -100, it'll give the correct appearance by either setting paddingTop of the wrapper to 100 or applying a 100-pixel translateY.
+ScrollProxy = function ScrollProxy(element, vars) {
+  element = gsap.utils.toArray(element)[0];
+  vars = vars || {};
+  var content = document.createElement("div"),
+      style = content.style,
+      node = element.firstChild,
+      offsetTop = 0,
+      offsetLeft = 0,
+      prevTop = element.scrollTop,
+      prevLeft = element.scrollLeft,
+      scrollWidth = element.scrollWidth,
+      scrollHeight = element.scrollHeight,
+      extraPadRight = 0,
+      maxLeft = 0,
+      maxTop = 0,
+      elementWidth,
+      elementHeight,
+      contentHeight,
+      nextNode,
+      transformStart,
+      transformEnd;
+
+  if (_supports3D && vars.force3D !== false) {
+    transformStart = "translate3d(";
+    transformEnd = "px,0px)";
+  } else if (_transformProp) {
+    transformStart = "translate(";
+    transformEnd = "px)";
+  }
+
+  this.scrollTop = function (value, force) {
+    if (!arguments.length) {
+      return -this.top();
+    }
+
+    this.top(-value, force);
+  };
+
+  this.scrollLeft = function (value, force) {
+    if (!arguments.length) {
+      return -this.left();
+    }
+
+    this.left(-value, force);
+  };
+
+  this.left = function (value, force) {
+    if (!arguments.length) {
+      return -(element.scrollLeft + offsetLeft);
+    }
+
+    var dif = element.scrollLeft - prevLeft,
+        oldOffset = offsetLeft;
+
+    if ((dif > 2 || dif < -2) && !force) {
+      //if the user interacts with the scrollbar (or something else scrolls it, like the mouse wheel), we should kill any tweens of the ScrollProxy.
+      prevLeft = element.scrollLeft;
+      gsap.killTweensOf(this, {
+        left: 1,
+        scrollLeft: 1
+      });
+      this.left(-prevLeft);
+
+      if (vars.onKill) {
+        vars.onKill();
+      }
+
+      return;
+    }
+
+    value = -value; //invert because scrolling works in the opposite direction
+
+    if (value < 0) {
+      offsetLeft = value - 0.5 | 0;
+      value = 0;
+    } else if (value > maxLeft) {
+      offsetLeft = value - maxLeft | 0;
+      value = maxLeft;
+    } else {
+      offsetLeft = 0;
+    }
+
+    if (offsetLeft || oldOffset) {
+      if (!this._skip) {
+        style[_transformProp] = transformStart + -offsetLeft + "px," + -offsetTop + transformEnd;
+      }
+
+      if (offsetLeft + extraPadRight >= 0) {
+        style.paddingRight = offsetLeft + extraPadRight + "px";
+      }
+    }
+
+    element.scrollLeft = value | 0;
+    prevLeft = element.scrollLeft; //don't merge this with the line above because some browsers adjust the scrollLeft after it's set, so in order to be 100% accurate in tracking it, we need to ask the browser to report it.
+  };
+
+  this.top = function (value, force) {
+    if (!arguments.length) {
+      return -(element.scrollTop + offsetTop);
+    }
+
+    var dif = element.scrollTop - prevTop,
+        oldOffset = offsetTop;
+
+    if ((dif > 2 || dif < -2) && !force) {
+      //if the user interacts with the scrollbar (or something else scrolls it, like the mouse wheel), we should kill any tweens of the ScrollProxy.
+      prevTop = element.scrollTop;
+      gsap.killTweensOf(this, {
+        top: 1,
+        scrollTop: 1
+      });
+      this.top(-prevTop);
+
+      if (vars.onKill) {
+        vars.onKill();
+      }
+
+      return;
+    }
+
+    value = -value; //invert because scrolling works in the opposite direction
+
+    if (value < 0) {
+      offsetTop = value - 0.5 | 0;
+      value = 0;
+    } else if (value > maxTop) {
+      offsetTop = value - maxTop | 0;
+      value = maxTop;
+    } else {
+      offsetTop = 0;
+    }
+
+    if (offsetTop || oldOffset) {
+      if (!this._skip) {
+        style[_transformProp] = transformStart + -offsetLeft + "px," + -offsetTop + transformEnd;
+      }
+    }
+
+    element.scrollTop = value | 0;
+    prevTop = element.scrollTop;
+  };
+
+  this.maxScrollTop = function () {
+    return maxTop;
+  };
+
+  this.maxScrollLeft = function () {
+    return maxLeft;
+  };
+
+  this.disable = function () {
+    node = content.firstChild;
+
+    while (node) {
+      nextNode = node.nextSibling;
+      element.appendChild(node);
+      node = nextNode;
+    }
+
+    if (element === content.parentNode) {
+      //in case disable() is called when it's already disabled.
+      element.removeChild(content);
+    }
+  };
+
+  this.enable = function () {
+    node = element.firstChild;
+
+    if (node === content) {
+      return;
+    }
+
+    while (node) {
+      nextNode = node.nextSibling;
+      content.appendChild(node);
+      node = nextNode;
+    }
+
+    element.appendChild(content);
+    this.calibrate();
+  };
+
+  this.calibrate = function (force) {
+    var widthMatches = element.clientWidth === elementWidth,
+        cs,
+        x,
+        y;
+    prevTop = element.scrollTop;
+    prevLeft = element.scrollLeft;
+
+    if (widthMatches && element.clientHeight === elementHeight && content.offsetHeight === contentHeight && scrollWidth === element.scrollWidth && scrollHeight === element.scrollHeight && !force) {
+      return; //no need to recalculate things if the width and height haven't changed.
+    }
+
+    if (offsetTop || offsetLeft) {
+      x = this.left();
+      y = this.top();
+      this.left(-element.scrollLeft);
+      this.top(-element.scrollTop);
+    }
+
+    cs = _getComputedStyle(element); //first, we need to remove any width constraints to see how the content naturally flows so that we can see if it's wider than the containing element. If so, we've got to record the amount of overage so that we can apply that as padding in order for browsers to correctly handle things. Then we switch back to a width of 100% (without that, some browsers don't flow the content correctly)
+
+    if (!widthMatches || force) {
+      style.display = "block";
+      style.width = "auto";
+      style.paddingRight = "0px";
+      extraPadRight = Math.max(0, element.scrollWidth - element.clientWidth); //if the content is wider than the container, we need to add the paddingLeft and paddingRight in order for things to behave correctly.
+
+      if (extraPadRight) {
+        extraPadRight += parseFloat(cs.paddingLeft) + (_addPaddingBR ? parseFloat(cs.paddingRight) : 0);
+      }
+    }
+
+    style.display = "inline-block";
+    style.position = "relative";
+    style.overflow = "visible";
+    style.verticalAlign = "top";
+    style.boxSizing = "content-box";
+    style.width = "100%";
+    style.paddingRight = extraPadRight + "px"; //some browsers neglect to factor in the bottom padding when calculating the scrollHeight, so we need to add that padding to the content when that happens. Allow a 2px margin for error
+
+    if (_addPaddingBR) {
+      style.paddingBottom = cs.paddingBottom;
+    }
+
+    elementWidth = element.clientWidth;
+    elementHeight = element.clientHeight;
+    scrollWidth = element.scrollWidth;
+    scrollHeight = element.scrollHeight;
+    maxLeft = element.scrollWidth - elementWidth;
+    maxTop = element.scrollHeight - elementHeight;
+    contentHeight = content.offsetHeight;
+    style.display = "block";
+
+    if (x || y) {
+      this.left(x);
+      this.top(y);
+    }
+  };
+
+  this.content = content;
+  this.element = element;
+  this._skip = false;
+  this.enable();
+},
+    _initCore = function _initCore(required) {
+  if (_windowExists() && document.body) {
+    var nav = window && window.navigator;
+    _win = window;
+    _doc = document;
+    _docElement = _doc.documentElement;
+    _body = _doc.body;
+    _tempDiv = _createElement("div");
+    _supportsPointer = !!window.PointerEvent;
+    _placeholderDiv = _createElement("div");
+    _placeholderDiv.style.cssText = "visibility:hidden;height:1px;top:-1px;pointer-events:none;position:relative;clear:both;cursor:grab";
+    _defaultCursor = _placeholderDiv.style.cursor === "grab" ? "grab" : "move";
+    _isAndroid = nav && nav.userAgent.toLowerCase().indexOf("android") !== -1; //Android handles touch events in an odd way and it's virtually impossible to "feature test" so we resort to UA sniffing
+
+    _isTouchDevice = "ontouchstart" in _docElement && "orientation" in _win || nav && (nav.MaxTouchPoints > 0 || nav.msMaxTouchPoints > 0);
+
+    _addPaddingBR = function () {
+      //this function is in charge of analyzing browser behavior related to padding. It sets the _addPaddingBR to true if the browser doesn't normally factor in the bottom or right padding on the element inside the scrolling area, and it sets _addPaddingLeft to true if it's a browser that requires the extra offset (offsetLeft) to be added to the paddingRight (like Opera).
+      var div = _createElement("div"),
+          child = _createElement("div"),
+          childStyle = child.style,
+          parent = _body,
+          val;
+
+      childStyle.display = "inline-block";
+      childStyle.position = "relative";
+      div.style.cssText = child.innerHTML = "width:90px;height:40px;padding:10px;overflow:auto;visibility:hidden";
+      div.appendChild(child);
+      parent.appendChild(div);
+      val = child.offsetHeight + 18 > div.scrollHeight; //div.scrollHeight should be child.offsetHeight + 20 because of the 10px of padding on each side, but some browsers ignore one side. We allow a 2px margin of error.
+
+      parent.removeChild(div);
+      return val;
+    }();
+
+    _touchEventLookup = function (types) {
+      //we create an object that makes it easy to translate touch event types into their "pointer" counterparts if we're in a browser that uses those instead. Like IE10 uses "MSPointerDown" instead of "touchstart", for example.
+      var standard = types.split(","),
+          converted = ("onpointerdown" in _tempDiv ? "pointerdown,pointermove,pointerup,pointercancel" : "onmspointerdown" in _tempDiv ? "MSPointerDown,MSPointerMove,MSPointerUp,MSPointerCancel" : types).split(","),
+          obj = {},
+          i = 4;
+
+      while (--i > -1) {
+        obj[standard[i]] = converted[i];
+        obj[converted[i]] = standard[i];
+      } //to avoid problems in iOS 9, test to see if the browser supports the "passive" option on addEventListener().
+
+
+      try {
+        _docElement.addEventListener("test", null, Object.defineProperty({}, "passive", {
+          get: function get() {
+            _supportsPassive = 1;
+          }
+        }));
+      } catch (e) {}
+
+      return obj;
+    }("touchstart,touchmove,touchend,touchcancel");
+
+    _addListener(_doc, "touchcancel", _emptyFunc); //some older Android devices intermittently stop dispatching "touchmove" events if we don't listen for "touchcancel" on the document. Very strange indeed.
+
+
+    _addListener(_win, "touchmove", _emptyFunc); //works around Safari bugs that still allow the page to scroll even when we preventDefault() on the touchmove event.
+
+
+    _body && _body.addEventListener("touchstart", _emptyFunc); //works around Safari bug: https://greensock.com/forums/topic/21450-draggable-in-iframe-on-mobile-is-buggy/
+
+    _addListener(_doc, "contextmenu", function () {
+      for (var p in _lookup) {
+        if (_lookup[p].isPressed) {
+          _lookup[p].endDrag();
+        }
+      }
+    });
+
+    gsap = _coreInitted = _getGSAP();
+  }
+
+  if (gsap) {
+    InertiaPlugin = gsap.plugins.inertia;
+    _checkPrefix = gsap.utils.checkPrefix;
+    _transformProp = _checkPrefix(_transformProp);
+    _transformOriginProp = _checkPrefix(_transformOriginProp);
+    _toArray = gsap.utils.toArray;
+    _supports3D = !!_checkPrefix("perspective");
+  } else if (required) {
+    console.warn("Please gsap.registerPlugin(Draggable)");
+  }
+};
+
+var EventDispatcher = /*#__PURE__*/function () {
+  function EventDispatcher(target) {
+    this._listeners = {};
+    this.target = target || this;
+  }
+
+  var _proto = EventDispatcher.prototype;
+
+  _proto.addEventListener = function addEventListener(type, callback) {
+    var list = this._listeners[type] || (this._listeners[type] = []);
+
+    if (!~list.indexOf(callback)) {
+      list.push(callback);
+    }
+  };
+
+  _proto.removeEventListener = function removeEventListener(type, callback) {
+    var list = this._listeners[type],
+        i = list && list.indexOf(callback) || -1;
+    i > -1 && list.splice(i, 1);
+  };
+
+  _proto.dispatchEvent = function dispatchEvent(type) {
+    var _this = this;
+
+    var result;
+    (this._listeners[type] || []).forEach(function (callback) {
+      return callback.call(_this, {
+        type: type,
+        target: _this.target
+      }) === false && (result = false);
+    });
+    return result; //if any of the callbacks return false, pass that along.
+  };
+
+  return EventDispatcher;
+}();
+
+export var Draggable = /*#__PURE__*/function (_EventDispatcher) {
+  _inheritsLoose(Draggable, _EventDispatcher);
+
+  function Draggable(target, vars) {
+    var _this2;
+
+    _this2 = _EventDispatcher.call(this) || this;
+    _coreInitted || _initCore(1);
+    target = _toArray(target)[0]; //in case the target is a selector object or selector text
+
+    if (!InertiaPlugin) {
+      InertiaPlugin = gsap.plugins.inertia;
+    }
+
+    _this2.vars = vars = _copy(vars || {});
+    _this2.target = target;
+    _this2.x = _this2.y = _this2.rotation = 0;
+    _this2.dragResistance = parseFloat(vars.dragResistance) || 0;
+    _this2.edgeResistance = isNaN(vars.edgeResistance) ? 1 : parseFloat(vars.edgeResistance) || 0;
+    _this2.lockAxis = vars.lockAxis;
+    _this2.autoScroll = vars.autoScroll || 0;
+    _this2.lockedAxis = null;
+    _this2.allowEventDefault = !!vars.allowEventDefault;
+    gsap.getProperty(target, "x"); // to ensure that transforms are instantiated.
+
+    var type = (vars.type || "x,y").toLowerCase(),
+        xyMode = ~type.indexOf("x") || ~type.indexOf("y"),
+        rotationMode = type.indexOf("rotation") !== -1,
+        xProp = rotationMode ? "rotation" : xyMode ? "x" : "left",
+        yProp = xyMode ? "y" : "top",
+        allowX = !!(~type.indexOf("x") || ~type.indexOf("left") || type === "scroll"),
+        allowY = !!(~type.indexOf("y") || ~type.indexOf("top") || type === "scroll"),
+        minimumMovement = vars.minimumMovement || 2,
+        self = _assertThisInitialized(_this2),
+        triggers = _toArray(vars.trigger || vars.handle || target),
+        killProps = {},
+        dragEndTime = 0,
+        checkAutoScrollBounds = false,
+        autoScrollMarginTop = vars.autoScrollMarginTop || 40,
+        autoScrollMarginRight = vars.autoScrollMarginRight || 40,
+        autoScrollMarginBottom = vars.autoScrollMarginBottom || 40,
+        autoScrollMarginLeft = vars.autoScrollMarginLeft || 40,
+        isClickable = vars.clickableTest || _isClickable,
+        clickTime = 0,
+        gsCache = target._gsap || gsap.core.getCache(target),
+        isFixed = _isFixed(target),
+        getPropAsNum = function getPropAsNum(property, unit) {
+      return parseFloat(gsCache.get(target, property, unit));
+    },
+        ownerDoc = target.ownerDocument || _doc,
+        enabled,
+        scrollProxy,
+        startPointerX,
+        startPointerY,
+        startElementX,
+        startElementY,
+        hasBounds,
+        hasDragCallback,
+        hasMoveCallback,
+        maxX,
+        minX,
+        maxY,
+        minY,
+        touch,
+        touchID,
+        rotationOrigin,
+        dirty,
+        old,
+        snapX,
+        snapY,
+        snapXY,
+        isClicking,
+        touchEventTarget,
+        matrix,
+        interrupted,
+        allowNativeTouchScrolling,
+        touchDragAxis,
+        isDispatching,
+        clickDispatch,
+        trustedClickDispatch,
+        isPreventingDefault,
+        innerMatrix,
+        onContextMenu = function onContextMenu(e) {
+      //used to prevent long-touch from triggering a context menu.
+      // (self.isPressed && e.which < 2) && self.endDrag() // previously ended drag when context menu was triggered, but instead we should just stop propagation and prevent the default event behavior.
+      _preventDefault(e);
+
+      e.stopImmediatePropagation && e.stopImmediatePropagation();
+      return false;
+    },
+        //this method gets called on every tick of TweenLite.ticker which allows us to synchronize the renders to the core engine (which is typically synchronized with the display refresh via requestAnimationFrame). This is an optimization - it's better than applying the values inside the "mousemove" or "touchmove" event handler which may get called many times inbetween refreshes.
+    render = function render(suppressEvents) {
+      if (self.autoScroll && self.isDragging && (checkAutoScrollBounds || dirty)) {
+        var e = target,
+            autoScrollFactor = self.autoScroll * 15,
+            //multiplying by 15 just gives us a better "feel" speed-wise.
+        parent,
+            isRoot,
+            rect,
+            pointerX,
+            pointerY,
+            changeX,
+            changeY,
+            gap;
+        checkAutoScrollBounds = false;
+        _windowProxy.scrollTop = _win.pageYOffset != null ? _win.pageYOffset : ownerDoc.documentElement.scrollTop != null ? ownerDoc.documentElement.scrollTop : ownerDoc.body.scrollTop;
+        _windowProxy.scrollLeft = _win.pageXOffset != null ? _win.pageXOffset : ownerDoc.documentElement.scrollLeft != null ? ownerDoc.documentElement.scrollLeft : ownerDoc.body.scrollLeft;
+        pointerX = self.pointerX - _windowProxy.scrollLeft;
+        pointerY = self.pointerY - _windowProxy.scrollTop;
+
+        while (e && !isRoot) {
+          //walk up the chain and sense wherever the pointer is within 40px of an edge that's scrollable.
+          isRoot = _isRoot(e.parentNode);
+          parent = isRoot ? _windowProxy : e.parentNode;
+          rect = isRoot ? {
+            bottom: Math.max(_docElement.clientHeight, _win.innerHeight || 0),
+            right: Math.max(_docElement.clientWidth, _win.innerWidth || 0),
+            left: 0,
+            top: 0
+          } : parent.getBoundingClientRect();
+          changeX = changeY = 0;
+
+          if (allowY) {
+            gap = parent._gsMaxScrollY - parent.scrollTop;
+
+            if (gap < 0) {
+              changeY = gap;
+            } else if (pointerY > rect.bottom - autoScrollMarginBottom && gap) {
+              checkAutoScrollBounds = true;
+              changeY = Math.min(gap, autoScrollFactor * (1 - Math.max(0, rect.bottom - pointerY) / autoScrollMarginBottom) | 0);
+            } else if (pointerY < rect.top + autoScrollMarginTop && parent.scrollTop) {
+              checkAutoScrollBounds = true;
+              changeY = -Math.min(parent.scrollTop, autoScrollFactor * (1 - Math.max(0, pointerY - rect.top) / autoScrollMarginTop) | 0);
+            }
+
+            if (changeY) {
+              parent.scrollTop += changeY;
+            }
+          }
+
+          if (allowX) {
+            gap = parent._gsMaxScrollX - parent.scrollLeft;
+
+            if (gap < 0) {
+              changeX = gap;
+            } else if (pointerX > rect.right - autoScrollMarginRight && gap) {
+              checkAutoScrollBounds = true;
+              changeX = Math.min(gap, autoScrollFactor * (1 - Math.max(0, rect.right - pointerX) / autoScrollMarginRight) | 0);
+            } else if (pointerX < rect.left + autoScrollMarginLeft && parent.scrollLeft) {
+              checkAutoScrollBounds = true;
+              changeX = -Math.min(parent.scrollLeft, autoScrollFactor * (1 - Math.max(0, pointerX - rect.left) / autoScrollMarginLeft) | 0);
+            }
+
+            if (changeX) {
+              parent.scrollLeft += changeX;
+            }
+          }
+
+          if (isRoot && (changeX || changeY)) {
+            _win.scrollTo(parent.scrollLeft, parent.scrollTop);
+
+            setPointerPosition(self.pointerX + changeX, self.pointerY + changeY);
+          }
+
+          e = parent;
+        }
+      }
+
+      if (dirty) {
+        var x = self.x,
+            y = self.y;
+
+        if (rotationMode) {
+          self.deltaX = x - parseFloat(gsCache.rotation);
+          self.rotation = x;
+          gsCache.rotation = x + "deg";
+          gsCache.renderTransform(1, gsCache);
+        } else {
+          if (scrollProxy) {
+            if (allowY) {
+              self.deltaY = y - scrollProxy.top();
+              scrollProxy.top(y);
+            }
+
+            if (allowX) {
+              self.deltaX = x - scrollProxy.left();
+              scrollProxy.left(x);
+            }
+          } else if (xyMode) {
+            if (allowY) {
+              self.deltaY = y - parseFloat(gsCache.y);
+              gsCache.y = y + "px";
+            }
+
+            if (allowX) {
+              self.deltaX = x - parseFloat(gsCache.x);
+              gsCache.x = x + "px";
+            }
+
+            gsCache.renderTransform(1, gsCache);
+          } else {
+            if (allowY) {
+              self.deltaY = y - parseFloat(target.style.top || 0);
+              target.style.top = y + "px";
+            }
+
+            if (allowX) {
+              self.deltaX = x - parseFloat(target.style.left || 0);
+              target.style.left = x + "px";
+            }
+          }
+        }
+
+        if (hasDragCallback && !suppressEvents && !isDispatching) {
+          isDispatching = true; //in case onDrag has an update() call (avoid endless loop)
+
+          if (_dispatchEvent(self, "drag", "onDrag") === false) {
+            if (allowX) {
+              self.x -= self.deltaX;
+            }
+
+            if (allowY) {
+              self.y -= self.deltaY;
+            }
+
+            render(true);
+          }
+
+          isDispatching = false;
+        }
+      }
+
+      dirty = false;
+    },
+        //copies the x/y from the element (whether that be transforms, top/left, or ScrollProxy's top/left) to the Draggable's x and y (and rotation if necessary) properties so that they reflect reality and it also (optionally) applies any snapping necessary. This is used by the InertiaPlugin tween in an onUpdate to ensure things are synced and snapped.
+    syncXY = function syncXY(skipOnUpdate, skipSnap) {
+      var x = self.x,
+          y = self.y,
+          snappedValue,
+          cs;
+
+      if (!target._gsap) {
+        //just in case the _gsap cache got wiped, like if the user called clearProps on the transform or something (very rare).
+        gsCache = gsap.core.getCache(target);
+      }
+
+      gsCache.uncache && gsap.getProperty(target, "x"); // trigger a re-cache
+
+      if (xyMode) {
+        self.x = parseFloat(gsCache.x);
+        self.y = parseFloat(gsCache.y);
+      } else if (rotationMode) {
+        self.x = self.rotation = parseFloat(gsCache.rotation);
+      } else if (scrollProxy) {
+        self.y = scrollProxy.top();
+        self.x = scrollProxy.left();
+      } else {
+        self.y = parseFloat(target.style.top || (cs = _getComputedStyle(target)) && cs.top) || 0;
+        self.x = parseFloat(target.style.left || (cs || {}).left) || 0;
+      }
+
+      if ((snapX || snapY || snapXY) && !skipSnap && (self.isDragging || self.isThrowing)) {
+        if (snapXY) {
+          _temp1.x = self.x;
+          _temp1.y = self.y;
+          snappedValue = snapXY(_temp1);
+
+          if (snappedValue.x !== self.x) {
+            self.x = snappedValue.x;
+            dirty = true;
+          }
+
+          if (snappedValue.y !== self.y) {
+            self.y = snappedValue.y;
+            dirty = true;
+          }
+        }
+
+        if (snapX) {
+          snappedValue = snapX(self.x);
+
+          if (snappedValue !== self.x) {
+            self.x = snappedValue;
+
+            if (rotationMode) {
+              self.rotation = snappedValue;
+            }
+
+            dirty = true;
+          }
+        }
+
+        if (snapY) {
+          snappedValue = snapY(self.y);
+
+          if (snappedValue !== self.y) {
+            self.y = snappedValue;
+          }
+
+          dirty = true;
+        }
+      }
+
+      dirty && render(true);
+
+      if (!skipOnUpdate) {
+        self.deltaX = self.x - x;
+        self.deltaY = self.y - y;
+
+        _dispatchEvent(self, "throwupdate", "onThrowUpdate");
+      }
+    },
+        buildSnapFunc = function buildSnapFunc(snap, min, max, factor) {
+      if (min == null) {
+        min = -_bigNum;
+      }
+
+      if (max == null) {
+        max = _bigNum;
+      }
+
+      if (_isFunction(snap)) {
+        return function (n) {
+          var edgeTolerance = !self.isPressed ? 1 : 1 - self.edgeResistance; //if we're tweening, disable the edgeTolerance because it's already factored into the tweening values (we don't want to apply it multiple times)
+
+          return snap.call(self, n > max ? max + (n - max) * edgeTolerance : n < min ? min + (n - min) * edgeTolerance : n) * factor;
+        };
+      }
+
+      if (_isArray(snap)) {
+        return function (n) {
+          var i = snap.length,
+              closest = 0,
+              absDif = _bigNum,
+              val,
+              dif;
+
+          while (--i > -1) {
+            val = snap[i];
+            dif = val - n;
+
+            if (dif < 0) {
+              dif = -dif;
+            }
+
+            if (dif < absDif && val >= min && val <= max) {
+              closest = i;
+              absDif = dif;
+            }
+          }
+
+          return snap[closest];
+        };
+      }
+
+      return isNaN(snap) ? function (n) {
+        return n;
+      } : function () {
+        return snap * factor;
+      };
+    },
+        buildPointSnapFunc = function buildPointSnapFunc(snap, minX, maxX, minY, maxY, radius, factor) {
+      radius = radius && radius < _bigNum ? radius * radius : _bigNum; //so we don't have to Math.sqrt() in the functions. Performance optimization.
+
+      if (_isFunction(snap)) {
+        return function (point) {
+          var edgeTolerance = !self.isPressed ? 1 : 1 - self.edgeResistance,
+              x = point.x,
+              y = point.y,
+              result,
+              dx,
+              dy; //if we're tweening, disable the edgeTolerance because it's already factored into the tweening values (we don't want to apply it multiple times)
+
+          point.x = x = x > maxX ? maxX + (x - maxX) * edgeTolerance : x < minX ? minX + (x - minX) * edgeTolerance : x;
+          point.y = y = y > maxY ? maxY + (y - maxY) * edgeTolerance : y < minY ? minY + (y - minY) * edgeTolerance : y;
+          result = snap.call(self, point);
+
+          if (result !== point) {
+            point.x = result.x;
+            point.y = result.y;
+          }
+
+          if (factor !== 1) {
+            point.x *= factor;
+            point.y *= factor;
+          }
+
+          if (radius < _bigNum) {
+            dx = point.x - x;
+            dy = point.y - y;
+
+            if (dx * dx + dy * dy > radius) {
+              point.x = x;
+              point.y = y;
+            }
+          }
+
+          return point;
+        };
+      }
+
+      if (_isArray(snap)) {
+        return function (p) {
+          var i = snap.length,
+              closest = 0,
+              minDist = _bigNum,
+              x,
+              y,
+              point,
+              dist;
+
+          while (--i > -1) {
+            point = snap[i];
+            x = point.x - p.x;
+            y = point.y - p.y;
+            dist = x * x + y * y;
+
+            if (dist < minDist) {
+              closest = i;
+              minDist = dist;
+            }
+          }
+
+          return minDist <= radius ? snap[closest] : p;
+        };
+      }
+
+      return function (n) {
+        return n;
+      };
+    },
+        calculateBounds = function calculateBounds() {
+      var bounds, targetBounds, snap, snapIsRaw;
+      hasBounds = false;
+
+      if (scrollProxy) {
+        scrollProxy.calibrate();
+        self.minX = minX = -scrollProxy.maxScrollLeft();
+        self.minY = minY = -scrollProxy.maxScrollTop();
+        self.maxX = maxX = self.maxY = maxY = 0;
+        hasBounds = true;
+      } else if (!!vars.bounds) {
+        bounds = _getBounds(vars.bounds, target.parentNode); //could be a selector/jQuery object or a DOM element or a generic object like {top:0, left:100, width:1000, height:800} or {minX:100, maxX:1100, minY:0, maxY:800}
+
+        if (rotationMode) {
+          self.minX = minX = bounds.left;
+          self.maxX = maxX = bounds.left + bounds.width;
+          self.minY = minY = self.maxY = maxY = 0;
+        } else if (!_isUndefined(vars.bounds.maxX) || !_isUndefined(vars.bounds.maxY)) {
+          bounds = vars.bounds;
+          self.minX = minX = bounds.minX;
+          self.minY = minY = bounds.minY;
+          self.maxX = maxX = bounds.maxX;
+          self.maxY = maxY = bounds.maxY;
+        } else {
+          targetBounds = _getBounds(target, target.parentNode);
+          self.minX = minX = Math.round(getPropAsNum(xProp, "px") + bounds.left - targetBounds.left);
+          self.minY = minY = Math.round(getPropAsNum(yProp, "px") + bounds.top - targetBounds.top);
+          self.maxX = maxX = Math.round(minX + (bounds.width - targetBounds.width));
+          self.maxY = maxY = Math.round(minY + (bounds.height - targetBounds.height));
+        }
+
+        if (minX > maxX) {
+          self.minX = maxX;
+          self.maxX = maxX = minX;
+          minX = self.minX;
+        }
+
+        if (minY > maxY) {
+          self.minY = maxY;
+          self.maxY = maxY = minY;
+          minY = self.minY;
+        }
+
+        if (rotationMode) {
+          self.minRotation = minX;
+          self.maxRotation = maxX;
+        }
+
+        hasBounds = true;
+      }
+
+      if (vars.liveSnap) {
+        snap = vars.liveSnap === true ? vars.snap || {} : vars.liveSnap;
+        snapIsRaw = _isArray(snap) || _isFunction(snap);
+
+        if (rotationMode) {
+          snapX = buildSnapFunc(snapIsRaw ? snap : snap.rotation, minX, maxX, 1);
+          snapY = null;
+        } else {
+          if (snap.points) {
+            snapXY = buildPointSnapFunc(snapIsRaw ? snap : snap.points, minX, maxX, minY, maxY, snap.radius, scrollProxy ? -1 : 1);
+          } else {
+            if (allowX) {
+              snapX = buildSnapFunc(snapIsRaw ? snap : snap.x || snap.left || snap.scrollLeft, minX, maxX, scrollProxy ? -1 : 1);
+            }
+
+            if (allowY) {
+              snapY = buildSnapFunc(snapIsRaw ? snap : snap.y || snap.top || snap.scrollTop, minY, maxY, scrollProxy ? -1 : 1);
+            }
+          }
+        }
+      }
+    },
+        onThrowComplete = function onThrowComplete() {
+      self.isThrowing = false;
+
+      _dispatchEvent(self, "throwcomplete", "onThrowComplete");
+    },
+        onThrowInterrupt = function onThrowInterrupt() {
+      self.isThrowing = false;
+    },
+        animate = function animate(inertia, forceZeroVelocity) {
+      var snap, snapIsRaw, tween, overshootTolerance;
+
+      if (inertia && InertiaPlugin) {
+        if (inertia === true) {
+          snap = vars.snap || vars.liveSnap || {};
+          snapIsRaw = _isArray(snap) || _isFunction(snap);
+          inertia = {
+            resistance: (vars.throwResistance || vars.resistance || 1000) / (rotationMode ? 10 : 1)
+          };
+
+          if (rotationMode) {
+            inertia.rotation = _parseInertia(self, snapIsRaw ? snap : snap.rotation, maxX, minX, 1, forceZeroVelocity);
+          } else {
+            if (allowX) {
+              inertia[xProp] = _parseInertia(self, snapIsRaw ? snap : snap.points || snap.x || snap.left, maxX, minX, scrollProxy ? -1 : 1, forceZeroVelocity || self.lockedAxis === "x");
+            }
+
+            if (allowY) {
+              inertia[yProp] = _parseInertia(self, snapIsRaw ? snap : snap.points || snap.y || snap.top, maxY, minY, scrollProxy ? -1 : 1, forceZeroVelocity || self.lockedAxis === "y");
+            }
+
+            if (snap.points || _isArray(snap) && _isObject(snap[0])) {
+              inertia.linkedProps = xProp + "," + yProp;
+              inertia.radius = snap.radius; //note: we also disable liveSnapping while throwing if there's a "radius" defined, otherwise it looks weird to have the item thrown past a snapping point but live-snapping mid-tween. We do this by altering the onUpdateParams so that "skipSnap" parameter is true for syncXY.
+            }
+          }
+        }
+
+        self.isThrowing = true;
+        overshootTolerance = !isNaN(vars.overshootTolerance) ? vars.overshootTolerance : vars.edgeResistance === 1 ? 0 : 1 - self.edgeResistance + 0.2;
+
+        if (!inertia.duration) {
+          inertia.duration = {
+            max: Math.max(vars.minDuration || 0, "maxDuration" in vars ? vars.maxDuration : 2),
+            min: !isNaN(vars.minDuration) ? vars.minDuration : overshootTolerance === 0 || _isObject(inertia) && inertia.resistance > 1000 ? 0 : 0.5,
+            overshoot: overshootTolerance
+          };
+        }
+
+        self.tween = tween = gsap.to(scrollProxy || target, {
+          inertia: inertia,
+          data: "_draggable",
+          onComplete: onThrowComplete,
+          onInterrupt: onThrowInterrupt,
+          onUpdate: vars.fastMode ? _dispatchEvent : syncXY,
+          onUpdateParams: vars.fastMode ? [self, "onthrowupdate", "onThrowUpdate"] : snap && snap.radius ? [false, true] : []
+        });
+
+        if (!vars.fastMode) {
+          if (scrollProxy) {
+            scrollProxy._skip = true; // Microsoft browsers have a bug that causes them to briefly render the position incorrectly (it flashes to the end state when we seek() the tween even though we jump right back to the current position, and this only seems to happen when we're affecting both top and left), so we set a _suspendTransforms flag to prevent it from actually applying the values in the ScrollProxy.
+          }
+
+          tween.render(1e9, true, true); // force to the end. Remember, the duration will likely change upon initting because that's when InertiaPlugin calculates it.
+
+          syncXY(true, true);
+          self.endX = self.x;
+          self.endY = self.y;
+
+          if (rotationMode) {
+            self.endRotation = self.x;
+          }
+
+          tween.play(0);
+          syncXY(true, true);
+
+          if (scrollProxy) {
+            scrollProxy._skip = false; //Microsoft browsers have a bug that causes them to briefly render the position incorrectly (it flashes to the end state when we seek() the tween even though we jump right back to the current position, and this only seems to happen when we're affecting both top and left), so we set a _suspendTransforms flag to prevent it from actually applying the values in the ScrollProxy.
+          }
+        }
+      } else if (hasBounds) {
+        self.applyBounds();
+      }
+    },
+        updateMatrix = function updateMatrix(shiftStart) {
+      var start = matrix,
+          p;
+      matrix = getGlobalMatrix(target.parentNode, true);
+
+      if (shiftStart && self.isPressed && !matrix.equals(start || new Matrix2D())) {
+        //if the matrix changes WHILE the element is pressed, we must adjust the startPointerX and startPointerY accordingly, so we invert the original matrix and figure out where the pointerX and pointerY were in the global space, then apply the new matrix to get the updated coordinates.
+        p = start.inverse().apply({
+          x: startPointerX,
+          y: startPointerY
+        });
+        matrix.apply(p, p);
+        startPointerX = p.x;
+        startPointerY = p.y;
+      }
+
+      if (matrix.equals(_identityMatrix)) {
+        //if there are no transforms, we can optimize performance by not factoring in the matrix
+        matrix = null;
+      }
+    },
+        recordStartPositions = function recordStartPositions() {
+      var edgeTolerance = 1 - self.edgeResistance,
+          offsetX = isFixed ? _getDocScrollLeft(ownerDoc) : 0,
+          offsetY = isFixed ? _getDocScrollTop(ownerDoc) : 0,
+          parsedOrigin,
+          x,
+          y;
+      updateMatrix(false);
+      _point1.x = self.pointerX - offsetX;
+      _point1.y = self.pointerY - offsetY;
+      matrix && matrix.apply(_point1, _point1);
+      startPointerX = _point1.x; //translate to local coordinate system
+
+      startPointerY = _point1.y;
+
+      if (dirty) {
+        setPointerPosition(self.pointerX, self.pointerY);
+        render(true);
+      }
+
+      innerMatrix = getGlobalMatrix(target);
+
+      if (scrollProxy) {
+        calculateBounds();
+        startElementY = scrollProxy.top();
+        startElementX = scrollProxy.left();
+      } else {
+        //if the element is in the process of tweening, don't force snapping to occur because it could make it jump. Imagine the user throwing, then before it's done, clicking on the element in its inbetween state.
+        if (isTweening()) {
+          syncXY(true, true);
+          calculateBounds();
+        } else {
+          self.applyBounds();
+        }
+
+        if (rotationMode) {
+          parsedOrigin = target.ownerSVGElement ? [gsCache.xOrigin - target.getBBox().x, gsCache.yOrigin - target.getBBox().y] : (_getComputedStyle(target)[_transformOriginProp] || "0 0").split(" ");
+          rotationOrigin = self.rotationOrigin = getGlobalMatrix(target).apply({
+            x: parseFloat(parsedOrigin[0]) || 0,
+            y: parseFloat(parsedOrigin[1]) || 0
+          });
+          syncXY(true, true);
+          x = self.pointerX - rotationOrigin.x - offsetX;
+          y = rotationOrigin.y - self.pointerY + offsetY;
+          startElementX = self.x; //starting rotation (x always refers to rotation in type:"rotation", measured in degrees)
+
+          startElementY = self.y = Math.atan2(y, x) * _RAD2DEG;
+        } else {
+          //parent = !isFixed && target.parentNode;
+          //startScrollTop = parent ? parent.scrollTop || 0 : 0;
+          //startScrollLeft = parent ? parent.scrollLeft || 0 : 0;
+          startElementY = getPropAsNum(yProp, "px"); //record the starting top and left values so that we can just add the mouse's movement to them later.
+
+          startElementX = getPropAsNum(xProp, "px");
+        }
+      }
+
+      if (hasBounds && edgeTolerance) {
+        if (startElementX > maxX) {
+          startElementX = maxX + (startElementX - maxX) / edgeTolerance;
+        } else if (startElementX < minX) {
+          startElementX = minX - (minX - startElementX) / edgeTolerance;
+        }
+
+        if (!rotationMode) {
+          if (startElementY > maxY) {
+            startElementY = maxY + (startElementY - maxY) / edgeTolerance;
+          } else if (startElementY < minY) {
+            startElementY = minY - (minY - startElementY) / edgeTolerance;
+          }
+        }
+      }
+
+      self.startX = startElementX = _round(startElementX);
+      self.startY = startElementY = _round(startElementY);
+    },
+        isTweening = function isTweening() {
+      return self.tween && self.tween.isActive();
+    },
+        removePlaceholder = function removePlaceholder() {
+      if (_placeholderDiv.parentNode && !isTweening() && !self.isDragging) {
+        //_placeholderDiv just props open auto-scrolling containers so they don't collapse as the user drags left/up. We remove it after dragging (and throwing, if necessary) finishes.
+        _placeholderDiv.parentNode.removeChild(_placeholderDiv);
+      }
+    },
+        //called when the mouse is pressed (or touch starts)
+    onPress = function onPress(e, force) {
+      var i;
+
+      if (!enabled || self.isPressed || !e || (e.type === "mousedown" || e.type === "pointerdown") && !force && _getTime() - clickTime < 30 && _touchEventLookup[self.pointerEvent.type]) {
+        //when we DON'T preventDefault() in order to accommodate touch-scrolling and the user just taps, many browsers also fire a mousedown/mouseup sequence AFTER the touchstart/touchend sequence, thus it'd result in two quick "click" events being dispatched. This line senses that condition and halts it on the subsequent mousedown.
+        isPreventingDefault && e && enabled && _preventDefault(e); // in some browsers, we must listen for multiple event types like touchstart, pointerdown, mousedown. The first time this function is called, we record whether or not we _preventDefault() so that on duplicate calls, we can do the same if necessary.
+
+        return;
+      }
+
+      interrupted = isTweening();
+      self.pointerEvent = e;
+
+      if (_touchEventLookup[e.type]) {
+        //note: on iOS, BOTH touchmove and mousemove are dispatched, but the mousemove has pageY and pageX of 0 which would mess up the calculations and needlessly hurt performance.
+        touchEventTarget = ~e.type.indexOf("touch") ? e.currentTarget || e.target : ownerDoc; //pointer-based touches (for Microsoft browsers) don't remain locked to the original target like other browsers, so we must use the document instead. The event type would be "MSPointerDown" or "pointerdown".
+
+        _addListener(touchEventTarget, "touchend", onRelease);
+
+        _addListener(touchEventTarget, "touchmove", onMove);
+
+        _addListener(touchEventTarget, "touchcancel", onRelease);
+
+        _addListener(ownerDoc, "touchstart", _onMultiTouchDocument);
+      } else {
+        touchEventTarget = null;
+
+        _addListener(ownerDoc, "mousemove", onMove); //attach these to the document instead of the box itself so that if the user's mouse moves too quickly (and off of the box), things still work.
+
+      }
+
+      touchDragAxis = null;
+
+      if (!_supportsPointer || !touchEventTarget) {
+        _addListener(ownerDoc, "mouseup", onRelease);
+
+        e && e.target && _addListener(e.target, "mouseup", onRelease); //we also have to listen directly on the element because some browsers don't bubble up the event to the _doc on elements with contentEditable="true"
+      }
+
+      isClicking = isClickable.call(self, e.target) && vars.dragClickables === false && !force;
+
+      if (isClicking) {
+        _addListener(e.target, "change", onRelease); //in some browsers, when you mousedown on a <select> element, no mouseup gets dispatched! So we listen for a "change" event instead.
+
+
+        _dispatchEvent(self, "pressInit", "onPressInit");
+
+        _dispatchEvent(self, "press", "onPress");
+
+        _setSelectable(triggers, true); //accommodates things like inputs and elements with contentEditable="true" (otherwise user couldn't drag to select text)
+
+
+        isPreventingDefault = false;
+        return;
+      }
+
+      allowNativeTouchScrolling = !touchEventTarget || allowX === allowY || self.vars.allowNativeTouchScrolling === false || self.vars.allowContextMenu && e && (e.ctrlKey || e.which > 2) ? false : allowX ? "y" : "x"; //note: in Chrome, right-clicking (for a context menu) fires onPress and it doesn't have the event.which set properly, so we must look for event.ctrlKey. If the user wants to allow context menus we should of course sense it here and not allow native touch scrolling.
+
+      isPreventingDefault = !allowNativeTouchScrolling && !self.allowEventDefault;
+
+      if (isPreventingDefault) {
+        _preventDefault(e);
+
+        _addListener(_win, "touchforcechange", _preventDefault); //works around safari bug: https://greensock.com/forums/topic/21450-draggable-in-iframe-on-mobile-is-buggy/
+
+      }
+
+      if (e.changedTouches) {
+        //touch events store the data slightly differently
+        e = touch = e.changedTouches[0];
+        touchID = e.identifier;
+      } else if (e.pointerId) {
+        touchID = e.pointerId; //for some Microsoft browsers
+      } else {
+        touch = touchID = null;
+      }
+
+      _dragCount++;
+
+      _addToRenderQueue(render); //causes the Draggable to render on each "tick" of TweenLite.ticker (performance optimization - updating values in a mousemove can cause them to happen too frequently, like multiple times between frame redraws which is wasteful, and it also prevents values from updating properly in IE8)
+
+
+      startPointerY = self.pointerY = e.pageY; //record the starting x and y so that we can calculate the movement from the original in _onMouseMove
+
+      startPointerX = self.pointerX = e.pageX;
+
+      _dispatchEvent(self, "pressInit", "onPressInit");
+
+      if (allowNativeTouchScrolling || self.autoScroll) {
+        _recordMaxScrolls(target.parentNode);
+      }
+
+      if (target.parentNode && self.autoScroll && !scrollProxy && !rotationMode && target.parentNode._gsMaxScrollX && !_placeholderDiv.parentNode && !target.getBBox) {
+        //add a placeholder div to prevent the parent container from collapsing when the user drags the element left.
+        _placeholderDiv.style.width = target.parentNode.scrollWidth + "px";
+        target.parentNode.appendChild(_placeholderDiv);
+      }
+
+      recordStartPositions();
+      self.tween && self.tween.kill();
+      self.isThrowing = false;
+      gsap.killTweensOf(scrollProxy || target, killProps, true); //in case the user tries to drag it before the last tween is done.
+
+      scrollProxy && gsap.killTweensOf(target, {
+        scrollTo: 1
+      }, true); //just in case the original target's scroll position is being tweened somewhere else.
+
+      self.tween = self.lockedAxis = null;
+
+      if (vars.zIndexBoost || !rotationMode && !scrollProxy && vars.zIndexBoost !== false) {
+        target.style.zIndex = Draggable.zIndex++;
+      }
+
+      self.isPressed = true;
+      hasDragCallback = !!(vars.onDrag || self._listeners.drag);
+      hasMoveCallback = !!(vars.onMove || self._listeners.move);
+
+      if (vars.cursor !== false || vars.activeCursor) {
+        i = triggers.length;
+
+        while (--i > -1) {
+          gsap.set(triggers[i], {
+            cursor: vars.activeCursor || vars.cursor || (_defaultCursor === "grab" ? "grabbing" : _defaultCursor)
+          });
+        }
+      }
+
+      _dispatchEvent(self, "press", "onPress");
+    },
+        //called every time the mouse/touch moves
+    onMove = function onMove(e) {
+      var originalEvent = e,
+          touches,
+          pointerX,
+          pointerY,
+          i,
+          dx,
+          dy;
+
+      if (!enabled || _isMultiTouching || !self.isPressed || !e) {
+        isPreventingDefault && e && enabled && _preventDefault(e); // in some browsers, we must listen for multiple event types like touchmove, pointermove, mousemove. The first time this function is called, we record whether or not we _preventDefault() so that on duplicate calls, we can do the same if necessary.
+
+        return;
+      }
+
+      self.pointerEvent = e;
+      touches = e.changedTouches;
+
+      if (touches) {
+        //touch events store the data slightly differently
+        e = touches[0];
+
+        if (e !== touch && e.identifier !== touchID) {
+          //Usually changedTouches[0] will be what we're looking for, but in case it's not, look through the rest of the array...(and Android browsers don't reuse the event like iOS)
+          i = touches.length;
+
+          while (--i > -1 && (e = touches[i]).identifier !== touchID && e.target !== target) {} // Some Android devices dispatch a touchstart AND pointerdown initially, and then only pointermove thus the touchID may not match because it was grabbed from the touchstart event whereas the pointer event is the one that the browser dispatches for move, so if the event target matches this Draggable's target, let it through.
+
+
+          if (i < 0) {
+            return;
+          }
+        }
+      } else if (e.pointerId && touchID && e.pointerId !== touchID) {
+        //for some Microsoft browsers, we must attach the listener to the doc rather than the trigger so that when the finger moves outside the bounds of the trigger, things still work. So if the event we're receiving has a pointerId that doesn't match the touchID, ignore it (for multi-touch)
+        return;
+      }
+
+      if (touchEventTarget && allowNativeTouchScrolling && !touchDragAxis) {
+        //Android browsers force us to decide on the first "touchmove" event if we should allow the default (scrolling) behavior or preventDefault(). Otherwise, a "touchcancel" will be fired and then no "touchmove" or "touchend" will fire during the scrolling (no good).
+        _point1.x = e.pageX - (isFixed ? _getDocScrollLeft(ownerDoc) : 0);
+        _point1.y = e.pageY - (isFixed ? _getDocScrollTop(ownerDoc) : 0);
+        matrix && matrix.apply(_point1, _point1);
+        pointerX = _point1.x;
+        pointerY = _point1.y;
+        dx = Math.abs(pointerX - startPointerX);
+        dy = Math.abs(pointerY - startPointerY);
+
+        if (dx !== dy && (dx > minimumMovement || dy > minimumMovement) || _isAndroid && allowNativeTouchScrolling === touchDragAxis) {
+          touchDragAxis = dx > dy && allowX ? "x" : "y";
+
+          if (allowNativeTouchScrolling && touchDragAxis !== allowNativeTouchScrolling) {
+            _addListener(_win, "touchforcechange", _preventDefault); // prevents native touch scrolling from taking over if the user started dragging in the other direction in iOS Safari
+
+          }
+
+          if (self.vars.lockAxisOnTouchScroll !== false && allowX && allowY) {
+            self.lockedAxis = touchDragAxis === "x" ? "y" : "x";
+            _isFunction(self.vars.onLockAxis) && self.vars.onLockAxis.call(self, originalEvent);
+          }
+
+          if (_isAndroid && allowNativeTouchScrolling === touchDragAxis) {
+            onRelease(originalEvent);
+            return;
+          }
+        }
+      }
+
+      if (!self.allowEventDefault && (!allowNativeTouchScrolling || touchDragAxis && allowNativeTouchScrolling !== touchDragAxis) && originalEvent.cancelable !== false) {
+        _preventDefault(originalEvent);
+
+        isPreventingDefault = true;
+      } else if (isPreventingDefault) {
+        isPreventingDefault = false;
+      }
+
+      if (self.autoScroll) {
+        checkAutoScrollBounds = true;
+      }
+
+      setPointerPosition(e.pageX, e.pageY, hasMoveCallback);
+    },
+        setPointerPosition = function setPointerPosition(pointerX, pointerY, invokeOnMove) {
+      var dragTolerance = 1 - self.dragResistance,
+          edgeTolerance = 1 - self.edgeResistance,
+          prevPointerX = self.pointerX,
+          prevPointerY = self.pointerY,
+          prevStartElementY = startElementY,
+          prevX = self.x,
+          prevY = self.y,
+          prevEndX = self.endX,
+          prevEndY = self.endY,
+          prevEndRotation = self.endRotation,
+          prevDirty = dirty,
+          xChange,
+          yChange,
+          x,
+          y,
+          dif,
+          temp;
+      self.pointerX = pointerX;
+      self.pointerY = pointerY;
+
+      if (isFixed) {
+        pointerX -= _getDocScrollLeft(ownerDoc);
+        pointerY -= _getDocScrollTop(ownerDoc);
+      }
+
+      if (rotationMode) {
+        y = Math.atan2(rotationOrigin.y - pointerY, pointerX - rotationOrigin.x) * _RAD2DEG;
+        dif = self.y - y;
+
+        if (dif > 180) {
+          startElementY -= 360;
+          self.y = y;
+        } else if (dif < -180) {
+          startElementY += 360;
+          self.y = y;
+        }
+
+        if (self.x !== startElementX || Math.abs(startElementY - y) > minimumMovement) {
+          self.y = y;
+          x = startElementX + (startElementY - y) * dragTolerance;
+        } else {
+          x = startElementX;
+        }
+      } else {
+        if (matrix) {
+          temp = pointerX * matrix.a + pointerY * matrix.c + matrix.e;
+          pointerY = pointerX * matrix.b + pointerY * matrix.d + matrix.f;
+          pointerX = temp;
+        }
+
+        yChange = pointerY - startPointerY;
+        xChange = pointerX - startPointerX;
+
+        if (yChange < minimumMovement && yChange > -minimumMovement) {
+          yChange = 0;
+        }
+
+        if (xChange < minimumMovement && xChange > -minimumMovement) {
+          xChange = 0;
+        }
+
+        if ((self.lockAxis || self.lockedAxis) && (xChange || yChange)) {
+          temp = self.lockedAxis;
+
+          if (!temp) {
+            self.lockedAxis = temp = allowX && Math.abs(xChange) > Math.abs(yChange) ? "y" : allowY ? "x" : null;
+
+            if (temp && _isFunction(self.vars.onLockAxis)) {
+              self.vars.onLockAxis.call(self, self.pointerEvent);
+            }
+          }
+
+          if (temp === "y") {
+            yChange = 0;
+          } else if (temp === "x") {
+            xChange = 0;
+          }
+        }
+
+        x = _round(startElementX + xChange * dragTolerance);
+        y = _round(startElementY + yChange * dragTolerance);
+      }
+
+      if ((snapX || snapY || snapXY) && (self.x !== x || self.y !== y && !rotationMode)) {
+        if (snapXY) {
+          _temp1.x = x;
+          _temp1.y = y;
+          temp = snapXY(_temp1);
+          x = _round(temp.x);
+          y = _round(temp.y);
+        }
+
+        if (snapX) {
+          x = _round(snapX(x));
+        }
+
+        if (snapY) {
+          y = _round(snapY(y));
+        }
+      }
+
+      if (hasBounds) {
+        if (x > maxX) {
+          x = maxX + Math.round((x - maxX) * edgeTolerance);
+        } else if (x < minX) {
+          x = minX + Math.round((x - minX) * edgeTolerance);
+        }
+
+        if (!rotationMode) {
+          if (y > maxY) {
+            y = Math.round(maxY + (y - maxY) * edgeTolerance);
+          } else if (y < minY) {
+            y = Math.round(minY + (y - minY) * edgeTolerance);
+          }
+        }
+      }
+
+      if (self.x !== x || self.y !== y && !rotationMode) {
+        if (rotationMode) {
+          self.endRotation = self.x = self.endX = x;
+          dirty = true;
+        } else {
+          if (allowY) {
+            self.y = self.endY = y;
+            dirty = true; //a flag that indicates we need to render the target next time the TweenLite.ticker dispatches a "tick" event (typically on a requestAnimationFrame) - this is a performance optimization (we shouldn't render on every move because sometimes many move events can get dispatched between screen refreshes, and that'd be wasteful to render every time)
+          }
+
+          if (allowX) {
+            self.x = self.endX = x;
+            dirty = true;
+          }
+        }
+
+        if (!invokeOnMove || _dispatchEvent(self, "move", "onMove") !== false) {
+          if (!self.isDragging && self.isPressed) {
+            self.isDragging = true;
+
+            _dispatchEvent(self, "dragstart", "onDragStart");
+          }
+        } else {
+          //revert because the onMove returned false!
+          self.pointerX = prevPointerX;
+          self.pointerY = prevPointerY;
+          startElementY = prevStartElementY;
+          self.x = prevX;
+          self.y = prevY;
+          self.endX = prevEndX;
+          self.endY = prevEndY;
+          self.endRotation = prevEndRotation;
+          dirty = prevDirty;
+        }
+      }
+    },
+        //called when the mouse/touch is released
+    onRelease = function onRelease(e, force) {
+      if (!enabled || !self.isPressed || e && touchID != null && !force && (e.pointerId && e.pointerId !== touchID && e.target !== target || e.changedTouches && !_hasTouchID(e.changedTouches, touchID))) {
+        //for some Microsoft browsers, we must attach the listener to the doc rather than the trigger so that when the finger moves outside the bounds of the trigger, things still work. So if the event we're receiving has a pointerId that doesn't match the touchID, ignore it (for multi-touch)
+        isPreventingDefault && e && enabled && _preventDefault(e); // in some browsers, we must listen for multiple event types like touchend, pointerup, mouseup. The first time this function is called, we record whether or not we _preventDefault() so that on duplicate calls, we can do the same if necessary.
+
+        return;
+      }
+
+      self.isPressed = false;
+      var originalEvent = e,
+          wasDragging = self.isDragging,
+          isContextMenuRelease = self.vars.allowContextMenu && e && (e.ctrlKey || e.which > 2),
+          placeholderDelayedCall = gsap.delayedCall(0.001, removePlaceholder),
+          touches,
+          i,
+          syntheticEvent,
+          eventTarget,
+          syntheticClick;
+
+      if (touchEventTarget) {
+        _removeListener(touchEventTarget, "touchend", onRelease);
+
+        _removeListener(touchEventTarget, "touchmove", onMove);
+
+        _removeListener(touchEventTarget, "touchcancel", onRelease);
+
+        _removeListener(ownerDoc, "touchstart", _onMultiTouchDocument);
+      } else {
+        _removeListener(ownerDoc, "mousemove", onMove);
+      }
+
+      _removeListener(_win, "touchforcechange", _preventDefault);
+
+      if (!_supportsPointer || !touchEventTarget) {
+        _removeListener(ownerDoc, "mouseup", onRelease);
+
+        e && e.target && _removeListener(e.target, "mouseup", onRelease);
+      }
+
+      dirty = false;
+
+      if (wasDragging) {
+        dragEndTime = _lastDragTime = _getTime();
+        self.isDragging = false;
+      }
+
+      if (isClicking && !isContextMenuRelease) {
+        if (e) {
+          _removeListener(e.target, "change", onRelease);
+
+          self.pointerEvent = originalEvent;
+        }
+
+        _setSelectable(triggers, false);
+
+        _dispatchEvent(self, "release", "onRelease");
+
+        _dispatchEvent(self, "click", "onClick");
+
+        isClicking = false;
+        return;
+      }
+
+      _removeFromRenderQueue(render);
+
+      i = triggers.length;
+
+      while (--i > -1) {
+        _setStyle(triggers[i], "cursor", vars.cursor || (vars.cursor !== false ? _defaultCursor : null));
+      }
+
+      _dragCount--;
+
+      if (e) {
+        touches = e.changedTouches;
+
+        if (touches) {
+          //touch events store the data slightly differently
+          e = touches[0];
+
+          if (e !== touch && e.identifier !== touchID) {
+            //Usually changedTouches[0] will be what we're looking for, but in case it's not, look through the rest of the array...(and Android browsers don't reuse the event like iOS)
+            i = touches.length;
+
+            while (--i > -1 && (e = touches[i]).identifier !== touchID && e.target !== target) {}
+
+            if (i < 0) {
+              return;
+            }
+          }
+        }
+
+        self.pointerEvent = originalEvent;
+        self.pointerX = e.pageX;
+        self.pointerY = e.pageY;
+      }
+
+      if (isContextMenuRelease && originalEvent) {
+        _preventDefault(originalEvent);
+
+        isPreventingDefault = true;
+
+        _dispatchEvent(self, "release", "onRelease");
+      } else if (originalEvent && !wasDragging) {
+        isPreventingDefault = false;
+
+        if (interrupted && (vars.snap || vars.bounds)) {
+          //otherwise, if the user clicks on the object while it's animating to a snapped position, and then releases without moving 3 pixels, it will just stay there (it should animate/snap)
+          animate(vars.inertia || vars.throwProps);
+        }
+
+        _dispatchEvent(self, "release", "onRelease");
+
+        if ((!_isAndroid || originalEvent.type !== "touchmove") && originalEvent.type.indexOf("cancel") === -1) {
+          //to accommodate native scrolling on Android devices, we have to immediately call onRelease() on the first touchmove event, but that shouldn't trigger a "click".
+          _dispatchEvent(self, "click", "onClick");
+
+          if (_getTime() - clickTime < 300) {
+            _dispatchEvent(self, "doubleclick", "onDoubleClick");
+          }
+
+          eventTarget = originalEvent.target || target; //old IE uses srcElement
+
+          clickTime = _getTime();
+
+          syntheticClick = function syntheticClick() {
+            // some browsers (like Firefox) won't trust script-generated clicks, so if the user tries to click on a video to play it, for example, it simply won't work. Since a regular "click" event will most likely be generated anyway (one that has its isTrusted flag set to true), we must slightly delay our script-generated click so that the "real"/trusted one is prioritized. Remember, when there are duplicate events in quick succession, we suppress all but the first one. Some browsers don't even trigger the "real" one at all, so our synthetic one is a safety valve that ensures that no matter what, a click event does get dispatched.
+            if (clickTime !== clickDispatch && self.enabled() && !self.isPressed && !originalEvent.defaultPrevented) {
+              if (eventTarget.click) {
+                //some browsers (like mobile Safari) don't properly trigger the click event
+                eventTarget.click();
+              } else if (ownerDoc.createEvent) {
+                syntheticEvent = ownerDoc.createEvent("MouseEvents");
+                syntheticEvent.initMouseEvent("click", true, true, _win, 1, self.pointerEvent.screenX, self.pointerEvent.screenY, self.pointerX, self.pointerY, false, false, false, false, 0, null);
+                eventTarget.dispatchEvent(syntheticEvent);
+              }
+            }
+          };
+
+          if (!_isAndroid && !originalEvent.defaultPrevented) {
+            //iOS Safari requires the synthetic click to happen immediately or else it simply won't work, but Android doesn't play nice.
+            gsap.delayedCall(0.05, syntheticClick); //in addition to the iOS bug workaround, there's a Firefox issue with clicking on things like a video to play, so we must fake a click event in a slightly delayed fashion. Previously, we listened for the "click" event with "capture" false which solved the video-click-to-play issue, but it would allow the "click" event to be dispatched twice like if you were using a jQuery.click() because that was handled in the capture phase, thus we had to switch to the capture phase to avoid the double-dispatching, but do the delayed synthetic click. Don't fire it too fast (like 0.00001) because we want to give the native event a chance to fire first as it's "trusted".
+          }
+        }
+      } else {
+        animate(vars.inertia || vars.throwProps); //will skip if inertia/throwProps isn't defined or InertiaPlugin isn't loaded.
+
+        if (!self.allowEventDefault && originalEvent && (vars.dragClickables !== false || !isClickable.call(self, originalEvent.target)) && wasDragging && (!allowNativeTouchScrolling || touchDragAxis && allowNativeTouchScrolling === touchDragAxis) && originalEvent.cancelable !== false) {
+          isPreventingDefault = true;
+
+          _preventDefault(originalEvent);
+        } else {
+          isPreventingDefault = false;
+        }
+
+        _dispatchEvent(self, "release", "onRelease");
+      }
+
+      isTweening() && placeholderDelayedCall.duration(self.tween.duration()); //sync the timing so that the placeholder DIV gets
+
+      wasDragging && _dispatchEvent(self, "dragend", "onDragEnd");
+      return true;
+    },
+        updateScroll = function updateScroll(e) {
+      if (e && self.isDragging && !scrollProxy) {
+        var parent = e.target || target.parentNode,
+            deltaX = parent.scrollLeft - parent._gsScrollX,
+            deltaY = parent.scrollTop - parent._gsScrollY;
+
+        if (deltaX || deltaY) {
+          if (matrix) {
+            startPointerX -= deltaX * matrix.a + deltaY * matrix.c;
+            startPointerY -= deltaY * matrix.d + deltaX * matrix.b;
+          } else {
+            startPointerX -= deltaX;
+            startPointerY -= deltaY;
+          }
+
+          parent._gsScrollX += deltaX;
+          parent._gsScrollY += deltaY;
+          setPointerPosition(self.pointerX, self.pointerY);
+        }
+      }
+    },
+        onClick = function onClick(e) {
+      //this was a huge pain in the neck to align all the various browsers and their behaviors. Chrome, Firefox, Safari, Opera, Android, and Microsoft Edge all handle events differently! Some will only trigger native behavior (like checkbox toggling) from trusted events. Others don't even support isTrusted, but require 2 events to flow through before triggering native behavior. Edge treats everything as trusted but also mandates that 2 flow through to trigger the correct native behavior.
+      var time = _getTime(),
+          recentlyClicked = time - clickTime < 100,
+          recentlyDragged = time - dragEndTime < 50,
+          alreadyDispatched = recentlyClicked && clickDispatch === clickTime,
+          defaultPrevented = self.pointerEvent && self.pointerEvent.defaultPrevented,
+          alreadyDispatchedTrusted = recentlyClicked && trustedClickDispatch === clickTime,
+          trusted = e.isTrusted || e.isTrusted == null && recentlyClicked && alreadyDispatched; //note: Safari doesn't support isTrusted, and it won't properly execute native behavior (like toggling checkboxes) on the first synthetic "click" event - we must wait for the 2nd and treat it as trusted (but stop propagation at that point). Confusing, I know. Don't you love cross-browser compatibility challenges?
+
+
+      if ((alreadyDispatched || recentlyDragged && self.vars.suppressClickOnDrag !== false) && e.stopImmediatePropagation) {
+        e.stopImmediatePropagation();
+      }
+
+      if (recentlyClicked && !(self.pointerEvent && self.pointerEvent.defaultPrevented) && (!alreadyDispatched || trusted && !alreadyDispatchedTrusted)) {
+        //let the first click pass through unhindered. Let the next one only if it's trusted, then no more (stop quick-succession ones)
+        if (trusted && alreadyDispatched) {
+          trustedClickDispatch = clickTime;
+        }
+
+        clickDispatch = clickTime;
+        return;
+      }
+
+      if (self.isPressed || recentlyDragged || recentlyClicked) {
+        if (!trusted || !e.detail || !recentlyClicked || defaultPrevented) {
+          _preventDefault(e);
+        }
+      }
+
+      if (!recentlyClicked && !recentlyDragged) {
+        // for script-triggered event dispatches, like element.click()
+        e && e.target && (self.pointerEvent = e);
+
+        _dispatchEvent(self, "click", "onClick");
+      }
+    },
+        localizePoint = function localizePoint(p) {
+      return matrix ? {
+        x: p.x * matrix.a + p.y * matrix.c + matrix.e,
+        y: p.x * matrix.b + p.y * matrix.d + matrix.f
+      } : {
+        x: p.x,
+        y: p.y
+      };
+    };
+
+    old = Draggable.get(target);
+    old && old.kill(); // avoids duplicates (an element can only be controlled by one Draggable)
+    //give the user access to start/stop dragging...
+
+    _this2.startDrag = function (event, align) {
+      var r1, r2, p1, p2;
+      onPress(event || self.pointerEvent, true); //if the pointer isn't on top of the element, adjust things accordingly
+
+      if (align && !self.hitTest(event || self.pointerEvent)) {
+        r1 = _parseRect(event || self.pointerEvent);
+        r2 = _parseRect(target);
+        p1 = localizePoint({
+          x: r1.left + r1.width / 2,
+          y: r1.top + r1.height / 2
+        });
+        p2 = localizePoint({
+          x: r2.left + r2.width / 2,
+          y: r2.top + r2.height / 2
+        });
+        startPointerX -= p1.x - p2.x;
+        startPointerY -= p1.y - p2.y;
+      }
+
+      if (!self.isDragging) {
+        self.isDragging = true;
+
+        _dispatchEvent(self, "dragstart", "onDragStart");
+      }
+    };
+
+    _this2.drag = onMove;
+
+    _this2.endDrag = function (e) {
+      return onRelease(e || self.pointerEvent, true);
+    };
+
+    _this2.timeSinceDrag = function () {
+      return self.isDragging ? 0 : (_getTime() - dragEndTime) / 1000;
+    };
+
+    _this2.timeSinceClick = function () {
+      return (_getTime() - clickTime) / 1000;
+    };
+
+    _this2.hitTest = function (target, threshold) {
+      return Draggable.hitTest(self.target, target, threshold);
+    };
+
+    _this2.getDirection = function (from, diagonalThreshold) {
+      //from can be "start" (default), "velocity", or an element
+      var mode = from === "velocity" && InertiaPlugin ? from : _isObject(from) && !rotationMode ? "element" : "start",
+          xChange,
+          yChange,
+          ratio,
+          direction,
+          r1,
+          r2;
+
+      if (mode === "element") {
+        r1 = _parseRect(self.target);
+        r2 = _parseRect(from);
+      }
+
+      xChange = mode === "start" ? self.x - startElementX : mode === "velocity" ? InertiaPlugin.getVelocity(target, xProp) : r1.left + r1.width / 2 - (r2.left + r2.width / 2);
+
+      if (rotationMode) {
+        return xChange < 0 ? "counter-clockwise" : "clockwise";
+      } else {
+        diagonalThreshold = diagonalThreshold || 2;
+        yChange = mode === "start" ? self.y - startElementY : mode === "velocity" ? InertiaPlugin.getVelocity(target, yProp) : r1.top + r1.height / 2 - (r2.top + r2.height / 2);
+        ratio = Math.abs(xChange / yChange);
+        direction = ratio < 1 / diagonalThreshold ? "" : xChange < 0 ? "left" : "right";
+
+        if (ratio < diagonalThreshold) {
+          if (direction !== "") {
+            direction += "-";
+          }
+
+          direction += yChange < 0 ? "up" : "down";
+        }
+      }
+
+      return direction;
+    };
+
+    _this2.applyBounds = function (newBounds, sticky) {
+      var x, y, forceZeroVelocity, e, parent, isRoot;
+
+      if (newBounds && vars.bounds !== newBounds) {
+        vars.bounds = newBounds;
+        return self.update(true, sticky);
+      }
+
+      syncXY(true);
+      calculateBounds();
+
+      if (hasBounds && !isTweening()) {
+        x = self.x;
+        y = self.y;
+
+        if (x > maxX) {
+          x = maxX;
+        } else if (x < minX) {
+          x = minX;
+        }
+
+        if (y > maxY) {
+          y = maxY;
+        } else if (y < minY) {
+          y = minY;
+        }
+
+        if (self.x !== x || self.y !== y) {
+          forceZeroVelocity = true;
+          self.x = self.endX = x;
+
+          if (rotationMode) {
+            self.endRotation = x;
+          } else {
+            self.y = self.endY = y;
+          }
+
+          dirty = true;
+          render(true);
+
+          if (self.autoScroll && !self.isDragging) {
+            _recordMaxScrolls(target.parentNode);
+
+            e = target;
+            _windowProxy.scrollTop = _win.pageYOffset != null ? _win.pageYOffset : ownerDoc.documentElement.scrollTop != null ? ownerDoc.documentElement.scrollTop : ownerDoc.body.scrollTop;
+            _windowProxy.scrollLeft = _win.pageXOffset != null ? _win.pageXOffset : ownerDoc.documentElement.scrollLeft != null ? ownerDoc.documentElement.scrollLeft : ownerDoc.body.scrollLeft;
+
+            while (e && !isRoot) {
+              //walk up the chain and sense wherever the scrollTop/scrollLeft exceeds the maximum.
+              isRoot = _isRoot(e.parentNode);
+              parent = isRoot ? _windowProxy : e.parentNode;
+
+              if (allowY && parent.scrollTop > parent._gsMaxScrollY) {
+                parent.scrollTop = parent._gsMaxScrollY;
+              }
+
+              if (allowX && parent.scrollLeft > parent._gsMaxScrollX) {
+                parent.scrollLeft = parent._gsMaxScrollX;
+              }
+
+              e = parent;
+            }
+          }
+        }
+
+        if (self.isThrowing && (forceZeroVelocity || self.endX > maxX || self.endX < minX || self.endY > maxY || self.endY < minY)) {
+          animate(vars.inertia || vars.throwProps, forceZeroVelocity);
+        }
+      }
+
+      return self;
+    };
+
+    _this2.update = function (applyBounds, sticky, ignoreExternalChanges) {
+      if (sticky && self.isPressed) {
+        // in case the element was repositioned in the document flow, thus its x/y may be identical but its position is actually quite different.
+        var m = getGlobalMatrix(target),
+            p = innerMatrix.apply({
+          x: self.x - startElementX,
+          y: self.y - startElementY
+        }),
+            m2 = getGlobalMatrix(target.parentNode, true);
+        m2.apply({
+          x: m.e - p.x,
+          y: m.f - p.y
+        }, p);
+        self.x -= p.x - m2.e;
+        self.y -= p.y - m2.f;
+        render(true);
+        recordStartPositions();
+      }
+
+      var x = self.x,
+          y = self.y;
+      updateMatrix(!sticky);
+
+      if (applyBounds) {
+        self.applyBounds();
+      } else {
+        dirty && ignoreExternalChanges && render(true);
+        syncXY(true);
+      }
+
+      if (sticky) {
+        setPointerPosition(self.pointerX, self.pointerY);
+        dirty && render(true);
+      }
+
+      if (self.isPressed && !sticky && (allowX && Math.abs(x - self.x) > 0.01 || allowY && Math.abs(y - self.y) > 0.01 && !rotationMode)) {
+        recordStartPositions();
+      }
+
+      if (self.autoScroll) {
+        _recordMaxScrolls(target.parentNode, self.isDragging);
+
+        checkAutoScrollBounds = self.isDragging;
+        render(true); //in case reparenting occurred.
+
+        _removeScrollListener(target, updateScroll);
+
+        _addScrollListener(target, updateScroll);
+      }
+
+      return self;
+    };
+
+    _this2.enable = function (type) {
+      var setVars = {
+        lazy: true
+      },
+          id,
+          i,
+          trigger;
+
+      if (vars.cursor !== false) {
+        setVars.cursor = vars.cursor || _defaultCursor;
+      }
+
+      if (gsap.utils.checkPrefix("touchCallout")) {
+        setVars.touchCallout = "none";
+      }
+
+      if (type !== "soft") {
+        _setTouchActionForAllDescendants(triggers, allowX === allowY ? "none" : vars.allowNativeTouchScrolling && target.scrollHeight === target.clientHeight === (target.scrollWidth === target.clientHeight) || vars.allowEventDefault ? "manipulation" : allowX ? "pan-y" : "pan-x"); // Some browsers like Internet Explorer will fire a pointercancel event when the user attempts to drag when touchAction is "manipulate" because it's perceived as a pan. If the element has scrollable content in only one direction, we should use pan-x or pan-y accordingly so that the pointercancel doesn't prevent dragging.
+
+
+        i = triggers.length;
+
+        while (--i > -1) {
+          trigger = triggers[i];
+          _supportsPointer || _addListener(trigger, "mousedown", onPress);
+
+          _addListener(trigger, "touchstart", onPress);
+
+          _addListener(trigger, "click", onClick, true); //note: used to pass true for capture but it prevented click-to-play-video functionality in Firefox.
+
+
+          gsap.set(trigger, setVars);
+
+          if (trigger.getBBox && trigger.ownerSVGElement) {
+            // a bug in chrome doesn't respect touch-action on SVG elements - it only works if we set it on the parent SVG.
+            gsap.set(trigger.ownerSVGElement, {
+              touchAction: allowX === allowY ? "none" : vars.allowNativeTouchScrolling || vars.allowEventDefault ? "manipulation" : allowX ? "pan-y" : "pan-x"
+            });
+          }
+
+          vars.allowContextMenu || _addListener(trigger, "contextmenu", onContextMenu);
+        }
+
+        _setSelectable(triggers, false);
+      }
+
+      _addScrollListener(target, updateScroll);
+
+      enabled = true;
+
+      if (InertiaPlugin && type !== "soft") {
+        InertiaPlugin.track(scrollProxy || target, xyMode ? "x,y" : rotationMode ? "rotation" : "top,left");
+      }
+
+      target._gsDragID = id = "d" + _lookupCount++;
+      _lookup[id] = self;
+
+      if (scrollProxy) {
+        scrollProxy.enable();
+        scrollProxy.element._gsDragID = id;
+      }
+
+      (vars.bounds || rotationMode) && recordStartPositions();
+      vars.bounds && self.applyBounds();
+      return self;
+    };
+
+    _this2.disable = function (type) {
+      var dragging = self.isDragging,
+          i = triggers.length,
+          trigger;
+
+      while (--i > -1) {
+        _setStyle(triggers[i], "cursor", null);
+      }
+
+      if (type !== "soft") {
+        _setTouchActionForAllDescendants(triggers, null);
+
+        i = triggers.length;
+
+        while (--i > -1) {
+          trigger = triggers[i];
+
+          _setStyle(trigger, "touchCallout", null);
+
+          _removeListener(trigger, "mousedown", onPress);
+
+          _removeListener(trigger, "touchstart", onPress);
+
+          _removeListener(trigger, "click", onClick);
+
+          _removeListener(trigger, "contextmenu", onContextMenu);
+        }
+
+        _setSelectable(triggers, true);
+
+        if (touchEventTarget) {
+          _removeListener(touchEventTarget, "touchcancel", onRelease);
+
+          _removeListener(touchEventTarget, "touchend", onRelease);
+
+          _removeListener(touchEventTarget, "touchmove", onMove);
+        }
+
+        _removeListener(ownerDoc, "mouseup", onRelease);
+
+        _removeListener(ownerDoc, "mousemove", onMove);
+      }
+
+      _removeScrollListener(target, updateScroll);
+
+      enabled = false;
+      InertiaPlugin && type !== "soft" && InertiaPlugin.untrack(scrollProxy || target, xyMode ? "x,y" : rotationMode ? "rotation" : "top,left");
+      scrollProxy && scrollProxy.disable();
+
+      _removeFromRenderQueue(render);
+
+      self.isDragging = self.isPressed = isClicking = false;
+      dragging && _dispatchEvent(self, "dragend", "onDragEnd");
+      return self;
+    };
+
+    _this2.enabled = function (value, type) {
+      return arguments.length ? value ? self.enable(type) : self.disable(type) : enabled;
+    };
+
+    _this2.kill = function () {
+      self.isThrowing = false;
+      self.tween && self.tween.kill();
+      self.disable();
+      gsap.set(triggers, {
+        clearProps: "userSelect"
+      });
+      delete _lookup[target._gsDragID];
+      return self;
+    };
+
+    if (~type.indexOf("scroll")) {
+      scrollProxy = _this2.scrollProxy = new ScrollProxy(target, _extend({
+        onKill: function onKill() {
+          //ScrollProxy's onKill() gets called if/when the ScrollProxy senses that the user interacted with the scroll position manually (like using the scrollbar). IE9 doesn't fire the "mouseup" properly when users drag the scrollbar of an element, so this works around that issue.
+          self.isPressed && onRelease(null);
+        }
+      }, vars)); //a bug in many Android devices' stock browser causes scrollTop to get forced back to 0 after it is altered via JS, so we set overflow to "hidden" on mobile/touch devices (they hide the scroll bar anyway). That works around the bug. (This bug is discussed at https://code.google.com/p/android/issues/detail?id=19625)
+
+      target.style.overflowY = allowY && !_isTouchDevice ? "auto" : "hidden";
+      target.style.overflowX = allowX && !_isTouchDevice ? "auto" : "hidden";
+      target = scrollProxy.content;
+    }
+
+    if (rotationMode) {
+      killProps.rotation = 1;
+    } else {
+      if (allowX) {
+        killProps[xProp] = 1;
+      }
+
+      if (allowY) {
+        killProps[yProp] = 1;
+      }
+    }
+
+    gsCache.force3D = "force3D" in vars ? vars.force3D : true; //otherwise, normal dragging would be in 2D and then as soon as it's released and there's an inertia tween, it'd jump to 3D which can create an initial jump due to the work the browser must to do layerize it.
+
+    _this2.enable();
+
+    return _this2;
+  }
+
+  Draggable.register = function register(core) {
+    gsap = core;
+
+    _initCore();
+  };
+
+  Draggable.create = function create(targets, vars) {
+    _coreInitted || _initCore(true);
+    return _toArray(targets).map(function (target) {
+      return new Draggable(target, vars);
+    });
+  };
+
+  Draggable.get = function get(target) {
+    return _lookup[(_toArray(target)[0] || {})._gsDragID];
+  };
+
+  Draggable.timeSinceDrag = function timeSinceDrag() {
+    return (_getTime() - _lastDragTime) / 1000;
+  };
+
+  Draggable.hitTest = function hitTest(obj1, obj2, threshold) {
+    if (obj1 === obj2) {
+      return false;
+    }
+
+    var r1 = _parseRect(obj1),
+        r2 = _parseRect(obj2),
+        top = r1.top,
+        left = r1.left,
+        right = r1.right,
+        bottom = r1.bottom,
+        width = r1.width,
+        height = r1.height,
+        isOutside = r2.left > right || r2.right < left || r2.top > bottom || r2.bottom < top,
+        overlap,
+        area,
+        isRatio;
+
+    if (isOutside || !threshold) {
+      return !isOutside;
+    }
+
+    isRatio = (threshold + "").indexOf("%") !== -1;
+    threshold = parseFloat(threshold) || 0;
+    overlap = {
+      left: Math.max(left, r2.left),
+      top: Math.max(top, r2.top)
+    };
+    overlap.width = Math.min(right, r2.right) - overlap.left;
+    overlap.height = Math.min(bottom, r2.bottom) - overlap.top;
+
+    if (overlap.width < 0 || overlap.height < 0) {
+      return false;
+    }
+
+    if (isRatio) {
+      threshold *= 0.01;
+      area = overlap.width * overlap.height;
+      return area >= width * height * threshold || area >= r2.width * r2.height * threshold;
+    }
+
+    return overlap.width > threshold && overlap.height > threshold;
+  };
+
+  return Draggable;
+}(EventDispatcher);
+
+_setDefaults(Draggable.prototype, {
+  pointerX: 0,
+  pointerY: 0,
+  startX: 0,
+  startY: 0,
+  deltaX: 0,
+  deltaY: 0,
+  isDragging: false,
+  isPressed: false
+});
+
+Draggable.zIndex = 1000;
+Draggable.version = "3.10.3";
+_getGSAP() && gsap.registerPlugin(Draggable);
+export { Draggable as default };
