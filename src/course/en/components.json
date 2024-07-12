@@ -564,11 +564,11 @@
     "_parentId": "b-55",
     "_type": "component",
     "_component": "text",
-    "_classes": "",
+    "_classes": "white_bg",
     "_layout": "left",
     "title": "Adapt Assessment",
     "displayTitle": "Welcome to Adapt Assessment",
-    "body": "Find out more about the assessment functionality, including an improved results feature. In this Adapt assessment, you have feedback for every try, a button for reviewing questions, and certificate.",
+    "body": "Find out more about the assessment functionality, including an improved results feature. In this Adapt assessment, you have feedback for every try, a button for reviewing questions, and certificate.<br> The animated background uses Lotie. To access Lottie animations, visit the official Lottie site at <a href='https://lottiefiles.com/' target='_blank'>https://lottiefiles.com/</a>. It can be set as the background of a block and run continuously. This differs from Lottie's component, as it is not interactive and cannot be controlled by scrolling.",
     "instruction": "",
     "_pageLevelProgress": {
       "_isEnabled": true
