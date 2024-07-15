@@ -12,7 +12,7 @@ class LottieInteractivityModel extends Backbone.Controller {
     
       setupEventListeners() {
         this.listenTo(Adapt, {
-         'blockView:postRender': this.onPostRender
+         'articleView:postRender blockView:postRender': this.onPostRender
         });
     
       }

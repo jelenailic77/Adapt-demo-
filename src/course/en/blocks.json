@@ -280,25 +280,6 @@
         "_isLockedOnRevisit": false
       }
     },
-    "_lottie_block": {
-      "_isEnabled": true,
-      "src": "course/en/assets/dots.json",
-      "controls": false,
-      "loop": 100,
-      "autoplay": true,
-      "speed": 1,
-      "style": "",
-      "renderer": "svg",
-      "preserveAspectRatio": "xMidYMid meet",
-      "background": "",
-      "failed": "Error loading animation",
-      "interactivity": {
-        "mode": "cursor",
-        "actions": {
-          "type": "hover"
-        }
-      }
-    },
     "_trackingId": 11
   },
   {
@@ -341,25 +322,6 @@
         "_isEnabled": true,
         "_isCompletionRequired": true,
         "_isLockedOnRevisit": false
-      }
-    },
-    "_lottie_block": {
-      "_isEnabled": true,
-      "src": "course/en/assets/dots.json",
-      "controls": false,
-      "loop": 100,
-      "autoplay": true,
-      "speed": 1,
-      "style": "",
-      "renderer": "svg",
-      "preserveAspectRatio": "xMidYMid meet",
-      "background": "",
-      "failed": "Error loading animation",
-      "interactivity": {
-        "mode": "cursor",
-        "actions": {
-          "type": "hover"
-        }
       }
     },
     "_trackingId": 19
