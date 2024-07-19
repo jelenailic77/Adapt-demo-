@@ -242,7 +242,7 @@
     "_id": "b-55",
     "_parentId": "a-10",
     "_type": "block",
-    "_classes": "",
+    "_classes": "padding-top",
     "title": "b-55",
     "displayTitle": "",
     "body": "",
@@ -282,7 +282,50 @@
     },
     "_trackingId": 11
   },
-  
+  {
+    "_id": "b-56",
+    "_parentId": "a-10",
+    "_type": "block",
+    "_classes": "padding-top-small",
+    "title": "b-55",
+    "displayTitle": "",
+    "body": "",
+    "_assessment": {
+      "_quizBankID": 1
+    },
+    "_trickle": {
+      "_isEnabled": true,
+      "_isInherited": false,
+      "_autoScroll": true,
+      "_scrollDuration": 500,
+      "_onChildren": true,
+      "_scrollTo": "@block +1",
+      "_completionAttribute": "_isComplete",
+      "_button": {
+        "_isEnabled": true,
+        "_styleBeforeCompletion": "hidden",
+        "_styleAfterClick": "hidden",
+        "_isFullWidth": false,
+        "_autoHide": false,
+        "_className": "",
+        "_hasIcon": true,
+        "text": "",
+        "ariaLabel": "",
+        "startText": "",
+        "startAriaLabel": "",
+        "finalText": "",
+        "finalAriaLabel": "",
+        "_component": "trickle-button",
+        "_showEndOfPage": true
+      },
+      "_stepLocking": {
+        "_isEnabled": true,
+        "_isCompletionRequired": true,
+        "_isLockedOnRevisit": false
+      }
+    },
+    "_trackingId": 21
+  },
   {
     "_id": "b-65",
     "_parentId": "a-15",

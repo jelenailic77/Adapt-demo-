@@ -1200,23 +1200,31 @@ padding: 0
 }
 .align_center {
   align-self: center;
-}.a-10 .block__inner{
-  padding: 25rem 0;
+}.padding-top .block__inner{
+  padding: 25rem 1rem 20rem 1rem;
+}
+.padding-top-small .block__inner{
+  padding: 5rem 1rem 1rem 1rem;
 }
 
-.b-75, .b-85{
-  background-image: url("course/en/images/dots2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+.padding-top-small .component__container{
+  align-items: center;
 }
 .big_lottie lottie-player{
   width: 100vw;
-    position: relative;
-    margin-left: -20vw;
-    margin-top: -20vh;
-    margin-bottom: -20vh;
-    left: 20%;
+  position: relative;
+  margin-top: -50vh;
+  margin-bottom: -20vh;
+  left: -30%;
+  position: relative;
+}
+
+.big_lottie_right lottie-player{
+  width: 100vw;
+  right: 135%;
+  position: relative;
+  margin-top: -20vh;
+  margin-bottom: -20vh;
 }
 
 .c-80, .c-85{
@@ -1258,9 +1266,21 @@ padding: 0
   .cards__item[data-index="1"]{
     transform: rotate(10deg) translate(-50px, 0px);
   }
+  
+}
+@media (max-width: 1400px){
+  .big_lottie lottie-player{
+    width: 100vw;
+    margin-top: -30vh;
+    margin-bottom: -20vh;
+    left: 70%;
+    position: relative;;
+  }
+
 }
 
-@media (max-width: 1100px){
+@media (max-width: 1200px){
+
   .background{
     background-image: url(course/en/images/Asset4.png) !important;
     background-size: cover !important;
@@ -1305,6 +1325,32 @@ padding: 0
 .btn__marking.is-incorrect{
   right: 110px !important;
 }
+.big_lottie lottie-player{
+  width: 100vw;
+  margin-top: -20vh;
+  margin-bottom: -20vh;
+  left: 0%;
+  position: relative;;
+}
+}
+
+
+@media (max-width: 805px){
+  .big_lottie lottie-player{
+    width: 100vw;
+    margin-top: -50vh;
+    margin-bottom: -20vh;
+    left: 70%;
+    position: relative;;
+  }
+  
+  .big_lottie_right lottie-player {
+    width: 100vw;
+    right: 80%;
+    position: relative;
+    margin-top: 10vh;
+    margin-bottom: -30vh;
+  }
 }
 
 @media (max-width: 600px){
@@ -1328,6 +1374,8 @@ padding: 0
   .tabs__content-item-inner {
     max-width: 25ch;
   }
+ 
+  
 }
 
 .b-10 .block__inner { 

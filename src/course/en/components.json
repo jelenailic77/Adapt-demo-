@@ -632,6 +632,7 @@
     "body": "",
     "instruction": "",
     "_setCompletionOn":"inview",
+    "_isOptional":"true",
     "_lottie": {
       "src": "course/en/assets/dots.json",
       "controls": false,
@@ -645,16 +646,15 @@
       "failed": "Error loading animation",
       "interactivity": {
         "mode": "scroll",
-        "actions": [
+        "actions": [ 
           {
             "visibility": [
-              0.1,
-              0.9
+             0,1
             ],
             "type": "seek",
             "frames": [
               1,
-              105
+              152
             ]
           }
         ]
@@ -667,11 +667,11 @@
   },
   {
     "_id": "c-85",
-    "_parentId": "b-55",
+    "_parentId": "b-56",
     "_type": "component",
     "_component": "text",
     "_classes": "",
-    "_layout": "left",
+    "_layout": "right",
     "title": "Assessment instructions",
     "displayTitle": "Assessment instructions",
     "body": "Please read the instructions below before you begin the assessment.<br><ul><li>You have 4 question to answer</li><li>If you don’t get it right the first time, you have 2 more attempts.</li><li>Your milestone is at 80%. You can do this!</li><li>Celebrate your achievement by downloading the certificate from the portal.</li></ul>",
@@ -724,6 +724,50 @@
           }
         ]
       }
+    }
+  },
+  {
+    "_id": "c-86",
+    "_parentId": "b-56",
+    "_type": "component",
+    "_component": "lottieInteractivity",
+    "_classes": "big_lottie_right",
+    "_layout": "left",
+    "title": "",
+    "displayTitle": "",
+    "body": "",
+    "instruction": "",
+    "_setCompletionOn":"inview",
+    "_lottie": {
+      "src": "course/en/assets/dots.json",
+      "controls": false,
+      "loop": -1,
+      "autoplay": false,
+      "speed": 1,
+      "style": "",
+      "renderer": "svg",
+      "preserveAspectRatio": "xMidYMid meet",
+      "background": "",
+      "failed": "Error loading animation",
+      "interactivity": {
+        "mode": "scroll",
+        "actions": [
+          {
+            "visibility": [
+             0, 1
+            ],
+            "type": "seek",
+            "frames": [
+              1,
+              135
+            ]
+          }
+        ]
+      }
+    },
+    "description": "",
+    "_pageLevelProgress": {
+      "_isEnabled": true
     }
   },
   {
